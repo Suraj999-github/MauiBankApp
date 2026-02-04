@@ -62,7 +62,7 @@
 
                     <Grid ColumnDefinitions="*,Auto">
                         <Label Grid.Column="0"
-                               Text="{Binding CurrentUser.AccountNumber, StringFormat='Account:{0}'}" 
+                               Text="{Binding CurrentUser.AccountNumber, StringFormat='Account: {0}'}" 
                                FontSize="14" 
                                TextColor="#B0BEC5"/>
 
@@ -75,9 +75,10 @@
                             <Button.CommandParameter>
                                 <viewmodels:DashboardItem>
                                     <viewmodels:DashboardItem.Title>View Balance</viewmodels:DashboardItem.Title>
-                                    <viewmodels:DashboardItem.TargetType>
-                                        <x:Type TypeName="viewmodels:HomeViewModel" />
-                                    </viewmodels:DashboardItem.TargetType>
+                                    <viewmodels:DashboardItem.Icon>wallet.png</viewmodels:DashboardItem.Icon>
+                                    <viewmodels:DashboardItem.PageType>
+                                        <x:Type TypeName="views:BalancePage" />
+                                    </viewmodels:DashboardItem.PageType>
                                 </viewmodels:DashboardItem>
                             </Button.CommandParameter>
                         </Button>
@@ -114,10 +115,12 @@
                     <Frame.GestureRecognizers>
                         <TapGestureRecognizer Command="{Binding NavigateToFeatureCommand}">
                             <TapGestureRecognizer.CommandParameter>
-                                <viewmodels:DashboardItem Title="Profile" Icon="person.png">
-                                    <viewmodels:DashboardItem.TargetType>
+                                <viewmodels:DashboardItem>
+                                    <viewmodels:DashboardItem.Title>Profile</viewmodels:DashboardItem.Title>
+                                    <viewmodels:DashboardItem.Icon>person.png</viewmodels:DashboardItem.Icon>
+                                    <viewmodels:DashboardItem.PageType>
                                         <x:Type TypeName="views:ProfilePage" />
-                                    </viewmodels:DashboardItem.TargetType>
+                                    </viewmodels:DashboardItem.PageType>
                                 </viewmodels:DashboardItem>
                             </TapGestureRecognizer.CommandParameter>
                         </TapGestureRecognizer>
@@ -148,10 +151,12 @@
                     <Frame.GestureRecognizers>
                         <TapGestureRecognizer Command="{Binding NavigateToFeatureCommand}">
                             <TapGestureRecognizer.CommandParameter>
-                                <viewmodels:DashboardItem Title="Send Money" Icon="send.png">
-                                    <viewmodels:DashboardItem.TargetType>
+                                <viewmodels:DashboardItem>
+                                    <viewmodels:DashboardItem.Title>Send Money</viewmodels:DashboardItem.Title>
+                                    <viewmodels:DashboardItem.Icon>send.png</viewmodels:DashboardItem.Icon>
+                                    <viewmodels:DashboardItem.PageType>
                                         <x:Type TypeName="views:SendTransactionPage" />
-                                    </viewmodels:DashboardItem.TargetType>
+                                    </viewmodels:DashboardItem.PageType>
                                 </viewmodels:DashboardItem>
                             </TapGestureRecognizer.CommandParameter>
                         </TapGestureRecognizer>
@@ -182,10 +187,12 @@
                     <Frame.GestureRecognizers>
                         <TapGestureRecognizer Command="{Binding NavigateToFeatureCommand}">
                             <TapGestureRecognizer.CommandParameter>
-                                <viewmodels:DashboardItem Title="Transactions" Icon="history.png">
-                                    <viewmodels:DashboardItem.TargetType>
+                                <viewmodels:DashboardItem>
+                                    <viewmodels:DashboardItem.Title>Transactions</viewmodels:DashboardItem.Title>
+                                    <viewmodels:DashboardItem.Icon>history.png</viewmodels:DashboardItem.Icon>
+                                    <viewmodels:DashboardItem.PageType>
                                         <x:Type TypeName="views:TransactionHistoryPage" />
-                                    </viewmodels:DashboardItem.TargetType>
+                                    </viewmodels:DashboardItem.PageType>
                                 </viewmodels:DashboardItem>
                             </TapGestureRecognizer.CommandParameter>
                         </TapGestureRecognizer>
@@ -216,27 +223,43 @@
                     <Frame.GestureRecognizers>
                         <TapGestureRecognizer Command="{Binding NavigateToFeatureCommand}">
                             <TapGestureRecognizer.CommandParameter>
-                                <viewmodels:DashboardItem Title="QR Code" Icon="qrcode.png">
-                                    <viewmodels:DashboardItem.TargetType>
+                                <viewmodels:DashboardItem>
+                                    <viewmodels:DashboardItem.Title>QR Code</viewmodels:DashboardItem.Title>
+                                    <viewmodels:DashboardItem.Icon>qrcode.png</viewmodels:DashboardItem.Icon>
+                                    <viewmodels:DashboardItem.PageType>
                                         <x:Type TypeName="views:QRCodePage" />
-                                    </viewmodels:DashboardItem.TargetType>
+                                    </viewmodels:DashboardItem.PageType>
                                 </viewmodels:DashboardItem>
                             </TapGestureRecognizer.CommandParameter>
                         </TapGestureRecognizer>
                     </Frame.GestureRecognizers>
                 </Frame>
-
             </Grid>
 
             <!-- Services Section -->
-            <Label Text="Services" 
-                   FontSize="18" 
-                   FontAttributes="Bold"
-                   TextColor="#37474F"/>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+
+                <Label Grid.Column="0"
+                       Text="Services" 
+                       FontSize="18" 
+                       FontAttributes="Bold"
+                       TextColor="#37474F"/>
+
+                <Label Grid.Column="1"
+                       Text="{Binding DashboardItems.Count, StringFormat='{0} services'}"
+                       FontSize="14"
+                       TextColor="#78909C"
+                       VerticalOptions="Center"/>
+            </Grid>
 
             <!-- Dynamic Dashboard Items using CollectionView -->
             <CollectionView ItemsSource="{Binding DashboardItems}"
-                            Margin="0,10,0,0">
+                            Margin="0,10,0,0"
+                            SelectionMode="None">
                 <CollectionView.ItemsLayout>
                     <GridItemsLayout Orientation="Vertical"
                                      Span="3"
@@ -276,31 +299,44 @@
             </CollectionView>
 
             <!-- Recent Transactions Section -->
-            <Label Text="Recent Transactions" 
-                   FontSize="18" 
-                   FontAttributes="Bold"
-                   TextColor="#37474F"
-                   Margin="0,20,0,0"/>
+            <Grid Margin="0,20,0,0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
 
-            <!-- Loading Indicator -->
+                <Label Grid.Column="0"
+                       Text="Recent Transactions" 
+                       FontSize="18" 
+                       FontAttributes="Bold"
+                       TextColor="#37474F"/>
+
+                <Label Grid.Column="1"
+                       Text="{Binding RecentTransactions.Count, StringFormat='{0} transactions'}"
+                       FontSize="14"
+                       TextColor="#78909C"
+                       VerticalOptions="Center"/>
+            </Grid>
+
+            <!-- Loading Indicator for Recent Transactions -->
             <ActivityIndicator IsRunning="{Binding IsBusy}" 
-                             IsVisible="{Binding IsBusy}"
-                             HorizontalOptions="Center"
-                             Color="#546E7A"
-                             HeightRequest="50"
-                             WidthRequest="50"/>
+                               IsVisible="{Binding IsBusy}"
+                               HorizontalOptions="Center"
+                               Color="#546E7A"
+                               HeightRequest="50"
+                               WidthRequest="50"/>
 
             <!-- Recent Transactions List -->
             <CollectionView ItemsSource="{Binding RecentTransactions}"
-                          IsVisible="{Binding IsNotBusy}"
-                          Margin="0,10,0,0">
+                            IsVisible="{Binding IsNotBusy}"
+                            Margin="0,10,0,0"
+                            SelectionMode="None">
 
-                <!-- Empty View -->
                 <CollectionView.EmptyView>
                     <VerticalStackLayout HorizontalOptions="Center" 
-                                       VerticalOptions="Center"
-                                       Spacing="10"
-                                       Padding="20">
+                                         VerticalOptions="Center"
+                                         Spacing="10"
+                                         Padding="20">
                         <Frame CornerRadius="20"
                                BackgroundColor="#ECEFF1"
                                HeightRequest="60"
@@ -330,36 +366,54 @@
                                BackgroundColor="White"
                                HasShadow="True"
                                Margin="0,0,0,10">
-                            <HorizontalStackLayout Spacing="15">
-                                <Frame CornerRadius="10"
+                            <Grid ColumnDefinitions="Auto,*,Auto" 
+                                  RowDefinitions="Auto,Auto"
+                                  ColumnSpacing="15">
+
+                                <!-- Icon -->
+                                <Frame Grid.Row="0" Grid.RowSpan="2" Grid.Column="0"
+                                       CornerRadius="10"
                                        BackgroundColor="#ECEFF1"
                                        HeightRequest="40"
                                        WidthRequest="40"
-                                       Padding="10">
+                                       Padding="10"
+                                       VerticalOptions="Center">
                                     <Image Source="{Binding Type, Converter={StaticResource TransactionTypeToIconConverter}}"
                                            HeightRequest="20"
                                            WidthRequest="20"/>
                                 </Frame>
-                                <VerticalStackLayout Spacing="5" 
-                                                   VerticalOptions="Center">
-                                    <Label Text="{Binding Description}"
-                                           FontSize="14"
-                                           FontAttributes="Bold"
-                                           TextColor="#37474F"/>
-                                    <Label Text="{Binding Date, StringFormat='{0:MMM dd • hh:mm tt}'}"
-                                           FontSize="12"
-                                           TextColor="#78909C"/>
-                                    <Label Text="{Binding Recipient}"
-                                           FontSize="12"
-                                           TextColor="#546E7A"/>
-                                </VerticalStackLayout>
-                                <Label Text="{Binding Amount, Converter={StaticResource TransactionAmountFormatConverter}, ConverterParameter={Binding Type}}"
+
+                                <!-- Description -->
+                                <Label Grid.Row="0" Grid.Column="1"
+                                       Text="{Binding Description}"
+                                       FontSize="14"
+                                       FontAttributes="Bold"
+                                       TextColor="#37474F"
+                                       VerticalOptions="End"/>
+
+                                <!-- Amount -->
+                                <Label Grid.Row="0" Grid.Column="2"
+                                       Text="{Binding Amount, Converter={StaticResource TransactionAmountFormatConverter}, ConverterParameter={Binding Type}}"
                                        FontSize="14"
                                        FontAttributes="Bold"
                                        TextColor="{Binding Type, Converter={StaticResource TransactionTypeToColorConverter}}"
-                                       HorizontalOptions="EndAndExpand"
-                                       VerticalOptions="Center"/>
-                            </HorizontalStackLayout>
+                                       VerticalOptions="End"
+                                       HorizontalOptions="End"/>
+
+                                <!-- Recipient and Date -->
+                                <Label Grid.Row="1" Grid.Column="1"
+                                       Text="{Binding Recipient, StringFormat='To: {0}'}"
+                                       FontSize="12"
+                                       TextColor="#546E7A"
+                                       VerticalOptions="Start"/>
+
+                                <Label Grid.Row="1" Grid.Column="2"
+                                       Text="{Binding Date, StringFormat='{0:MMM dd}'}"
+                                       FontSize="12"
+                                       TextColor="#78909C"
+                                       VerticalOptions="Start"
+                                       HorizontalOptions="End"/>
+                            </Grid>
                         </Frame>
                     </DataTemplate>
                 </CollectionView.ItemTemplate>
@@ -371,17 +425,24 @@
                     BackgroundColor="Transparent"
                     TextColor="#546E7A"
                     FontSize="14"
+                    FontAttributes="Bold"
                     HorizontalOptions="End"
                     Margin="0,10,0,0"
                     IsVisible="{Binding IsNotBusy}">
                 <Button.CommandParameter>
-                    <viewmodels:DashboardItem Title="Transactions" Icon="history.png">
-                        <viewmodels:DashboardItem.TargetType>
+                    <viewmodels:DashboardItem>
+                        <viewmodels:DashboardItem.Title>Transactions</viewmodels:DashboardItem.Title>
+                        <viewmodels:DashboardItem.Icon>history.png</viewmodels:DashboardItem.Icon>
+                        <viewmodels:DashboardItem.PageType>
                             <x:Type TypeName="views:TransactionHistoryPage" />
-                        </viewmodels:DashboardItem.TargetType>
+                        </viewmodels:DashboardItem.PageType>
                     </viewmodels:DashboardItem>
                 </Button.CommandParameter>
             </Button>
+
+            <!-- Footer Spacing -->
+            <BoxView HeightRequest="20"
+                     Color="Transparent"/>
 
         </VerticalStackLayout>
     </ScrollView>

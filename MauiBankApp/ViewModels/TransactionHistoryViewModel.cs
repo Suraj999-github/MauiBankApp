@@ -1,8 +1,9 @@
-﻿
-using CommunityToolkit.Mvvm.ComponentModel;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using MauiBankApp.Models;
 using MauiBankApp.Services.Interfaces;
+using System.Collections.ObjectModel;
+
 namespace MauiBankApp.ViewModels
 {
     public partial class TransactionHistoryViewModel : BaseViewModel
@@ -10,7 +11,7 @@ namespace MauiBankApp.ViewModels
         private readonly ITransactionService _transactionService;
 
         [ObservableProperty]
-        private List<Transaction> _transactions;
+        private ObservableCollection<Transaction> _transactions;
 
         [ObservableProperty]
         private bool _showEmptyState;
@@ -19,34 +20,49 @@ namespace MauiBankApp.ViewModels
         {
             _transactionService = transactionService;
             Title = "Transaction History";
-            Transactions = new List<Transaction>();
-            LoadTransactionsCommand.Execute(null);
+            Transactions = new ObservableCollection<Transaction>();
         }
 
         [RelayCommand]
-        private async Task LoadTransactions()
+        private async Task LoadTransactionsAsync()
         {
-            if (IsBusy) return;
+            if (IsBusy || _transactionService == null) return;
 
             try
             {
                 IsBusy = true;
+                ShowEmptyState = false;
 
-                var result = await _transactionService.GetTransactionsAsync();
+                var response = await _transactionService.GetTransactionsAsync(limit: 20);
 
-                if (result.IsSuccess && result.Data != null)
+                if (response.IsSuccess && response.Data != null)
                 {
-                    Transactions = result.Data;
-                    ShowEmptyState = !Transactions.Any();
+                    MainThread.BeginInvokeOnMainThread(() =>
+                    {
+                        Transactions.Clear();
+                        foreach (var transaction in response.Data.OrderByDescending(t => t.Date))
+                        {
+                            Transactions.Add(transaction);
+                        }
+                        ShowEmptyState = Transactions.Count == 0;
+                    });
                 }
                 else
                 {
-                    await Shell.Current.DisplayAlert("Error", result.Message ?? "Failed to load transactions", "OK");
+                    await Application.Current.MainPage.DisplayAlert(
+                        "Error",
+                        "Failed to load transactions",
+                        "OK");
+                    ShowEmptyState = true;
                 }
             }
             catch (Exception ex)
             {
-                await Shell.Current.DisplayAlert("Error", $"Failed to load transactions: {ex.Message}", "OK");
+                await Application.Current.MainPage.DisplayAlert(
+                    "Error",
+                    $"An error occurred: {ex.Message}",
+                    "OK");
+                ShowEmptyState = true;
             }
             finally
             {
@@ -54,5 +70,4 @@ namespace MauiBankApp.ViewModels
             }
         }
     }
-
 }

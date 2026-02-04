@@ -12,18 +12,18 @@ public partial class ProfilePage : ContentPage
     //    BindingContext = viewModel;
     //}
 
-  
-        public ProfilePage()
-        {
-            InitializeComponent();
-            // For now, create ViewModel directly
-            BindingContext = new ProfileViewModel(new MockUserService());
-        }
 
-        public ProfilePage(ProfileViewModel viewModel)
-        {
-            InitializeComponent();
-            BindingContext = viewModel;
-        }
-  
+    public ProfilePage()
+    {
+        InitializeComponent();
+        // For now, create ViewModel directly
+        BindingContext = new ProfileViewModel(new MockUserService());
+    }
+
+    public ProfilePage(ProfileViewModel viewModel)
+    {
+        InitializeComponent();
+        BindingContext = viewModel;
+    }
+
 }

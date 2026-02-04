@@ -1,3 +1,7 @@
+   theme color "#263238" and "#90A4AE"
+
+   
+
 Create default views designs for these pages with default samples in views 
 
 ProfilePage

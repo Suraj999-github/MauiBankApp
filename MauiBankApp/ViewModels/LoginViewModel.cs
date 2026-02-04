@@ -10,7 +10,7 @@ namespace MauiBankApp.ViewModels
     public partial class LoginViewModel : BaseViewModel
     {
         private readonly IAuthService _authService;
-
+        private readonly INavigationService _navigationService;
         [ObservableProperty]
         private string _email = "suraj.goud@eg.com";
 
@@ -20,8 +20,9 @@ namespace MauiBankApp.ViewModels
         [ObservableProperty]
         private string _errorMessage;
 
-        public LoginViewModel(IAuthService authService)
+        public LoginViewModel(INavigationService navigationService, IAuthService authService)
         {
+            _navigationService = navigationService;
             _authService = authService;
             Title = "Login";
         }
@@ -65,7 +66,7 @@ namespace MauiBankApp.ViewModels
                     // Pass user to HomeViewModel
                     var transactionService = ServiceHelper.GetService<ITransactionService>();
 
-                    var homeVm = new HomeViewModel(transactionService ,result.User);
+                    var homeVm = new HomeViewModel(_navigationService, transactionService, result.User);
                     var homePage = new HomePage(homeVm);
 
                     await Application.Current.MainPage.Navigation.PushAsync(homePage);
@@ -87,6 +88,22 @@ namespace MauiBankApp.ViewModels
             {
                 IsBusy = false;
             }
+        }
+        private async Task NavigateToRegisterAsync()
+        {
+            await Application.Current.MainPage.DisplayAlert(
+                "Info",
+                "Registration feature coming soon!",
+                "OK");
+        }
+
+        [RelayCommand]
+        private async Task ForgotPasswordAsync()
+        {
+            await Application.Current.MainPage.DisplayAlert(
+                "Info",
+                "Password reset feature coming soon!",
+                "OK");
         }
     }
 }

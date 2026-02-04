@@ -1,4 +1,5 @@
-﻿using MauiBankApp.Services.Interfaces;
+﻿using MauiBankApp.Services;
+using MauiBankApp.Services.Interfaces;
 using MauiBankApp.Services.Mock;
 using MauiBankApp.ViewModels;
 using MauiBankApp.Views;
@@ -20,11 +21,12 @@ namespace MauiBankApp
                     fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
                 });
 
-            #if DEBUG
+#if DEBUG
             builder.Logging.AddDebug();
-            #endif
+#endif
 
             // Register Services
+            builder.Services.AddSingleton<INavigationService, NavigationService>();
             builder.Services.AddSingleton<IAuthService, MockAuthService>();
             builder.Services.AddSingleton<IUserService, MockUserService>();
             builder.Services.AddSingleton<ITransactionService, MockTransactionService>();
