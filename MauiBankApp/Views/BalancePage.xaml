@@ -6,6 +6,7 @@
              xmlns:models="clr-namespace:MauiBankApp.Models"
              xmlns:converters="clr-namespace:MauiBankApp.Converters"
              x:DataType="viewmodels:BalanceViewModel"
+             xmlns:views="clr-namespace:MauiBankApp.Views"
              Title="">
 
     <ContentPage.Resources>

@@ -1,5 +1,5 @@
 ﻿namespace MauiBankApp.Models
-{ 
+{
     public class Transaction
     {
         public string Id { get; set; }

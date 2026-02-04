@@ -11,7 +11,7 @@ namespace MauiBankApp.ViewModels
     public partial class BalanceViewModel : BaseViewModel
     {
         private readonly ITransactionService _transactionService;
-      
+
         [ObservableProperty]
         private User _user = new();
 

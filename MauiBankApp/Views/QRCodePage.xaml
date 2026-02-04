@@ -3,11 +3,52 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="MauiBankApp.Views.QRCodePage"
               xmlns:views="clr-namespace:MauiBankApp.Views"
-             Title="QRCodePage">
-    <VerticalStackLayout>
-        <Label 
-            Text="Welcome to .NET MAUI!"
-            VerticalOptions="Center" 
-            HorizontalOptions="Center" />
+             Title="">
+    <VerticalStackLayout 
+        Padding="30"
+        Spacing="25"
+        VerticalOptions="Center"
+        HorizontalOptions="Center">
+
+        <!-- Placeholder Image -->
+        <Frame CornerRadius="15"         
+            BackgroundColor="#ECEFF1"
+             HeightRequest="150"
+             WidthRequest="250"           
+             HorizontalOptions="Center"
+             VerticalOptions="Center"
+             HasShadow="True"
+             Padding="0">
+            <Image Source="coming_soon.png"
+           Aspect="AspectFit"    
+                HorizontalOptions="Center"
+           VerticalOptions="Center"/>
+
+        </Frame>
+
+        <!-- Main Title -->
+        <Label Text="Feature Coming Soon"
+               FontSize="24"
+               FontAttributes="Bold"
+               HorizontalOptions="Center"
+               TextColor="#37474F"/>
+
+        <!-- Subtitle -->
+        <Label Text="We're working hard to bring this feature to you soon. Stay tuned!"
+               FontSize="16"
+               HorizontalOptions="Center"
+               HorizontalTextAlignment="Center"
+               TextColor="#607D8B"
+               LineBreakMode="WordWrap"/>
+
+        <!-- Optional Action Button -->
+        <Button Text="Go Back"
+        BackgroundColor="#1E88E5"
+        TextColor="White"
+        CornerRadius="10"
+        Padding="12"
+        WidthRequest="200"
+        Clicked="GoBackButton_Clicked"/>
+
     </VerticalStackLayout>
 </ContentPage>

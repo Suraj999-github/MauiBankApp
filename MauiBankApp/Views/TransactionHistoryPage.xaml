@@ -6,6 +6,7 @@
              xmlns:converters="clr-namespace:MauiBankApp.Converters"
              x:Class="MauiBankApp.Views.TransactionHistoryPage"
              x:DataType="viewmodels:TransactionHistoryViewModel"
+                xmlns:views="clr-namespace:MauiBankApp.Views"
              Title="">
 
     <ContentPage.Resources>
