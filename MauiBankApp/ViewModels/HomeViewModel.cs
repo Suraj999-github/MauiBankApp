@@ -12,8 +12,6 @@ namespace MauiBankApp.ViewModels
     {
         public string Title { get; set; }
         public string Icon { get; set; }
-        // public string Route { get; set; }
-        // public Type TargetType { get; set; }
         public Type PageType { get; set; }
         public object Parameter { get; set; }
     }
@@ -33,13 +31,6 @@ namespace MauiBankApp.ViewModels
         private readonly INavigationService _navigationService;
         public List<DashboardItem> DashboardItems { get; private set; }
 
-        //Constructor with API user
-        //public HomeViewModel(User user)
-        //{
-        //    Title = "Dashboard";
-        //    SetUser(user);
-        //    InitializeDashboardItems();
-        //}
         public HomeViewModel(INavigationService navigationService, ITransactionService transactionService, User user)
         {
             _navigationService = navigationService;
@@ -67,18 +58,7 @@ namespace MauiBankApp.ViewModels
 
         private void InitializeDashboardItems()
         {
-            //DashboardItems = new List<DashboardItem>
-            //{
-            //  //  new DashboardItem { Title = "Profile", Icon = "person.png", TargetType = typeof(ProfilePage) },
-            //    new DashboardItem { Title = "View Balance", Icon = "wallet.png", TargetType = typeof(BalancePage) },
-            //    new DashboardItem { Title = "Transactions", Icon = "history.png", TargetType = typeof(TransactionHistoryPage) },
-            //    new DashboardItem { Title = "Send Money", Icon = "send.png", TargetType = typeof(SendTransactionPage) },
-            //    new DashboardItem { Title = "QR Code", Icon = "qrcode.png", TargetType = typeof(QRCodePage) },
-            //    new DashboardItem { Title = "Mobile Top-up", Icon = "mobile.png", TargetType = typeof(MobileTopUpPage) },
-            //    new DashboardItem { Title = "Water Bill", Icon = "water.png", TargetType = typeof(WaterBillPage) },
-            //    new DashboardItem { Title = "Electricity", Icon = "electricity.png", TargetType = typeof(ElectricityBillPage) },
-            //    new DashboardItem { Title = "Security", Icon = "security.png", TargetType = typeof(SecuritySettingsPage) }
-            //};
+
             DashboardItems = new List<DashboardItem>
             {
                // new DashboardItem { Title = "View Balance", Icon = "wallet.png", PageType = typeof(BalancePage)},
@@ -134,26 +114,7 @@ namespace MauiBankApp.ViewModels
                 IsBusy = false;
             }
         }
-        //[RelayCommand]
-        //private async Task NavigateToFeatureAsync(DashboardItem item)
-        //{
-        //    if (IsBusy || item?.TargetType == null) return;
 
-        //    try
-        //    {
-        //        IsBusy = true;
-
-        //        var page = Activator.CreateInstance(item.TargetType) as Page;
-        //        if (page != null)
-        //        {
-        //            await Application.Current.MainPage.Navigation.PushAsync(page);
-        //        }
-        //    }
-        //    finally
-        //    {
-        //        IsBusy = false;
-        //    }
-        //}
         [RelayCommand]
         private async Task NavigateToFeatureAsync(DashboardItem item)
         {

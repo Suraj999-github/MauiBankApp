@@ -47,7 +47,7 @@ namespace MauiBankApp.ViewModels
                 // Call auth service
                 var result = await _authService.LoginAsync(Email, Password);
 
-                // 🔍 DEBUG: convert object → JSON
+                // DEBUG: convert object → JSON
                 var formatted = JsonSerializer.Serialize(
                     result,
                     new JsonSerializerOptions { WriteIndented = true });
