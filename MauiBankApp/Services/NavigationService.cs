@@ -64,7 +64,7 @@ namespace MauiBankApp.Services
                 nameof(TransactionHistoryPage) => CreateTransactionHistoryPage(),
                 //  nameof(SendTransactionPage) => CreateSendTransactionPage(parameter as User),
                 // nameof(ProfilePage) => CreateProfilePage(parameter as User),
-                // nameof(BalancePage) => CreateBalancePage(parameter as User),
+                nameof(BalancePage) => CreateBalancePage(parameter as User),
                 nameof(QRCodePage) => CreateQRCodePage(),
                 // nameof(MobileTopUpPage) => CreateMobileTopUpPage(),
                 // nameof(WaterBillPage) => CreateWaterBillPage(),
@@ -103,13 +103,12 @@ namespace MauiBankApp.Services
         //    return new ProfilePage(profileViewModel);
         //}
 
-        //private Page CreateBalancePage(User user)
-        //{
-        //    var transactionService = _serviceProvider.GetRequiredService<ITransactionService>();
-        //    var viewModel = new BalanceViewModel(transactionService, user);
-        //    return new BalancePage(viewModel);
-        //}
-
+        private Page CreateBalancePage(User user)
+        {
+            var transactionService = _serviceProvider.GetRequiredService<ITransactionService>();
+            var viewModel = new BalanceViewModel(transactionService, user);
+            return new BalancePage(viewModel);
+        }
         private Page CreateQRCodePage()
         {
             // Assuming QRCodePage has parameterless constructor or gets its ViewModel via DI

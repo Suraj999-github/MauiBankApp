@@ -81,7 +81,7 @@ namespace MauiBankApp.ViewModels
             //};
             DashboardItems = new List<DashboardItem>
             {
-               // new DashboardItem { Title = "View Balance", Icon = "wallet.png", PageType = typeof(BalancePage), Parameter = CurrentUser },
+               // new DashboardItem { Title = "View Balance", Icon = "wallet.png", PageType = typeof(BalancePage)},
                // new DashboardItem { Title = "Transactions", Icon = "history.png", PageType = typeof(TransactionHistoryPage) },
                // new DashboardItem { Title = "Send Money", Icon = "send.png", PageType = typeof(SendTransactionPage), Parameter = CurrentUser },
                // new DashboardItem { Title = "QR Code", Icon = "qrcode.png", PageType = typeof(QRCodePage) },

@@ -2,12 +2,280 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="MauiBankApp.Views.BalancePage"
-              xmlns:views="clr-namespace:MauiBankApp.Views"
-             Title="BalancePage">
-    <VerticalStackLayout>
-        <Label 
-            Text="Welcome to .NET MAUI!"
-            VerticalOptions="Center" 
-            HorizontalOptions="Center" />
-    </VerticalStackLayout>
+             xmlns:viewmodels="clr-namespace:MauiBankApp.ViewModels"
+             xmlns:models="clr-namespace:MauiBankApp.Models"
+             xmlns:converters="clr-namespace:MauiBankApp.Converters"
+             x:DataType="viewmodels:BalanceViewModel"
+             Title="">
+
+    <ContentPage.Resources>
+        <converters:AmountColorConverter x:Key="AmountColorConverter" />
+
+        <!-- Theme Colors -->
+        <Color x:Key="PrimaryDark">#263238</Color>
+        <Color x:Key="PrimaryLight">#90A4AE</Color>
+        <Color x:Key="BackgroundLight">#F5F7FA</Color>
+        <Color x:Key="TextPrimary">#37474F</Color>
+        <Color x:Key="TextSecondary">#78909C</Color>
+        <Color x:Key="White">#FFFFFF</Color>
+        <Color x:Key="Success">#43A047</Color>
+        <Color x:Key="Warning">#FB8C00</Color>
+
+        <Style TargetType="Frame">
+            <Setter Property="HasShadow" Value="True" />
+            <Setter Property="CornerRadius" Value="12" />
+            <Setter Property="Padding" Value="0" />
+        </Style>
+    </ContentPage.Resources>
+
+    <RefreshView IsRefreshing="{Binding IsBusy}"
+                 Command="{Binding RefreshBalanceCommand}">
+        <ScrollView>
+            <VerticalStackLayout Spacing="0" Padding="0">
+
+                <!-- Header Section -->
+                <Grid BackgroundColor="{StaticResource PrimaryDark}"
+                      Padding="20"
+                      HeightRequest="180">
+                    <VerticalStackLayout Spacing="10" VerticalOptions="Center">
+                        <Label Text="Account Balance"
+                               FontSize="16"
+                               TextColor="{StaticResource PrimaryLight}"
+                               HorizontalOptions="Center"/>
+                        <Label Text="{Binding CurrentBalance, StringFormat='${0:F2}'}"
+                               FontSize="48"
+                               FontAttributes="Bold"
+                               TextColor="White"
+                               HorizontalOptions="Center"/>
+                        <Label Text=""
+                               FontSize="14"
+                               TextColor="{StaticResource PrimaryLight}"
+                               HorizontalOptions="Center"/>
+
+                        <!-- Quick Stats -->
+                        <Grid ColumnDefinitions="*,*" 
+                              Margin="0,20,0,0"
+                              ColumnSpacing="15">
+                            <Frame Grid.Column="0"
+                                   BackgroundColor="{StaticResource PrimaryLight}"
+                                   Padding="12"
+                                   CornerRadius="8">
+                                <VerticalStackLayout Spacing="5" HorizontalOptions="Center">
+                                    <Label Text="Total Credits"
+                                           FontSize="11"
+                                           TextColor="White"
+                                           HorizontalOptions="Center"/>
+                                    <Label Text="{Binding TotalCredits, StringFormat='+${0:F2}'}"
+                                           FontSize="14"
+                                           FontAttributes="Bold"
+                                           TextColor="White"
+                                           HorizontalOptions="Center"/>
+                                </VerticalStackLayout>
+                            </Frame>
+
+                            <Frame Grid.Column="1"
+                                   BackgroundColor="{StaticResource PrimaryLight}"
+                                   Padding="12"
+                                   CornerRadius="8">
+                                <VerticalStackLayout Spacing="5" HorizontalOptions="Center">
+                                    <Label Text="Total Debits"
+                                           FontSize="11"
+                                           TextColor="White"
+                                           HorizontalOptions="Center"/>
+                                    <Label Text="{Binding TotalDebits, StringFormat='-${0:F2}'}"
+                                           FontSize="14"
+                                           FontAttributes="Bold"
+                                           TextColor="White"
+                                           HorizontalOptions="Center"/>
+                                </VerticalStackLayout>
+                            </Frame>
+                        </Grid>
+                    </VerticalStackLayout>
+                </Grid>
+
+                <!-- Main Content -->
+                <VerticalStackLayout Spacing="0" Padding="20" BackgroundColor="{StaticResource BackgroundLight}">
+
+                    <!-- Account Details -->
+                    <Frame BackgroundColor="White" Margin="0,0,0,20">
+                        <VerticalStackLayout Spacing="15" Padding="20">
+                            <Grid ColumnDefinitions="*,Auto">
+                                <Label Grid.Column="0"
+                                       Text="Account Details"
+                                       FontSize="18"
+                                       FontAttributes="Bold"
+                                       TextColor="{StaticResource TextPrimary}"/>
+
+                                <Button Grid.Column="1"
+                                        Text="Refresh"
+                                        Command="{Binding RefreshBalanceCommand}"
+                                        BackgroundColor="Transparent"
+                                        TextColor="{StaticResource PrimaryDark}"
+                                        FontSize="12"/>
+                            </Grid>
+
+                            <Grid ColumnDefinitions="*,*" RowDefinitions="Auto,Auto" 
+                                  ColumnSpacing="20" RowSpacing="15">
+
+                                <VerticalStackLayout Grid.Row="0" Grid.Column="0" Spacing="5">
+                                    <Label Text="Account Status"
+                                           FontSize="12"
+                                           TextColor="{StaticResource TextSecondary}"/>
+                                    <Label Text="Active"
+                                           FontSize="14"
+                                           FontAttributes="Bold"
+                                           TextColor="{StaticResource Success}"/>
+                                </VerticalStackLayout>
+
+                                <VerticalStackLayout Grid.Row="0" Grid.Column="1" Spacing="5">
+                                    <Label Text="Last Updated"
+                                           FontSize="12"
+                                           TextColor="{StaticResource TextSecondary}"/>
+                                    <!--<Label Text="{Binding Date, StringFormat='{0:MMM dd, yyyy}'}"
+                                           FontSize="14"
+                                           FontAttributes="Bold"
+                                           TextColor="{StaticResource TextPrimary}"/>-->
+                                </VerticalStackLayout>
+
+                                <VerticalStackLayout Grid.Row="1" Grid.Column="0" Spacing="5">
+                                    <Label Text="Account Type"
+                                           FontSize="12"
+                                           TextColor="{StaticResource TextSecondary}"/>
+                                    <Label Text="Premium Savings"
+                                           FontSize="14"
+                                           FontAttributes="Bold"
+                                           TextColor="{StaticResource TextPrimary}"/>
+                                </VerticalStackLayout>
+
+                                <VerticalStackLayout Grid.Row="1" Grid.Column="1" Spacing="5">
+                                    <Label Text="Interest Rate"
+                                           FontSize="12"
+                                           TextColor="{StaticResource TextSecondary}"/>
+                                    <Label Text="2.5% p.a."
+                                           FontSize="14"
+                                           FontAttributes="Bold"
+                                           TextColor="{StaticResource TextPrimary}"/>
+                                </VerticalStackLayout>
+                            </Grid>
+                        </VerticalStackLayout>
+                    </Frame>
+
+                    <!-- Balance Breakdown -->
+                    <Label Text="Balance Breakdown"
+                           FontSize="18"
+                           FontAttributes="Bold"
+                           TextColor="{StaticResource TextPrimary}"
+                           Margin="0,0,0,15"/>
+
+                    <CollectionView ItemsSource="{Binding BalanceDetails}"
+                                  SelectionMode="None"
+                                  Margin="0,0,0,20">
+                        <CollectionView.ItemsLayout>
+                            <GridItemsLayout Orientation="Vertical"
+                                             Span="2"
+                                             VerticalItemSpacing="15"
+                                             HorizontalItemSpacing="15"/>
+                        </CollectionView.ItemsLayout>
+
+                        <CollectionView.ItemTemplate>
+                            <DataTemplate x:DataType="viewmodels:BalanceDetail">
+                                <Frame BackgroundColor="White" 
+                                       HeightRequest="110"
+                                       Padding="15">
+                                    <Grid RowDefinitions="Auto,*,Auto"
+                                          ColumnDefinitions="Auto,*"
+                                          RowSpacing="5"
+                                          ColumnSpacing="10">
+
+                                        <!-- Icon -->
+                                        <Frame Grid.Row="0" Grid.RowSpan="3" Grid.Column="0"
+                                               BackgroundColor="{StaticResource BackgroundLight}"
+                                               CornerRadius="8"
+                                               HeightRequest="40"
+                                               WidthRequest="40"
+                                               Padding="10"
+                                               VerticalOptions="Center">
+                                            <Image Source="{Binding Icon}"
+                                                   HeightRequest="20"
+                                                   WidthRequest="20"/>
+                                        </Frame>
+
+                                        <!-- Title -->
+                                        <Label Grid.Row="0" Grid.Column="1"
+                                               Text="{Binding Title}"
+                                               FontSize="12"
+                                               TextColor="{StaticResource TextSecondary}"
+                                               VerticalOptions="End"/>
+
+                                        <!-- Amount -->
+                                        <Label Grid.Row="1" Grid.Column="1"
+                                               Text="{Binding FormattedAmount}"
+                                               FontSize="18"
+                                               FontAttributes="Bold"
+                                               TextColor="{Binding AmountColor}"
+                                               VerticalOptions="Center"/>
+
+                                        <!-- Type Indicator -->
+                                        <Label Grid.Row="2" Grid.Column="1"
+                                               Text="{Binding Type, StringFormat='{0} balance'}"
+                                               FontSize="10"
+                                               TextColor="{StaticResource TextSecondary}"
+                                               TextTransform="Uppercase"
+                                               VerticalOptions="Start"/>
+                                    </Grid>
+                                </Frame>
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
+                    </CollectionView>
+
+                    <!-- Action Buttons -->
+                    <Grid ColumnDefinitions="*,*" 
+                          ColumnSpacing="15"
+                          Margin="0,20,0,0">
+
+                        <Button Grid.Column="0"
+                                Text="View History"
+                                Command="{Binding ViewTransactionHistoryCommand}"
+                                BackgroundColor="White"
+                                TextColor="{StaticResource PrimaryDark}"
+                                BorderColor="{StaticResource PrimaryDark}"
+                                BorderWidth="1"
+                                CornerRadius="8"
+                                HeightRequest="50"/>
+
+                        <Button Grid.Column="1"
+                                Text="Request Statement"
+                                Command="{Binding RequestStatementCommand}"
+                                BackgroundColor="{StaticResource PrimaryDark}"
+                                TextColor="White"
+                                CornerRadius="8"
+                                HeightRequest="50"/>
+                    </Grid>
+
+                    <!-- Info Section -->
+                    <Frame BackgroundColor="{StaticResource PrimaryLight}"
+                           Margin="0,25,0,0"
+                           Padding="15">
+                        <VerticalStackLayout Spacing="10">
+                            <HorizontalStackLayout Spacing="10">
+                                <Image Source="info.png"
+                                       HeightRequest="20"
+                                       WidthRequest="20"/>
+                                <Label Text="Balance Information"
+                                       FontSize="14"
+                                       FontAttributes="Bold"
+                                       TextColor="White"/>
+                            </HorizontalStackLayout>
+                            <Label Text="Your available balance reflects cleared transactions only. Pending transactions may affect your actual balance until they are processed."
+                                   FontSize="12"
+                                   TextColor="White"
+                                   LineBreakMode="WordWrap"/>
+                        </VerticalStackLayout>
+                    </Frame>
+
+                </VerticalStackLayout>
+
+            </VerticalStackLayout>
+        </ScrollView>
+    </RefreshView>
 </ContentPage>

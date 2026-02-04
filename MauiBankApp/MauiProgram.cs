@@ -36,6 +36,7 @@ namespace MauiBankApp
             builder.Services.AddTransient<HomeViewModel>();
             builder.Services.AddTransient<ProfileViewModel>();
             builder.Services.AddTransient<TransactionHistoryViewModel>();
+            builder.Services.AddTransient<BalanceViewModel>();
             // Add other ViewModels
 
             // Register Views
