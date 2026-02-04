@@ -1,5 +1,6 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using MauiBankApp.Extensions;
 using MauiBankApp.Services.Interfaces;
 using MauiBankApp.Views;
 using System.Text.Json;
@@ -62,7 +63,9 @@ namespace MauiBankApp.ViewModels
                     await SecureStorage.Default.SetAsync("auth_token", result.Token);
 
                     // Pass user to HomeViewModel
-                    var homeVm = new HomeViewModel(result.User);
+                    var transactionService = ServiceHelper.GetService<ITransactionService>();
+
+                    var homeVm = new HomeViewModel(transactionService ,result.User);
                     var homePage = new HomePage(homeVm);
 
                     await Application.Current.MainPage.Navigation.PushAsync(homePage);

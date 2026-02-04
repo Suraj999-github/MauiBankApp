@@ -2,7 +2,9 @@
 using CommunityToolkit.Mvvm.Input;
 using MauiBankApp.Extensions;
 using MauiBankApp.Models;
+using MauiBankApp.Services.Interfaces;
 using MauiBankApp.Views;
+using System.Collections.ObjectModel;
 
 namespace MauiBankApp.ViewModels
 {
@@ -22,18 +24,34 @@ namespace MauiBankApp.ViewModels
         [ObservableProperty]
         private decimal _balance;
 
+        [ObservableProperty]
+        private ObservableCollection<Transaction> _recentTransactions;
+
+        private readonly ITransactionService _transactionService;
         public List<DashboardItem> DashboardItems { get; private set; }
 
         //Constructor with API user
-        public HomeViewModel(User user)
+        //public HomeViewModel(User user)
+        //{
+        //    Title = "Dashboard";
+        //    SetUser(user);
+        //    InitializeDashboardItems();
+        //}
+        public HomeViewModel(ITransactionService transactionService, User user)
         {
+            _transactionService = transactionService;
             Title = "Dashboard";
             SetUser(user);
             InitializeDashboardItems();
+            RecentTransactions = new ObservableCollection<Transaction>();
+
+            // Load initial data
+            LoadRecentTransactionsCommand.ExecuteAsync(null);
         }
 
+
         // (Optional) parameterless constructor for design-time / preview
-        public HomeViewModel() : this(new User())
+        public HomeViewModel() : this(null, new User())
         {
         }
 
@@ -58,7 +76,49 @@ namespace MauiBankApp.ViewModels
                 new DashboardItem { Title = "Security", Icon = "security.png", TargetType = typeof(SecuritySettingsPage) }
             };
         }
+        [RelayCommand]
+        private async Task LoadRecentTransactionsAsync()
+        {
+            if (IsBusy || _transactionService == null) return;
 
+            try
+            {
+                IsBusy = true;
+
+                var response = await _transactionService.GetTransactionsAsync(limit: 5);
+
+                if (response.IsSuccess && response.Data != null)
+                {
+                    // Clear and update the collection on the main thread
+                    MainThread.BeginInvokeOnMainThread(() =>
+                    {
+                        RecentTransactions.Clear();
+                        foreach (var transaction in response.Data)
+                        {
+                            RecentTransactions.Add(transaction);
+                        }
+                    });
+                }
+                else
+                {
+                    await Application.Current.MainPage.DisplayAlert(
+                        "Error",
+                        "Failed to load recent transactions",
+                        "OK");
+                }
+            }
+            catch (Exception ex)
+            {
+                await Application.Current.MainPage.DisplayAlert(
+                    "Error",
+                    $"An error occurred: {ex.Message}",
+                    "OK");
+            }
+            finally
+            {
+                IsBusy = false;
+            }
+        }
         [RelayCommand]
         private async Task NavigateToFeatureAsync(DashboardItem item)
         {

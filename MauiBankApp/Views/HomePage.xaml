@@ -5,9 +5,15 @@
              xmlns:viewmodels="clr-namespace:MauiBankApp.ViewModels"
              xmlns:models="clr-namespace:MauiBankApp.Models"
              xmlns:views="clr-namespace:MauiBankApp.Views"
+             xmlns:converters="clr-namespace:MauiBankApp.Converters"
              x:DataType="viewmodels:HomeViewModel"
-             Title=""
-            >
+             Title="">
+
+    <ContentPage.Resources>
+        <converters:TransactionTypeToIconConverter x:Key="TransactionTypeToIconConverter" />
+        <converters:TransactionTypeToColorConverter x:Key="TransactionTypeToColorConverter" />
+        <converters:TransactionAmountFormatConverter x:Key="TransactionAmountFormatConverter" />
+    </ContentPage.Resources>
 
     <ScrollView>
         <VerticalStackLayout Spacing="25" Padding="20">
@@ -79,7 +85,7 @@
                 </VerticalStackLayout>
             </Frame>
 
-            <!-- Quick Actions - Using first 4 DashboardItems -->
+            <!-- Quick Actions -->
             <Grid ColumnDefinitions="*,*,*,*" 
                   RowDefinitions="Auto"
                   ColumnSpacing="10">
@@ -284,68 +290,98 @@
                              HeightRequest="50"
                              WidthRequest="50"/>
 
-            <!-- Content when not busy -->
-            <VerticalStackLayout IsVisible="{Binding IsNotBusy}" Spacing="15">
-                <Frame Padding="20"
-                       CornerRadius="15"
-                       BackgroundColor="White"
-                       HasShadow="True">
-                    <HorizontalStackLayout Spacing="15">
-                        <Frame CornerRadius="10"
-                               BackgroundColor="#ECEFF1"
-                               HeightRequest="40"
-                               WidthRequest="40"
-                               Padding="10">
-                            <Image Source="shopping.png"
-                                   HeightRequest="20"
-                                   WidthRequest="20"/>
-                        </Frame>
-                        <VerticalStackLayout Spacing="5">
-                            <Label Text="Amazon Purchase"
-                                   FontSize="14"
-                                   TextColor="#37474F"/>
-                            <Label Text="Today • 10:30 AM"
-                                   FontSize="12"
-                                   TextColor="#78909C"/>
-                        </VerticalStackLayout>
-                        <Label Text="-$49.99"
-                               FontSize="14"
-                               FontAttributes="Bold"
-                               TextColor="#E53935"
-                               HorizontalOptions="EndAndExpand"/>
-                    </HorizontalStackLayout>
-                </Frame>
+            <!-- Recent Transactions List -->
+            <CollectionView ItemsSource="{Binding RecentTransactions}"
+                          IsVisible="{Binding IsNotBusy}"
+                          Margin="0,10,0,0">
 
-                <Frame Padding="20"
-                       CornerRadius="15"
-                       BackgroundColor="White"
-                       HasShadow="True">
-                    <HorizontalStackLayout Spacing="15">
-                        <Frame CornerRadius="10"
+                <!-- Empty View -->
+                <CollectionView.EmptyView>
+                    <VerticalStackLayout HorizontalOptions="Center" 
+                                       VerticalOptions="Center"
+                                       Spacing="10"
+                                       Padding="20">
+                        <Frame CornerRadius="20"
                                BackgroundColor="#ECEFF1"
-                               HeightRequest="40"
-                               WidthRequest="40"
-                               Padding="10">
-                            <Image Source="salary.png"
-                                   HeightRequest="20"
-                                   WidthRequest="20"/>
+                               HeightRequest="60"
+                               WidthRequest="60"
+                               Padding="15">
+                            <Image Source="transaction.png"
+                                   HeightRequest="30"
+                                   WidthRequest="30"/>
                         </Frame>
-                        <VerticalStackLayout Spacing="5">
-                            <Label Text="Monthly Salary"
-                                   FontSize="14"
-                                   TextColor="#37474F"/>
-                            <Label Text="Yesterday • 9:00 AM"
-                                   FontSize="12"
-                                   TextColor="#78909C"/>
-                        </VerticalStackLayout>
-                        <Label Text="+$3,500.00"
+                        <Label Text="No recent transactions"
                                FontSize="14"
-                               FontAttributes="Bold"
-                               TextColor="#43A047"
-                               HorizontalOptions="EndAndExpand"/>
-                    </HorizontalStackLayout>
-                </Frame>
-            </VerticalStackLayout>
+                               TextColor="#78909C"
+                               HorizontalOptions="Center"/>
+                        <Button Text="Refresh"
+                                Command="{Binding LoadRecentTransactionsCommand}"
+                                BackgroundColor="#546E7A"
+                                TextColor="White"
+                                HorizontalOptions="Center"
+                                WidthRequest="100"/>
+                    </VerticalStackLayout>
+                </CollectionView.EmptyView>
+
+                <CollectionView.ItemTemplate>
+                    <DataTemplate x:DataType="models:Transaction">
+                        <Frame Padding="20"
+                               CornerRadius="15"
+                               BackgroundColor="White"
+                               HasShadow="True"
+                               Margin="0,0,0,10">
+                            <HorizontalStackLayout Spacing="15">
+                                <Frame CornerRadius="10"
+                                       BackgroundColor="#ECEFF1"
+                                       HeightRequest="40"
+                                       WidthRequest="40"
+                                       Padding="10">
+                                    <Image Source="{Binding Type, Converter={StaticResource TransactionTypeToIconConverter}}"
+                                           HeightRequest="20"
+                                           WidthRequest="20"/>
+                                </Frame>
+                                <VerticalStackLayout Spacing="5" 
+                                                   VerticalOptions="Center">
+                                    <Label Text="{Binding Description}"
+                                           FontSize="14"
+                                           FontAttributes="Bold"
+                                           TextColor="#37474F"/>
+                                    <Label Text="{Binding Date, StringFormat='{0:MMM dd • hh:mm tt}'}"
+                                           FontSize="12"
+                                           TextColor="#78909C"/>
+                                    <Label Text="{Binding Recipient}"
+                                           FontSize="12"
+                                           TextColor="#546E7A"/>
+                                </VerticalStackLayout>
+                                <Label Text="{Binding Amount, Converter={StaticResource TransactionAmountFormatConverter}, ConverterParameter={Binding Type}}"
+                                       FontSize="14"
+                                       FontAttributes="Bold"
+                                       TextColor="{Binding Type, Converter={StaticResource TransactionTypeToColorConverter}}"
+                                       HorizontalOptions="EndAndExpand"
+                                       VerticalOptions="Center"/>
+                            </HorizontalStackLayout>
+                        </Frame>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+
+            <!-- View All Transactions Button -->
+            <Button Text="View All Transactions"
+                    Command="{Binding NavigateToFeatureCommand}"
+                    BackgroundColor="Transparent"
+                    TextColor="#546E7A"
+                    FontSize="14"
+                    HorizontalOptions="End"
+                    Margin="0,10,0,0"
+                    IsVisible="{Binding IsNotBusy}">
+                <Button.CommandParameter>
+                    <viewmodels:DashboardItem Title="Transactions" Icon="history.png">
+                        <viewmodels:DashboardItem.TargetType>
+                            <x:Type TypeName="views:TransactionHistoryPage" />
+                        </viewmodels:DashboardItem.TargetType>
+                    </viewmodels:DashboardItem>
+                </Button.CommandParameter>
+            </Button>
 
         </VerticalStackLayout>
     </ScrollView>
