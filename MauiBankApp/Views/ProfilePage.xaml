@@ -1,0 +1,204 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:viewmodels="clr-namespace:MauiBankApp.ViewModels"
+             x:Class="MauiBankApp.Views.ProfilePage"
+             x:DataType="viewmodels:ProfileViewModel"
+             xmlns:views="clr-namespace:MauiBankApp.Views"
+             Title="">
+
+    <ScrollView>
+        <VerticalStackLayout Spacing="25" Padding="20">
+
+            <!-- Header -->
+            <VerticalStackLayout HorizontalOptions="Center" Spacing="12">
+
+                <!-- Avatar -->
+                <Frame CornerRadius="50"
+                       HeightRequest="100"
+                       WidthRequest="100"
+                       BackgroundColor="#546E7A"
+                       Padding="0">
+                    <Label Text="{Binding User.Name}"
+                           FontSize="32"
+                           FontAttributes="Bold"
+                           TextColor="White"
+                           VerticalOptions="Center"
+                           HorizontalOptions="Center"
+                           LineBreakMode="NoWrap"/>
+                </Frame>
+
+                <!-- Name -->
+                <Label Text="{Binding User.Name}"
+                       FontSize="22"
+                       FontAttributes="Bold"
+                       TextColor="#37474F"
+                       HorizontalOptions="Center"/>
+
+                <!-- Subtitle -->
+                <Label Text=""
+                       FontSize="14"
+                       TextColor="#78909C"
+                       HorizontalOptions="Center"/>
+            </VerticalStackLayout>
+
+            <!-- Account Info Card -->
+            <Frame CornerRadius="15"
+                   BackgroundColor="White"
+                   HasShadow="True"
+                   Padding="20">
+
+                <VerticalStackLayout Spacing="15">
+
+                    <Label Text="Account Information"
+                           FontSize="16"
+                           FontAttributes="Bold"
+                           TextColor="#37474F"/>
+
+                    <Grid ColumnDefinitions="Auto, *"
+                          RowDefinitions="Auto,Auto,Auto,Auto"
+                          RowSpacing="12">
+
+                        <!-- Account Number -->
+                        <Label Grid.Row="0" Grid.Column="0"
+                               Text="Account No:"
+                               FontSize="14"
+                               TextColor="#78909C"/>
+
+                        <Label Grid.Row="0" Grid.Column="1"
+                               Text="{Binding User.AccountNumber}"
+                               FontSize="14"
+                               FontAttributes="Bold"
+                               TextColor="#37474F"
+                               HorizontalOptions="End"/>
+
+                        <!-- Email -->
+                        <Label Grid.Row="1" Grid.Column="0"
+                               Text="Email:"
+                               FontSize="14"
+                               TextColor="#78909C"/>
+
+                        <Label Grid.Row="1" Grid.Column="1"
+                               Text="{Binding User.Email}"
+                               FontSize="14"
+                               TextColor="#37474F"
+                               HorizontalOptions="End"/>
+
+                        <!-- Phone -->
+                        <Label Grid.Row="2" Grid.Column="0"
+                               Text="Phone:"
+                               FontSize="14"
+                               TextColor="#78909C"/>
+
+                        <Label Grid.Row="2" Grid.Column="1"
+                               Text="{Binding User.Phone}"
+                               FontSize="14"
+                               TextColor="#37474F"
+                               HorizontalOptions="End"/>
+
+                        <!-- Member Since -->
+                        <Label Grid.Row="3" Grid.Column="0"
+                               Text="Member Since:"
+                               FontSize="14"
+                               TextColor="#78909C"/>
+
+                        <Label Grid.Row="3" Grid.Column="1"
+                               Text="{Binding User.CreatedAt, StringFormat='{0:MMMM yyyy}'}"
+                               FontSize="14"
+                               TextColor="#37474F"
+                               HorizontalOptions="End"/>
+
+                    </Grid>
+                </VerticalStackLayout>
+            </Frame>
+
+            <!-- Quick Actions -->
+            <Grid ColumnDefinitions="*,*"
+                  RowDefinitions="*,*"
+                  ColumnSpacing="15"
+                  RowSpacing="15">
+
+                <!-- Edit Profile -->
+                <Frame CornerRadius="12"
+                       BackgroundColor="White"
+                       HasShadow="True"
+                       Padding="15">
+                    <VerticalStackLayout Spacing="8" HorizontalOptions="Center">
+                        <Image Source="edit_profile.png" HeightRequest="30"/>
+                        <Label Text="Edit Profile"
+                               FontSize="12"
+                               HorizontalOptions="Center"
+                               TextColor="#546E7A"/>
+                    </VerticalStackLayout>
+                </Frame>
+
+                <!-- Security -->
+                <Frame CornerRadius="12"
+                       BackgroundColor="White"
+                       HasShadow="True"
+                       Padding="15">
+                    <VerticalStackLayout Spacing="8" HorizontalOptions="Center">
+                        <Image Source="security_settings.png" HeightRequest="30"/>
+                        <Label Text="Security"
+                               FontSize="12"
+                               HorizontalOptions="Center"
+                               TextColor="#546E7A"/>
+                    </VerticalStackLayout>
+                </Frame>
+
+                <!-- Notifications -->
+                <Frame CornerRadius="12"
+                       BackgroundColor="White"
+                       HasShadow="True"
+                       Padding="15">
+                    <VerticalStackLayout Spacing="8" HorizontalOptions="Center">
+                        <Image Source="notifications.png" HeightRequest="30"/>
+                        <Label Text="Notifications"
+                               FontSize="12"
+                               HorizontalOptions="Center"
+                               TextColor="#546E7A"/>
+                    </VerticalStackLayout>
+                </Frame>
+
+                <!-- Documents -->
+                <Frame CornerRadius="12"
+                       BackgroundColor="White"
+                       HasShadow="True"
+                       Padding="15">
+                    <VerticalStackLayout Spacing="8" HorizontalOptions="Center">
+                        <Image Source="documents.png" HeightRequest="30"/>
+                        <Label Text="Documents"
+                               FontSize="12"
+                               HorizontalOptions="Center"
+                               TextColor="#546E7A"/>
+                    </VerticalStackLayout>
+                </Frame>
+
+            </Grid>
+
+            <!-- Support -->
+            <Frame CornerRadius="15"
+                   BackgroundColor="#546E7A"
+                   HasShadow="True"
+                   Padding="20">
+                <VerticalStackLayout Spacing="12">
+                    <Label Text="Need Help?"
+                           FontSize="16"
+                           FontAttributes="Bold"
+                           TextColor="White"/>
+
+                    <Label Text="Contact our 24/7 customer support"
+                           FontSize="14"
+                           TextColor="#CFD8DC"/>
+
+                    <Button Text="Contact Support"
+                            BackgroundColor="White"
+                            TextColor="#546E7A"
+                            FontAttributes="Bold"
+                            CornerRadius="10"/>
+                </VerticalStackLayout>
+            </Frame>
+
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

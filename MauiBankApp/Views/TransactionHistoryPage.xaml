@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="MauiBankApp.Views.TransactionHistoryPage"
+              xmlns:views="clr-namespace:MauiBankApp.Views"
+             Title="Transaction History">
+
+    <RefreshView IsRefreshing="{Binding IsBusy}"
+                 Command="{Binding LoadTransactionsCommand}">
+        <ScrollView>
+            <VerticalStackLayout Spacing="15" Padding="20">
+
+                <!-- Header -->
+                <Label Text="Transaction History" 
+                       FontSize="24" 
+                       FontAttributes="Bold"/>
+
+                <!-- Loading -->
+                <ActivityIndicator IsRunning="{Binding IsBusy}" 
+                                 IsVisible="{Binding IsBusy}"
+                                 HorizontalOptions="Center"/>
+
+                <!-- Transactions List -->
+                <CollectionView ItemsSource="{Binding Transactions}"
+                              SelectionMode="None">
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate>
+                            <Frame Padding="15" 
+                                   CornerRadius="10" 
+                                   BackgroundColor="White"
+                                   HasShadow="True"
+                                   Margin="0,0,0,10">
+                                <Grid ColumnDefinitions="*,Auto" RowDefinitions="Auto,Auto">
+                                    <Label Grid.Row="0" Grid.Column="0"
+                                           Text="{Binding Description}"
+                                           FontSize="16"
+                                           FontAttributes="Bold"/>
+                                    <Label Grid.Row="0" Grid.Column="1"
+                                           Text="{Binding Amount, StringFormat='${0:F2}'}"
+                                           FontSize="16"
+                                           TextColor="{Binding Type, Converter={StaticResource TransactionTypeToColorConverter}}"/>
+
+                                    <Label Grid.Row="1" Grid.Column="0"
+                                           Text="{Binding Recipient}"
+                                           FontSize="14"
+                                           TextColor="Gray"/>
+                                    <Label Grid.Row="1" Grid.Column="1"
+                                           Text="{Binding Date, StringFormat='{0:MMM dd, yyyy}'}"
+                                           FontSize="14"
+                                           TextColor="Gray"/>
+                                </Grid>
+                            </Frame>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+
+                <!-- No Transactions -->
+                <Label Text="No transactions found"
+                       IsVisible="{Binding ShowEmptyState}"
+                       HorizontalOptions="Center"
+                       TextColor="Gray"
+                       Margin="0,50,0,0"/>
+
+            </VerticalStackLayout>
+        </ScrollView>
+    </RefreshView>
+</ContentPage>

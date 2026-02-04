@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="MauiBankApp.Views.LoginPage"
+              xmlns:views="clr-namespace:MauiBankApp.Views"
+             Title="">
+
+    <ScrollView>
+        <VerticalStackLayout Padding="24" Spacing="30">
+
+            <!-- Header -->
+            <VerticalStackLayout Spacing="12" HorizontalOptions="Center">
+              <Frame HasShadow="True"
+                Padding="0"
+                BackgroundColor="Transparent"
+                HorizontalOptions="Center">
+
+                <Image Source="bank_logo.png"
+                 HeightRequest="77"
+                 WidthRequest="77"
+                    Aspect="AspectFit"/>
+                </Frame>
+
+
+                <Label Text="Welcome"
+                       FontSize="28"
+                       FontAttributes="Bold"
+                       TextColor="#263238"
+                       HorizontalOptions="Center"/>
+
+                <Label Text="Sign in to your account"
+                       FontSize="15"
+                       TextColor="#607D8B"
+                       HorizontalOptions="Center"/>
+            </VerticalStackLayout>
+
+            <!-- Login Card -->
+            <Frame Padding="24"
+                   CornerRadius="16"
+                   BackgroundColor="White"
+                   HasShadow="True">
+
+                <VerticalStackLayout Spacing="18">
+
+                    <!-- Email -->
+                    <VerticalStackLayout Spacing="6">
+                        <Label Text="Email"
+                               FontSize="13"
+                               TextColor="#455A64"/>
+
+                        <Frame Padding="10"
+                               CornerRadius="10"
+                               BorderColor="#CFD8DC">
+                            <Entry Text="{Binding Email}"
+                                   Placeholder="Enter your email"
+                                   TextColor="#263238"
+                                   PlaceholderColor="#90A4AE"
+                                   Keyboard="Email"
+                                   IsEnabled="{Binding IsNotBusy}"/>
+                        </Frame>
+                    </VerticalStackLayout>
+
+                    <!-- Password -->
+                    <VerticalStackLayout Spacing="6">
+                        <Label Text="Password"
+                               FontSize="13"
+                               TextColor="#455A64"/>
+
+                        <Frame Padding="10"
+                               CornerRadius="10"
+                               BorderColor="#CFD8DC">
+                            <Entry Text="{Binding Password}"
+                                   Placeholder="Enter your password"
+                                   TextColor="#263238"
+                                   PlaceholderColor="#90A4AE"
+                                   IsPassword="True"
+                                   IsEnabled="{Binding IsNotBusy}"/>
+                        </Frame>
+                    </VerticalStackLayout>
+
+                    <!-- Error Message -->
+                    <Label Text="{Binding ErrorMessage}"
+                           TextColor="#C62828"
+                           FontSize="14"
+                           HorizontalTextAlignment="Center"
+                           IsVisible="{Binding ErrorMessage, Converter={StaticResource StringToBoolConverter}}"/>
+
+                    <!-- Login Button -->
+                    <Button Text="Sign In"
+                            Command="{Binding LoginCommand}"
+                            IsEnabled="{Binding IsNotBusy}"
+                            BackgroundColor="#455A64"
+                            TextColor="White"
+                            CornerRadius="12"
+                            HeightRequest="52"
+                            FontSize="16"
+                            FontAttributes="Bold"/>
+
+                    <!-- Loading Indicator -->
+                    <ActivityIndicator IsRunning="{Binding IsBusy}"
+                                       IsVisible="{Binding IsBusy}"
+                                       Color="#455A64"
+                                       HorizontalOptions="Center"/>
+
+                </VerticalStackLayout>
+            </Frame>          
+
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

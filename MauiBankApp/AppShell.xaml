@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<Shell
+    x:Class="MauiBankApp.AppShell"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:local="clr-namespace:MauiBankApp"
+    xmlns:views="clr-namespace:MauiBankApp.Views"
+    Shell.FlyoutBehavior="Disabled"
+    Title="MauiBankApp">
+
+    <!--<ShellContent
+        Title="Home"
+        ContentTemplate="{DataTemplate local:MainPage}"
+        Route="MainPage" />-->
+
+    <ShellContent
+        Title="Login"
+        ContentTemplate="{DataTemplate views:LoginPage}"
+        Route="LoginPage" />
+
+    <ShellContent
+        Title="Profile"
+        ContentTemplate="{DataTemplate views:ProfilePage}"
+        Route="ProfilePage" />
+
+    <ShellContent
+        Title="Balance"
+        ContentTemplate="{DataTemplate views:BalancePage}"
+        Route="BalancePage" />
+
+    <ShellContent
+        Title="Transactions"
+        ContentTemplate="{DataTemplate views:TransactionHistoryPage}"
+        Route="TransactionHistoryPage" />
+
+    <ShellContent
+        Title="Send Money"
+        ContentTemplate="{DataTemplate views:SendTransactionPage}"
+        Route="SendTransactionPage" />
+
+    <ShellContent
+        Title="QR Code"
+        ContentTemplate="{DataTemplate views:QRCodePage}"
+        Route="QRCodePage" />
+
+    <ShellContent
+        Title="Mobile Top-up"
+        ContentTemplate="{DataTemplate views:MobileTopUpPage}"
+        Route="MobileTopUpPage" />
+
+    <ShellContent
+        Title="Water Bill"
+        ContentTemplate="{DataTemplate views:WaterBillPage}"
+        Route="WaterBillPage" />
+
+    <ShellContent
+        Title="Electricity"
+        ContentTemplate="{DataTemplate views:ElectricityBillPage}"
+        Route="ElectricityBillPage" />
+
+    <ShellContent
+        Title="Security"
+        ContentTemplate="{DataTemplate views:SecuritySettingsPage}"
+        Route="SecuritySettingsPage" />
+
+</Shell>

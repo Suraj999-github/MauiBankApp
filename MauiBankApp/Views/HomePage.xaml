@@ -1,0 +1,352 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="MauiBankApp.Views.HomePage"
+             xmlns:viewmodels="clr-namespace:MauiBankApp.ViewModels"
+             xmlns:models="clr-namespace:MauiBankApp.Models"
+             xmlns:views="clr-namespace:MauiBankApp.Views"
+             x:DataType="viewmodels:HomeViewModel"
+             Title=""
+            >
+
+    <ScrollView>
+        <VerticalStackLayout Spacing="25" Padding="20">
+
+            <!-- Header Section -->
+            <Grid ColumnDefinitions="Auto,*,Auto" 
+                  VerticalOptions="Start"
+                  ColumnSpacing="15">
+
+                <!-- User Info -->
+                <VerticalStackLayout Grid.Column="0" 
+                                     VerticalOptions="Center">
+                    <Label Text="Welcome,"
+                           FontSize="14"
+                           TextColor="#78909C"/>
+                    <Label Text="{Binding CurrentUser.Name}" 
+                           FontSize="20" 
+                           FontAttributes="Bold"
+                           TextColor="#37474F"/>
+                </VerticalStackLayout>
+
+                <!-- Logout Button -->
+                <Button Grid.Column="2"
+                        Text="Logout"
+                        Command="{Binding LogoutCommand}"
+                        BackgroundColor="Transparent"
+                        TextColor="#546E7A"
+                        FontSize="14"
+                        VerticalOptions="Center"/>
+            </Grid>
+
+            <!-- Balance Card -->
+            <Frame Padding="25" 
+                   CornerRadius="25" 
+                   BackgroundColor="#546E7A"
+                   HasShadow="True">
+                <VerticalStackLayout Spacing="15">
+                    <Label Text="Available Balance" 
+                           FontSize="16" 
+                           TextColor="#CFD8DC"/>
+
+                    <Label Text="{Binding Balance, StringFormat='${0:F2}'}" 
+                           FontSize="40" 
+                           FontAttributes="Bold"
+                           TextColor="White"/>
+
+                    <Grid ColumnDefinitions="*,Auto">
+                        <Label Grid.Column="0"
+                               Text="{Binding CurrentUser.AccountNumber, StringFormat='Account:{0}'}" 
+                               FontSize="14" 
+                               TextColor="#B0BEC5"/>
+
+                        <Button Grid.Column="1"
+                                Text="View Details"
+                                BackgroundColor="Transparent"
+                                TextColor="White"
+                                FontSize="12"
+                                Command="{Binding NavigateToFeatureCommand}">
+                            <Button.CommandParameter>
+                                <viewmodels:DashboardItem>
+                                    <viewmodels:DashboardItem.Title>View Balance</viewmodels:DashboardItem.Title>
+                                    <viewmodels:DashboardItem.TargetType>
+                                        <x:Type TypeName="viewmodels:HomeViewModel" />
+                                    </viewmodels:DashboardItem.TargetType>
+                                </viewmodels:DashboardItem>
+                            </Button.CommandParameter>
+                        </Button>
+                    </Grid>
+                </VerticalStackLayout>
+            </Frame>
+
+            <!-- Quick Actions - Using first 4 DashboardItems -->
+            <Grid ColumnDefinitions="*,*,*,*" 
+                  RowDefinitions="Auto"
+                  ColumnSpacing="10">
+
+                <!-- Profile -->
+                <Frame Grid.Column="0"
+                       Padding="15"
+                       CornerRadius="15" 
+                       BackgroundColor="White"
+                       HasShadow="True">
+                    <VerticalStackLayout Spacing="10" HorizontalOptions="Center">
+                        <Frame CornerRadius="12"
+                               BackgroundColor="#ECEFF1"
+                               HeightRequest="50"
+                               WidthRequest="50"
+                               Padding="12">
+                            <Image Source="person.png"
+                                   HeightRequest="25"
+                                   WidthRequest="25"/>
+                        </Frame>
+                        <Label Text="Profile" 
+                               FontSize="12" 
+                               HorizontalOptions="Center"
+                               TextColor="#455A64"/>
+                    </VerticalStackLayout>
+                    <Frame.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding NavigateToFeatureCommand}">
+                            <TapGestureRecognizer.CommandParameter>
+                                <viewmodels:DashboardItem Title="Profile" Icon="person.png">
+                                    <viewmodels:DashboardItem.TargetType>
+                                        <x:Type TypeName="views:ProfilePage" />
+                                    </viewmodels:DashboardItem.TargetType>
+                                </viewmodels:DashboardItem>
+                            </TapGestureRecognizer.CommandParameter>
+                        </TapGestureRecognizer>
+                    </Frame.GestureRecognizers>
+                </Frame>
+
+                <!-- Send Money -->
+                <Frame Grid.Column="1"
+                       Padding="15"
+                       CornerRadius="15" 
+                       BackgroundColor="White"
+                       HasShadow="True">
+                    <VerticalStackLayout Spacing="10" HorizontalOptions="Center">
+                        <Frame CornerRadius="12"
+                               BackgroundColor="#ECEFF1"
+                               HeightRequest="50"
+                               WidthRequest="50"
+                               Padding="12">
+                            <Image Source="send.png"
+                                   HeightRequest="25"
+                                   WidthRequest="25"/>
+                        </Frame>
+                        <Label Text="Send" 
+                               FontSize="12" 
+                               HorizontalOptions="Center"
+                               TextColor="#455A64"/>
+                    </VerticalStackLayout>
+                    <Frame.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding NavigateToFeatureCommand}">
+                            <TapGestureRecognizer.CommandParameter>
+                                <viewmodels:DashboardItem Title="Send Money" Icon="send.png">
+                                    <viewmodels:DashboardItem.TargetType>
+                                        <x:Type TypeName="views:SendTransactionPage" />
+                                    </viewmodels:DashboardItem.TargetType>
+                                </viewmodels:DashboardItem>
+                            </TapGestureRecognizer.CommandParameter>
+                        </TapGestureRecognizer>
+                    </Frame.GestureRecognizers>
+                </Frame>
+
+                <!-- Transactions -->
+                <Frame Grid.Column="2"
+                       Padding="15"
+                       CornerRadius="15" 
+                       BackgroundColor="White"
+                       HasShadow="True">
+                    <VerticalStackLayout Spacing="10" HorizontalOptions="Center">
+                        <Frame CornerRadius="12"
+                               BackgroundColor="#ECEFF1"
+                               HeightRequest="50"
+                               WidthRequest="50"
+                               Padding="12">
+                            <Image Source="history.png"
+                                   HeightRequest="25"
+                                   WidthRequest="25"/>
+                        </Frame>
+                        <Label Text="History" 
+                               FontSize="12" 
+                               HorizontalOptions="Center"
+                               TextColor="#455A64"/>
+                    </VerticalStackLayout>
+                    <Frame.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding NavigateToFeatureCommand}">
+                            <TapGestureRecognizer.CommandParameter>
+                                <viewmodels:DashboardItem Title="Transactions" Icon="history.png">
+                                    <viewmodels:DashboardItem.TargetType>
+                                        <x:Type TypeName="views:TransactionHistoryPage" />
+                                    </viewmodels:DashboardItem.TargetType>
+                                </viewmodels:DashboardItem>
+                            </TapGestureRecognizer.CommandParameter>
+                        </TapGestureRecognizer>
+                    </Frame.GestureRecognizers>
+                </Frame>
+
+                <!-- QR Code -->
+                <Frame Grid.Column="3"
+                       Padding="15"
+                       CornerRadius="15" 
+                       BackgroundColor="White"
+                       HasShadow="True">
+                    <VerticalStackLayout Spacing="10" HorizontalOptions="Center">
+                        <Frame CornerRadius="12"
+                               BackgroundColor="#ECEFF1"
+                               HeightRequest="50"
+                               WidthRequest="50"
+                               Padding="12">
+                            <Image Source="qrcode.png"
+                                   HeightRequest="25"
+                                   WidthRequest="25"/>
+                        </Frame>
+                        <Label Text="QR" 
+                               FontSize="12" 
+                               HorizontalOptions="Center"
+                               TextColor="#455A64"/>
+                    </VerticalStackLayout>
+                    <Frame.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding NavigateToFeatureCommand}">
+                            <TapGestureRecognizer.CommandParameter>
+                                <viewmodels:DashboardItem Title="QR Code" Icon="qrcode.png">
+                                    <viewmodels:DashboardItem.TargetType>
+                                        <x:Type TypeName="views:QRCodePage" />
+                                    </viewmodels:DashboardItem.TargetType>
+                                </viewmodels:DashboardItem>
+                            </TapGestureRecognizer.CommandParameter>
+                        </TapGestureRecognizer>
+                    </Frame.GestureRecognizers>
+                </Frame>
+
+            </Grid>
+
+            <!-- Services Section -->
+            <Label Text="Services" 
+                   FontSize="18" 
+                   FontAttributes="Bold"
+                   TextColor="#37474F"/>
+
+            <!-- Dynamic Dashboard Items using CollectionView -->
+            <CollectionView ItemsSource="{Binding DashboardItems}"
+                            Margin="0,10,0,0">
+                <CollectionView.ItemsLayout>
+                    <GridItemsLayout Orientation="Vertical"
+                                     Span="3"
+                                     VerticalItemSpacing="10"
+                                     HorizontalItemSpacing="10"/>
+                </CollectionView.ItemsLayout>
+
+                <CollectionView.ItemTemplate>
+                    <DataTemplate x:DataType="viewmodels:DashboardItem">
+                        <Frame HeightRequest="110"
+                               Padding="15"
+                               CornerRadius="12" 
+                               BackgroundColor="White"
+                               HasShadow="True">
+                            <VerticalStackLayout Spacing="8" HorizontalOptions="Center">
+                                <Frame CornerRadius="8"
+                                       BackgroundColor="#ECEFF1"
+                                       HeightRequest="50"
+                                       WidthRequest="50"
+                                       Padding="10">
+                                    <Image Source="{Binding Icon}"
+                                           HeightRequest="25"
+                                           WidthRequest="25"/>
+                                </Frame>
+                                <Label Text="{Binding Title}" 
+                                       FontSize="11" 
+                                       HorizontalOptions="Center"
+                                       TextColor="#546E7A"/>
+                            </VerticalStackLayout>
+                            <Frame.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodels:HomeViewModel}}, Path=NavigateToFeatureCommand}"
+                                                      CommandParameter="{Binding .}"/>
+                            </Frame.GestureRecognizers>
+                        </Frame>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+
+            <!-- Recent Transactions Section -->
+            <Label Text="Recent Transactions" 
+                   FontSize="18" 
+                   FontAttributes="Bold"
+                   TextColor="#37474F"
+                   Margin="0,20,0,0"/>
+
+            <!-- Loading Indicator -->
+            <ActivityIndicator IsRunning="{Binding IsBusy}" 
+                             IsVisible="{Binding IsBusy}"
+                             HorizontalOptions="Center"
+                             Color="#546E7A"
+                             HeightRequest="50"
+                             WidthRequest="50"/>
+
+            <!-- Content when not busy -->
+            <VerticalStackLayout IsVisible="{Binding IsNotBusy}" Spacing="15">
+                <Frame Padding="20"
+                       CornerRadius="15"
+                       BackgroundColor="White"
+                       HasShadow="True">
+                    <HorizontalStackLayout Spacing="15">
+                        <Frame CornerRadius="10"
+                               BackgroundColor="#ECEFF1"
+                               HeightRequest="40"
+                               WidthRequest="40"
+                               Padding="10">
+                            <Image Source="shopping.png"
+                                   HeightRequest="20"
+                                   WidthRequest="20"/>
+                        </Frame>
+                        <VerticalStackLayout Spacing="5">
+                            <Label Text="Amazon Purchase"
+                                   FontSize="14"
+                                   TextColor="#37474F"/>
+                            <Label Text="Today • 10:30 AM"
+                                   FontSize="12"
+                                   TextColor="#78909C"/>
+                        </VerticalStackLayout>
+                        <Label Text="-$49.99"
+                               FontSize="14"
+                               FontAttributes="Bold"
+                               TextColor="#E53935"
+                               HorizontalOptions="EndAndExpand"/>
+                    </HorizontalStackLayout>
+                </Frame>
+
+                <Frame Padding="20"
+                       CornerRadius="15"
+                       BackgroundColor="White"
+                       HasShadow="True">
+                    <HorizontalStackLayout Spacing="15">
+                        <Frame CornerRadius="10"
+                               BackgroundColor="#ECEFF1"
+                               HeightRequest="40"
+                               WidthRequest="40"
+                               Padding="10">
+                            <Image Source="salary.png"
+                                   HeightRequest="20"
+                                   WidthRequest="20"/>
+                        </Frame>
+                        <VerticalStackLayout Spacing="5">
+                            <Label Text="Monthly Salary"
+                                   FontSize="14"
+                                   TextColor="#37474F"/>
+                            <Label Text="Yesterday • 9:00 AM"
+                                   FontSize="12"
+                                   TextColor="#78909C"/>
+                        </VerticalStackLayout>
+                        <Label Text="+$3,500.00"
+                               FontSize="14"
+                               FontAttributes="Bold"
+                               TextColor="#43A047"
+                               HorizontalOptions="EndAndExpand"/>
+                    </HorizontalStackLayout>
+                </Frame>
+            </VerticalStackLayout>
+
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

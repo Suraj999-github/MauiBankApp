@@ -1,0 +1,2286 @@
+I'll create default view designs for all the pages with sample data and blue-grey theme. Here are all the pages:
+
+## 1. ProfilePage.xaml
+
+```xml
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="MauiBankApp.Views.ProfilePage"
+             Title="My Profile"
+             BackgroundColor="#F8FAFC">
+
+    <ScrollView>
+        <VerticalStackLayout Spacing="20" Padding="20">
+
+            <!-- Header -->
+            <VerticalStackLayout HorizontalOptions="Center" Spacing="15">
+                <Frame CornerRadius="50"
+                       HeightRequest="100"
+                       WidthRequest="100"
+                       BackgroundColor="#546E7A"
+                       Padding="0">
+                    <Label Text="JD"
+                           FontSize="32"
+                           FontAttributes="Bold"
+                           TextColor="White"
+                           VerticalOptions="Center"
+                           HorizontalOptions="Center"/>
+                </Frame>
+                <Label Text="John Doe"
+                       FontSize="24"
+                       FontAttributes="Bold"
+                       TextColor="#37474F"
+                       HorizontalOptions="Center"/>
+                <Label Text="Premium Banking Client"
+                       FontSize="14"
+                       TextColor="#78909C"
+                       HorizontalOptions="Center"/>
+            </VerticalStackLayout>
+
+            <!-- Account Info Card -->
+            <Frame CornerRadius="15"
+                   BackgroundColor="White"
+                   HasShadow="True"
+                   Padding="20">
+                <VerticalStackLayout Spacing="15">
+                    <Label Text="Account Information"
+                           FontSize="16"
+                           FontAttributes="Bold"
+                           TextColor="#37474F"/>
+                    
+                    <Grid ColumnDefinitions="Auto,*" RowSpacing="10">
+                        <!-- Account Number -->
+                        <Label Grid.Row="0" Grid.Column="0"
+                               Text="Account No:"
+                               FontSize="14"
+                               TextColor="#78909C"/>
+                        <Label Grid.Row="0" Grid.Column="1"
+                               Text="1234 5678 9012 3456"
+                               FontSize="14"
+                               FontAttributes="Bold"
+                               TextColor="#37474F"
+                               HorizontalOptions="End"/>
+                        
+                        <!-- Email -->
+                        <Label Grid.Row="1" Grid.Column="0"
+                               Text="Email:"
+                               FontSize="14"
+                               TextColor="#78909C"/>
+                        <Label Grid.Row="1" Grid.Column="1"
+                               Text="john.doe@email.com"
+                               FontSize="14"
+                               TextColor="#37474F"
+                               HorizontalOptions="End"/>
+                        
+                        <!-- Phone -->
+                        <Label Grid.Row="2" Grid.Column="0"
+                               Text="Phone:"
+                               FontSize="14"
+                               TextColor="#78909C"/>
+                        <Label Grid.Row="2" Grid.Column="1"
+                               Text="+1 (555) 123-4567"
+                               FontSize="14"
+                               TextColor="#37474F"
+                               HorizontalOptions="End"/>
+                        
+                        <!-- Member Since -->
+                        <Label Grid.Row="3" Grid.Column="0"
+                               Text="Member Since:"
+                               FontSize="14"
+                               TextColor="#78909C"/>
+                        <Label Grid.Row="3" Grid.Column="1"
+                               Text="January 2023"
+                               FontSize="14"
+                               TextColor="#37474F"
+                               HorizontalOptions="End"/>
+                    </Grid>
+                </VerticalStackLayout>
+            </Frame>
+
+            <!-- Quick Actions -->
+            <Grid ColumnDefinitions="*,*" RowDefinitions="*,*" 
+                  ColumnSpacing="15" RowSpacing="15">
+                
+                <!-- Edit Profile -->
+                <Frame CornerRadius="12"
+                       BackgroundColor="White"
+                       HasShadow="True"
+                       Padding="15">
+                    <VerticalStackLayout Spacing="10" HorizontalOptions="Center">
+                        <Image Source="edit_profile.png"
+                               HeightRequest="30"
+                               WidthRequest="30"/>
+                        <Label Text="Edit Profile"
+                               FontSize="12"
+                               HorizontalOptions="Center"
+                               TextColor="#546E7A"/>
+                    </VerticalStackLayout>
+                </Frame>
+
+                <!-- Security -->
+                <Frame CornerRadius="12"
+                       BackgroundColor="White"
+                       HasShadow="True"
+                       Padding="15">
+                    <VerticalStackLayout Spacing="10" HorizontalOptions="Center">
+                        <Image Source="security_settings.png"
+                               HeightRequest="30"
+                               WidthRequest="30"/>
+                        <Label Text="Security"
+                               FontSize="12"
+                               HorizontalOptions="Center"
+                               TextColor="#546E7A"/>
+                    </VerticalStackLayout>
+                </Frame>
+
+                <!-- Notifications -->
+                <Frame CornerRadius="12"
+                       BackgroundColor="White"
+                       HasShadow="True"
+                       Padding="15">
+                    <VerticalStackLayout Spacing="10" HorizontalOptions="Center">
+                        <Image Source="notifications.png"
+                               HeightRequest="30"
+                               WidthRequest="30"/>
+                        <Label Text="Notifications"
+                               FontSize="12"
+                               HorizontalOptions="Center"
+                               TextColor="#546E7A"/>
+                    </VerticalStackLayout>
+                </Frame>
+
+                <!-- Documents -->
+                <Frame CornerRadius="12"
+                       BackgroundColor="White"
+                       HasShadow="True"
+                       Padding="15">
+                    <VerticalStackLayout Spacing="10" HorizontalOptions="Center">
+                        <Image Source="documents.png"
+                               HeightRequest="30"
+                               WidthRequest="30"/>
+                        <Label Text="Documents"
+                               FontSize="12"
+                               HorizontalOptions="Center"
+                               TextColor="#546E7A"/>
+                    </VerticalStackLayout>
+                </Frame>
+            </Grid>
+
+            <!-- Support -->
+            <Frame CornerRadius="15"
+                   BackgroundColor="#546E7A"
+                   HasShadow="True"
+                   Padding="20">
+                <VerticalStackLayout Spacing="10">
+                    <Label Text="Need Help?"
+                           FontSize="16"
+                           FontAttributes="Bold"
+                           TextColor="White"/>
+                    <Label Text="Contact our 24/7 customer support"
+                           FontSize="14"
+                           TextColor="#CFD8DC"/>
+                    <Button Text="Contact Support"
+                            BackgroundColor="White"
+                            TextColor="#546E7A"
+                            FontAttributes="Bold"
+                            CornerRadius="10"
+                            Margin="0,10,0,0"/>
+                </VerticalStackLayout>
+            </Frame>
+
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>
+```
+
+## 2. SendTransactionPage.xaml
+
+```xml
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="MauiBankApp.Views.SendTransactionPage"
+             Title="Send Money"
+             BackgroundColor="#F8FAFC">
+
+    <ScrollView>
+        <VerticalStackLayout Spacing="20" Padding="20">
+
+            <!-- Amount Input -->
+            <Frame CornerRadius="15"
+                   BackgroundColor="White"
+                   HasShadow="True"
+                   Padding="20">
+                <VerticalStackLayout Spacing="15">
+                    <Label Text="Enter Amount"
+                           FontSize="14"
+                           TextColor="#78909C"/>
+                    
+                    <HorizontalStackLayout HorizontalOptions="Center">
+                        <Label Text="$"
+                               FontSize="36"
+                               TextColor="#37474F"
+                               VerticalOptions="Center"/>
+                        <Entry Text="0.00"
+                               FontSize="36"
+                               FontAttributes="Bold"
+                               TextColor="#37474F"
+                               Keyboard="Numeric"
+                               HorizontalOptions="FillAndExpand"
+                               ClearButtonVisibility="Never"/>
+                    </HorizontalStackLayout>
+
+                    <!-- Quick Amounts -->
+                    <Grid ColumnDefinitions="*,*,*,*" ColumnSpacing="10">
+                        <Button Grid.Column="0"
+                                Text="$10"
+                                BackgroundColor="#ECEFF1"
+                                TextColor="#546E7A"
+                                CornerRadius="10"
+                                FontSize="14"/>
+                        <Button Grid.Column="1"
+                                Text="$50"
+                                BackgroundColor="#ECEFF1"
+                                TextColor="#546E7A"
+                                CornerRadius="10"
+                                FontSize="14"/>
+                        <Button Grid.Column="2"
+                                Text="$100"
+                                BackgroundColor="#ECEFF1"
+                                TextColor="#546E7A"
+                                CornerRadius="10"
+                                FontSize="14"/>
+                        <Button Grid.Column="3"
+                                Text="$500"
+                                BackgroundColor="#ECEFF1"
+                                TextColor="#546E7A"
+                                CornerRadius="10"
+                                FontSize="14"/>
+                    </Grid>
+                </VerticalStackLayout>
+            </Frame>
+
+            <!-- Recipient Selection -->
+            <Frame CornerRadius="15"
+                   BackgroundColor="White"
+                   HasShadow="True"
+                   Padding="20">
+                <VerticalStackLayout Spacing="15">
+                    <Label Text="Select Recipient"
+                           FontSize="16"
+                           FontAttributes="Bold"
+                           TextColor="#37474F"/>
+
+                    <!-- Recent Contacts -->
+                    <Grid ColumnDefinitions="Auto,*" RowDefinitions="*,*,*" 
+                          RowSpacing="15">
+                        
+                        <!-- Contact 1 -->
+                        <Frame Grid.Row="0" Grid.Column="0"
+                               CornerRadius="20"
+                               HeightRequest="40"
+                               WidthRequest="40"
+                               BackgroundColor="#ECEFF1"
+                               Padding="0">
+                            <Label Text="JS"
+                                   FontSize="16"
+                                   FontAttributes="Bold"
+                                   TextColor="#546E7A"
+                                   VerticalOptions="Center"
+                                   HorizontalOptions="Center"/>
+                        </Frame>
+                        <VerticalStackLayout Grid.Row="0" Grid.Column="1">
+                            <Label Text="Jane Smith"
+                                   FontSize="14"
+                                   FontAttributes="Bold"
+                                   TextColor="#37474F"/>
+                            <Label Text="**** 4321"
+                                   FontSize="12"
+                                   TextColor="#78909C"/>
+                        </VerticalStackLayout>
+
+                        <!-- Contact 2 -->
+                        <Frame Grid.Row="1" Grid.Column="0"
+                               CornerRadius="20"
+                               HeightRequest="40"
+                               WidthRequest="40"
+                               BackgroundColor="#ECEFF1"
+                               Padding="0">
+                            <Label Text="MJ"
+                                   FontSize="16"
+                                   FontAttributes="Bold"
+                                   TextColor="#546E7A"
+                                   VerticalOptions="Center"
+                                   HorizontalOptions="Center"/>
+                        </Frame>
+                        <VerticalStackLayout Grid.Row="1" Grid.Column="1">
+                            <Label Text="Mike Johnson"
+                                   FontSize="14"
+                                   FontAttributes="Bold"
+                                   TextColor="#37474F"/>
+                            <Label Text="**** 8765"
+                                   FontSize="12"
+                                   TextColor="#78909C"/>
+                        </VerticalStackLayout>
+
+                        <!-- Contact 3 -->
+                        <Frame Grid.Row="2" Grid.Column="0"
+                               CornerRadius="20"
+                               HeightRequest="40"
+                               WidthRequest="40"
+                               BackgroundColor="#ECEFF1"
+                               Padding="0">
+                            <Label Text="SD"
+                                   FontSize="16"
+                                   FontAttributes="Bold"
+                                   TextColor="#546E7A"
+                                   VerticalOptions="Center"
+                                   HorizontalOptions="Center"/>
+                        </Frame>
+                        <VerticalStackLayout Grid.Row="2" Grid.Column="1">
+                            <Label Text="Sarah Davis"
+                                   FontSize="14"
+                                   FontAttributes="Bold"
+                                   TextColor="#37474F"/>
+                            <Label Text="**** 1234"
+                                   FontSize="12"
+                                   TextColor="#78909C"/>
+                        </VerticalStackLayout>
+                    </Grid>
+
+                    <Button Text="+ Add New Contact"
+                            BackgroundColor="Transparent"
+                            TextColor="#546E7A"
+                            FontSize="14"/>
+                </VerticalStackLayout>
+            </Frame>
+
+            <!-- Manual Entry -->
+            <Frame CornerRadius="15"
+                   BackgroundColor="White"
+                   HasShadow="True"
+                   Padding="20">
+                <VerticalStackLayout Spacing="15">
+                    <Label Text="Or Enter Manually"
+                           FontSize="16"
+                           FontAttributes="Bold"
+                           TextColor="#37474F"/>
+                    
+                    <VerticalStackLayout Spacing="10">
+                        <Label Text="Account Number"
+                               FontSize="14"
+                               TextColor="#78909C"/>
+                        <Entry Placeholder="Enter account number"
+                               BackgroundColor="#F5F7F8"
+                               CornerRadius="10"
+                               HeightRequest="50"/>
+                    </VerticalStackLayout>
+
+                    <VerticalStackLayout Spacing="10">
+                        <Label Text="Routing Number"
+                               FontSize="14"
+                               TextColor="#78909C"/>
+                        <Entry Placeholder="Enter routing number"
+                               BackgroundColor="#F5F7F8"
+                               CornerRadius="10"
+                               HeightRequest="50"/>
+                    </VerticalStackLayout>
+
+                    <VerticalStackLayout Spacing="10">
+                        <Label Text="Notes (Optional)"
+                               FontSize="14"
+                               TextColor="#78909C"/>
+                        <Editor Placeholder="Add a note"
+                                BackgroundColor="#F5F7F8"
+                                CornerRadius="10"
+                                AutoSize="TextChanges"
+                                HeightRequest="80"/>
+                    </VerticalStackLayout>
+                </VerticalStackLayout>
+            </Frame>
+
+            <!-- Send Button -->
+            <Button Text="Send Money"
+                    BackgroundColor="#546E7A"
+                    TextColor="White"
+                    FontSize="16"
+                    FontAttributes="Bold"
+                    CornerRadius="10"
+                    HeightRequest="55"/>
+
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>
+```
+
+## 3. TransactionHistoryPage.xaml
+
+```xml
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="MauiBankApp.Views.TransactionHistoryPage"
+             Title="Transactions"
+             BackgroundColor="#F8FAFC">
+
+    <VerticalStackLayout Spacing="0">
+
+        <!-- Header -->
+        <Frame BackgroundColor="#546E7A"
+               Padding="20"
+               CornerRadius="0">
+            <Grid ColumnDefinitions="*,Auto">
+                <VerticalStackLayout Grid.Column="0">
+                    <Label Text="Transaction History"
+                           FontSize="20"
+                           FontAttributes="Bold"
+                           TextColor="White"/>
+                    <Label Text="All your transactions in one place"
+                           FontSize="14"
+                           TextColor="#CFD8DC"/>
+                </VerticalStackLayout>
+                
+                <Button Grid.Column="1"
+                        Text="Filter"
+                        BackgroundColor="White"
+                        TextColor="#546E7A"
+                        CornerRadius="10"
+                        HeightRequest="40"
+                        WidthRequest="80"/>
+            </Grid>
+        </Frame>
+
+        <!-- Date Filter -->
+        <HorizontalStackLayout Padding="20,10" Spacing="10">
+            <Button Text="Today"
+                    BackgroundColor="#546E7A"
+                    TextColor="White"
+                    CornerRadius="15"
+                    Padding="20,10"/>
+            <Button Text="Week"
+                    BackgroundColor="#ECEFF1"
+                    TextColor="#546E7A"
+                    CornerRadius="15"
+                    Padding="20,10"/>
+            <Button Text="Month"
+                    BackgroundColor="#ECEFF1"
+                    TextColor="#546E7A"
+                    CornerRadius="15"
+                    Padding="20,10"/>
+            <Button Text="Year"
+                    BackgroundColor="#ECEFF1"
+                    TextColor="#546E7A"
+                    CornerRadius="15"
+                    Padding="20,10"/>
+        </HorizontalStackLayout>
+
+        <!-- Transaction List -->
+        <CollectionView Margin="20,0" 
+                       ItemsSource="{Binding Transactions}"
+                       EmptyView="No transactions found">
+            
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <Frame Margin="0,0,0,10"
+                           Padding="15"
+                           CornerRadius="12"
+                           BackgroundColor="White"
+                           HasShadow="True">
+                        
+                        <Grid ColumnDefinitions="Auto,*,Auto">
+                            
+                            <!-- Icon -->
+                            <Frame Grid.Column="0"
+                                   CornerRadius="10"
+                                   BackgroundColor="#ECEFF1"
+                                   HeightRequest="45"
+                                   WidthRequest="45"
+                                   Padding="10">
+                                <Image Source="{Binding Icon}"
+                                       HeightRequest="25"
+                                       WidthRequest="25"/>
+                            </Frame>
+
+                            <!-- Transaction Details -->
+                            <VerticalStackLayout Grid.Column="1" 
+                                                 Margin="15,0"
+                                                 Spacing="5">
+                                <Label Text="{Binding Description}"
+                                       FontSize="14"
+                                       FontAttributes="Bold"
+                                       TextColor="#37474F"/>
+                                <Label Text="{Binding Date, StringFormat='{0:MMM dd, yyyy • hh:mm tt}'}"
+                                       FontSize="12"
+                                       TextColor="#78909C"/>
+                                <Label Text="{Binding Status}"
+                                       FontSize="12">
+                                    <Label.TextColor>
+                                        <OnPlatform x:TypeArguments="Color">
+                                            <On Platform="iOS, Android" Value="#43A047"/>
+                                        </OnPlatform>
+                                    </Label.TextColor>
+                                </Label>
+                            </VerticalStackLayout>
+
+                            <!-- Amount -->
+                            <Label Grid.Column="2"
+                                   Text="{Binding Amount, StringFormat='${0:F2}'}"
+                                   FontSize="16"
+                                   FontAttributes="Bold">
+                                <Label.TextColor>
+                                    <OnPlatform x:TypeArguments="Color">
+                                        <On Platform="iOS, Android" Value="{Binding AmountColor}"/>
+                                    </OnPlatform>
+                                </Label.TextColor>
+                            </Label>
+                        </Grid>
+                    </Frame>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+            
+        </CollectionView>
+
+        <!-- Sample Transactions (Fallback) -->
+        <VerticalStackLayout Margin="20" Spacing="10" IsVisible="{Binding ShowSampleData}">
+            
+            <!-- Transaction 1 -->
+            <Frame Padding="15"
+                   CornerRadius="12"
+                   BackgroundColor="White"
+                   HasShadow="True">
+                <Grid ColumnDefinitions="Auto,*,Auto">
+                    <Frame CornerRadius="10"
+                           BackgroundColor="#ECEFF1"
+                           HeightRequest="45"
+                           WidthRequest="45"
+                           Padding="10">
+                        <Image Source="shopping.png"
+                               HeightRequest="25"
+                               WidthRequest="25"/>
+                    </Frame>
+                    <VerticalStackLayout Grid.Column="1" Margin="15,0" Spacing="5">
+                        <Label Text="Amazon Purchase"
+                               FontSize="14"
+                               FontAttributes="Bold"
+                               TextColor="#37474F"/>
+                        <Label Text="Oct 26, 2024 • 10:30 AM"
+                               FontSize="12"
+                               TextColor="#78909C"/>
+                        <Label Text="Completed"
+                               FontSize="12"
+                               TextColor="#43A047"/>
+                    </VerticalStackLayout>
+                    <Label Grid.Column="2"
+                           Text="-$49.99"
+                           FontSize="16"
+                           FontAttributes="Bold"
+                           TextColor="#E53935"/>
+                </Grid>
+            </Frame>
+
+            <!-- Transaction 2 -->
+            <Frame Padding="15"
+                   CornerRadius="12"
+                   BackgroundColor="White"
+                   HasShadow="True">
+                <Grid ColumnDefinitions="Auto,*,Auto">
+                    <Frame CornerRadius="10"
+                           BackgroundColor="#ECEFF1"
+                           HeightRequest="45"
+                           WidthRequest="45"
+                           Padding="10">
+                        <Image Source="salary.png"
+                               HeightRequest="25"
+                               WidthRequest="25"/>
+                    </Frame>
+                    <VerticalStackLayout Grid.Column="1" Margin="15,0" Spacing="5">
+                        <Label Text="Monthly Salary"
+                               FontSize="14"
+                               FontAttributes="Bold"
+                               TextColor="#37474F"/>
+                        <Label Text="Oct 25, 2024 • 9:00 AM"
+                               FontSize="12"
+                               TextColor="#78909C"/>
+                        <Label Text="Completed"
+                               FontSize="12"
+                               TextColor="#43A047"/>
+                    </VerticalStackLayout>
+                    <Label Grid.Column="2"
+                           Text="+$3,500.00"
+                           FontSize="16"
+                           FontAttributes="Bold"
+                           TextColor="#43A047"/>
+                </Grid>
+            </Frame>
+
+            <!-- Transaction 3 -->
+            <Frame Padding="15"
+                   CornerRadius="12"
+                   BackgroundColor="White"
+                   HasShadow="True">
+                <Grid ColumnDefinitions="Auto,*,Auto">
+                    <Frame CornerRadius="10"
+                           BackgroundColor="#ECEFF1"
+                           HeightRequest="45"
+                           WidthRequest="45"
+                           Padding="10">
+                        <Image Source="transfer.png"
+                               HeightRequest="25"
+                               WidthRequest="25"/>
+                    </Frame>
+                    <VerticalStackLayout Grid.Column="1" Margin="15,0" Spacing="5">
+                        <Label Text="Transfer to Jane"
+                               FontSize="14"
+                               FontAttributes="Bold"
+                               TextColor="#37474F"/>
+                        <Label Text="Oct 24, 2024 • 2:15 PM"
+                               FontSize="12"
+                               TextColor="#78909C"/>
+                        <Label Text="Completed"
+                               FontSize="12"
+                               TextColor="#43A047"/>
+                    </VerticalStackLayout>
+                    <Label Grid.Column="2"
+                           Text="-$200.00"
+                           FontSize="16"
+                           FontAttributes="Bold"
+                           TextColor="#E53935"/>
+                </Grid>
+            </Frame>
+
+        </VerticalStackLayout>
+
+    </VerticalStackLayout>
+</ContentPage>
+```
+
+## 4. QRCodePage.xaml
+
+```xml
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="MauiBankApp.Views.QRCodePage"
+             Title="My QR Code"
+             BackgroundColor="#F8FAFC">
+
+    <ScrollView>
+        <VerticalStackLayout Spacing="25" Padding="20" HorizontalOptions="Center">
+
+            <!-- QR Code Display -->
+            <Frame CornerRadius="20"
+                   BackgroundColor="White"
+                   HasShadow="True"
+                   Padding="30"
+                   HorizontalOptions="Center">
+                <VerticalStackLayout Spacing="20" HorizontalOptions="Center">
+                    
+                    <!-- QR Placeholder (Replace with actual QR generator) -->
+                    <Frame HeightRequest="250"
+                           WidthRequest="250"
+                           BackgroundColor="White"
+                           BorderColor="#ECEFF1"
+                           BorderThickness="2"
+                           CornerRadius="10">
+                        <Grid>
+                            <!-- Simulated QR Code Pattern -->
+                            <BoxView Color="Black" 
+                                     WidthRequest="200" 
+                                     HeightRequest="200"
+                                     HorizontalOptions="Center"
+                                     VerticalOptions="Center"/>
+                            <Label Text="QR CODE"
+                                   FontSize="24"
+                                   FontAttributes="Bold"
+                                   TextColor="White"
+                                   Rotation="-45"
+                                   HorizontalOptions="Center"
+                                   VerticalOptions="Center"/>
+                        </Grid>
+                    </Frame>
+
+                    <Label Text="Scan to Receive Money"
+                           FontSize="16"
+                           FontAttributes="Bold"
+                           TextColor="#37474F"
+                           HorizontalOptions="Center"/>
+                    
+                    <Label Text="QR Code will expire in 5 minutes"
+                           FontSize="12"
+                           TextColor="#78909C"
+                           HorizontalOptions="Center"/>
+                </VerticalStackLayout>
+            </Frame>
+
+            <!-- Account Info -->
+            <Frame CornerRadius="15"
+                   BackgroundColor="White"
+                   HasShadow="True"
+                   Padding="20">
+                <VerticalStackLayout Spacing="15">
+                    <Label Text="Your Account Details"
+                           FontSize="16"
+                           FontAttributes="Bold"
+                           TextColor="#37474F"/>
+                    
+                    <Grid ColumnDefinitions="Auto,*" RowSpacing="15">
+                        <Label Grid.Row="0" Grid.Column="0"
+                               Text="Name:"
+                               FontSize="14"
+                               TextColor="#78909C"/>
+                        <Label Grid.Row="0" Grid.Column="1"
+                               Text="John Doe"
+                               FontSize="14"
+                               FontAttributes="Bold"
+                               TextColor="#37474F"
+                               HorizontalOptions="End"/>
+                        
+                        <Label Grid.Row="1" Grid.Column="0"
+                               Text="Account No:"
+                               FontSize="14"
+                               TextColor="#78909C"/>
+                        <Label Grid.Row="1" Grid.Column="1"
+                               Text="1234 5678 9012 3456"
+                               FontSize="14"
+                               TextColor="#37474F"
+                               HorizontalOptions="End"/>
+                        
+                        <Label Grid.Row="2" Grid.Column="0"
+                               Text="Bank:"
+                               FontSize="14"
+                               TextColor="#78909C"/>
+                        <Label Grid.Row="2" Grid.Column="1"
+                               Text="Maui Bank"
+                               FontSize="14"
+                               TextColor="#37474F"
+                               HorizontalOptions="End"/>
+                    </Grid>
+                </VerticalStackLayout>
+            </Frame>
+
+            <!-- QR Code Actions -->
+            <Grid ColumnDefinitions="*,*" ColumnSpacing="15">
+                <Button Grid.Column="0"
+                        Text="Share QR"
+                        BackgroundColor="#ECEFF1"
+                        TextColor="#546E7A"
+                        FontSize="14"
+                        FontAttributes="Bold"
+                        CornerRadius="10"
+                        HeightRequest="50">
+                    <Button.ImageSource>
+                        <FontImageSource Glyph="📤"
+                                         FontFamily="SansSerif"
+                                         Size="20"
+                                         Color="#546E7A"/>
+                    </Button.ImageSource>
+                </Button>
+                
+                <Button Grid.Column="1"
+                        Text="Save Image"
+                        BackgroundColor="#546E7A"
+                        TextColor="White"
+                        FontSize="14"
+                        FontAttributes="Bold"
+                        CornerRadius="10"
+                        HeightRequest="50">
+                    <Button.ImageSource>
+                        <FontImageSource Glyph="💾"
+                                         FontFamily="SansSerif"
+                                         Size="20"
+                                         Color="White"/>
+                    </Button.ImageSource>
+                </Button>
+            </Grid>
+
+            <!-- QR Settings -->
+            <Frame CornerRadius="15"
+                   BackgroundColor="White"
+                   HasShadow="True"
+                   Padding="20">
+                <VerticalStackLayout Spacing="15">
+                    <Label Text="QR Code Settings"
+                           FontSize="16"
+                           FontAttributes="Bold"
+                           TextColor="#37474F"/>
+                    
+                    <Grid ColumnDefinitions="*,Auto" VerticalOptions="Center">
+                        <Label Grid.Column="0"
+                               Text="Enable Auto-Refresh"
+                               FontSize="14"
+                               TextColor="#37474F"/>
+                        <Switch Grid.Column="1"
+                                IsToggled="True"/>
+                    </Grid>
+                    
+                    <Grid ColumnDefinitions="*,Auto" VerticalOptions="Center">
+                        <Label Grid.Column="0"
+                               Text="Include Account Info"
+                               FontSize="14"
+                               TextColor="#37474F"/>
+                        <Switch Grid.Column="1"/>
+                    </Grid>
+                    
+                    <Grid ColumnDefinitions="*,Auto" VerticalOptions="Center">
+                        <Label Grid.Column="0"
+                               Text="Set Amount Limit"
+                               FontSize="14"
+                               TextColor="#37474F"/>
+                        <Switch Grid.Column="1"/>
+                    </Grid>
+                </VerticalStackLayout>
+            </Frame>
+
+            <!-- Generate New Button -->
+            <Button Text="Generate New QR Code"
+                    BackgroundColor="#546E7A"
+                    TextColor="White"
+                    FontSize="16"
+                    FontAttributes="Bold"
+                    CornerRadius="10"
+                    HeightRequest="55"
+                    WidthRequest="250"
+                    HorizontalOptions="Center"/>
+
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>
+```
+
+## 5. BalancePage.xaml
+
+```xml
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="MauiBankApp.Views.BalancePage"
+             Title="Account Balance"
+             BackgroundColor="#F8FAFC">
+
+    <ScrollView>
+        <VerticalStackLayout Spacing="25" Padding="20">
+
+            <!-- Current Balance Card -->
+            <Frame CornerRadius="20"
+                   BackgroundColor="#546E7A"
+                   HasShadow="True"
+                   Padding="25">
+                <VerticalStackLayout Spacing="20">
+                    <Label Text="Current Balance"
+                           FontSize="16"
+                           TextColor="#CFD8DC"/>
+                    
+                    <Label Text="$12,548.75"
+                           FontSize="48"
+                           FontAttributes="Bold"
+                           TextColor="White"
+                           HorizontalOptions="Center"/>
+                    
+                    <Grid ColumnDefinitions="*,*">
+                        <VerticalStackLayout Grid.Column="0" Spacing="5">
+                            <Label Text="Available"
+                                   FontSize="14"
+                                   TextColor="#B0BEC5"/>
+                            <Label Text="$12,548.75"
+                                   FontSize="18"
+                                   FontAttributes="Bold"
+                                   TextColor="White"/>
+                        </VerticalStackLayout>
+                        
+                        <VerticalStackLayout Grid.Column="1" Spacing="5">
+                            <Label Text="Pending"
+                                   FontSize="14"
+                                   TextColor="#B0BEC5"/>
+                            <Label Text="$245.50"
+                                   FontSize="18"
+                                   FontAttributes="Bold"
+                                   TextColor="White"/>
+                        </VerticalStackLayout>
+                    </Grid>
+                </VerticalStackLayout>
+            </Frame>
+
+            <!-- Account Cards -->
+            <Grid ColumnDefinitions="*,*" ColumnSpacing="15">
+                
+                <!-- Savings Account -->
+                <Frame CornerRadius="15"
+                       BackgroundColor="White"
+                       HasShadow="True"
+                       Padding="20">
+                    <VerticalStackLayout Spacing="15">
+                        <HorizontalStackLayout>
+                            <Frame CornerRadius="8"
+                                   BackgroundColor="#E3F2FD"
+                                   HeightRequest="40"
+                                   WidthRequest="40"
+                                   Padding="8">
+                                <Label Text="💳"
+                                       FontSize="20"/>
+                            </Frame>
+                            <VerticalStackLayout Margin="10,0,0,0" Spacing="2">
+                                <Label Text="Savings"
+                                       FontSize="14"
+                                       FontAttributes="Bold"
+                                       TextColor="#37474F"/>
+                                <Label Text="**** 3456"
+                                       FontSize="12"
+                                       TextColor="#78909C"/>
+                            </VerticalStackLayout>
+                        </HorizontalStackLayout>
+                        
+                        <Label Text="$8,245.30"
+                               FontSize="24"
+                               FontAttributes="Bold"
+                               TextColor="#546E7A"/>
+                        
+                        <Label Text="+2.5% this month"
+                               FontSize="12"
+                               TextColor="#43A047"/>
+                    </VerticalStackLayout>
+                </Frame>
+
+                <!-- Checking Account -->
+                <Frame CornerRadius="15"
+                       BackgroundColor="White"
+                       HasShadow="True"
+                       Padding="20">
+                    <VerticalStackLayout Spacing="15">
+                        <HorizontalStackLayout>
+                            <Frame CornerRadius="8"
+                                   BackgroundColor="#E8F5E9"
+                                   HeightRequest="40"
+                                   WidthRequest="40"
+                                   Padding="8">
+                                <Label Text="🏦"
+                                       FontSize="20"/>
+                            </Frame>
+                            <VerticalStackLayout Margin="10,0,0,0" Spacing="2">
+                                <Label Text="Checking"
+                                       FontSize="14"
+                                       FontAttributes="Bold"
+                                       TextColor="#37474F"/>
+                                <Label Text="**** 9012"
+                                       FontSize="12"
+                                       TextColor="#78909C"/>
+                            </VerticalStackLayout>
+                        </HorizontalStackLayout>
+                        
+                        <Label Text="$4,303.45"
+                               FontSize="24"
+                               FontAttributes="Bold"
+                               TextColor="#546E7A"/>
+                        
+                        <Label Text="Primary Account"
+                               FontSize="12"
+                               TextColor="#78909C"/>
+                    </VerticalStackLayout>
+                </Frame>
+            </Grid>
+
+            <!-- Recent Activity -->
+            <Frame CornerRadius="15"
+                   BackgroundColor="White"
+                   HasShadow="True"
+                   Padding="20">
+                <VerticalStackLayout Spacing="15">
+                    <Label Text="Recent Activity"
+                           FontSize="16"
+                           FontAttributes="Bold"
+                           TextColor="#37474F"/>
+                    
+                    <Grid ColumnDefinitions="Auto,*,Auto" RowSpacing="15">
+                        
+                        <!-- Deposit -->
+                        <Frame Grid.Row="0" Grid.Column="0"
+                               CornerRadius="10"
+                               BackgroundColor="#E8F5E9"
+                               HeightRequest="40"
+                               WidthRequest="40"
+                               Padding="8">
+                            <Label Text="📥"
+                                   FontSize="20"/>
+                        </Frame>
+                        <VerticalStackLayout Grid.Row="0" Grid.Column="1" Margin="10,0,0,0">
+                            <Label Text="Salary Deposit"
+                                   FontSize="14"
+                                   TextColor="#37474F"/>
+                            <Label Text="Today, 9:00 AM"
+                                   FontSize="12"
+                                   TextColor="#78909C"/>
+                        </VerticalStackLayout>
+                        <Label Grid.Row="0" Grid.Column="2"
+                               Text="+$3,500.00"
+                               FontSize="14"
+                               FontAttributes="Bold"
+                               TextColor="#43A047"/>
+                        
+                        <!-- Withdrawal -->
+                        <Frame Grid.Row="1" Grid.Column="0"
+                               CornerRadius="10"
+                               BackgroundColor="#FFEBEE"
+                               HeightRequest="40"
+                               WidthRequest="40"
+                               Padding="8">
+                            <Label Text="🛒"
+                                   FontSize="20"/>
+                        </Frame>
+                        <VerticalStackLayout Grid.Row="1" Grid.Column="1" Margin="10,0,0,0">
+                            <Label Text="Amazon Purchase"
+                                   FontSize="14"
+                                   TextColor="#37474F"/>
+                            <Label Text="Yesterday, 2:30 PM"
+                                   FontSize="12"
+                                   TextColor="#78909C"/>
+                        </VerticalStackLayout>
+                        <Label Grid.Row="1" Grid.Column="2"
+                               Text="-$89.99"
+                               FontSize="14"
+                               FontAttributes="Bold"
+                               TextColor="#E53935"/>
+                        
+                        <!-- Transfer -->
+                        <Frame Grid.Row="2" Grid.Column="0"
+                               CornerRadius="10"
+                               BackgroundColor="#E3F2FD"
+                               HeightRequest="40"
+                               WidthRequest="40"
+                               Padding="8">
+                            <Label Text="↔️"
+                                   FontSize="20"/>
+                        </Frame>
+                        <VerticalStackLayout Grid.Row="2" Grid.Column="1" Margin="10,0,0,0">
+                            <Label Text="Transfer to Savings"
+                                   FontSize="14"
+                                   TextColor="#37474F"/>
+                            <Label Text="Oct 24, 2024"
+                                   FontSize="12"
+                                   TextColor="#78909C"/>
+                        </VerticalStackLayout>
+                        <Label Grid.Row="2" Grid.Column="2"
+                               Text="-$500.00"
+                               FontSize="14"
+                               FontAttributes="Bold"
+                               TextColor="#546E7A"/>
+                    </Grid>
+                </VerticalStackLayout>
+            </Frame>
+
+            <!-- Quick Actions -->
+            <Grid ColumnDefinitions="*,*" ColumnSpacing="15">
+                <Button Grid.Column="0"
+                        Text="View Statements"
+                        BackgroundColor="#ECEFF1"
+                        TextColor="#546E7A"
+                        FontSize="14"
+                        FontAttributes="Bold"
+                        CornerRadius="10"
+                        HeightRequest="50"/>
+                
+                <Button Grid.Column="1"
+                        Text="Download Report"
+                        BackgroundColor="#546E7A"
+                        TextColor="White"
+                        FontSize="14"
+                        FontAttributes="Bold"
+                        CornerRadius="10"
+                        HeightRequest="50"/>
+            </Grid>
+
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>
+```
+
+## 6. MobileTopUpPage.xaml
+
+```xml
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="MauiBankApp.Views.MobileTopUpPage"
+             Title="Mobile Top-up"
+             BackgroundColor="#F8FAFC">
+
+    <ScrollView>
+        <VerticalStackLayout Spacing="20" Padding="20">
+
+            <!-- Mobile Number -->
+            <Frame CornerRadius="15"
+                   BackgroundColor="White"
+                   HasShadow="True"
+                   Padding="20">
+                <VerticalStackLayout Spacing="15">
+                    <Label Text="Mobile Number"
+                           FontSize="16"
+                           FontAttributes="Bold"
+                           TextColor="#37474F"/>
+                    
+                    <Entry Text="+1 (555) 123-4567"
+                           FontSize="18"
+                           Keyboard="Telephone"
+                           BackgroundColor="#F5F7F8"
+                           CornerRadius="10"
+                           HeightRequest="50"/>
+                    
+                    <Button Text="Select from Contacts"
+                            BackgroundColor="Transparent"
+                            TextColor="#546E7A"
+                            FontSize="14"/>
+                </VerticalStackLayout>
+            </Frame>
+
+            <!-- Mobile Carrier -->
+            <Frame CornerRadius="15"
+                   BackgroundColor="White"
+                   HasShadow="True"
+                   Padding="20">
+                <VerticalStackLayout Spacing="15">
+                    <Label Text="Select Carrier"
+                           FontSize="16"
+                           FontAttributes="Bold"
+                           TextColor="#37474F"/>
+                    
+                    <Grid ColumnDefinitions="Auto,*,Auto" 
+                          RowDefinitions="*,*,*" 
+                          RowSpacing="15">
+                        
+                        <!-- Verizon -->
+                        <Frame Grid.Row="0" Grid.Column="0"
+                               CornerRadius="8"
+                               BackgroundColor="#ECEFF1"
+                               HeightRequest="40"
+                               WidthRequest="40"
+                               Padding="8">
+                            <Image Source="verizon.png"
+                                   HeightRequest="25"
+                                   WidthRequest="25"/>
+                        </Frame>
+                        <Label Grid.Row="0" Grid.Column="1"
+                               Text="Verizon Wireless"
+                               FontSize="14"
+                               TextColor="#37474F"
+                               VerticalOptions="Center"/>
+                        <RadioButton Grid.Row="0" Grid.Column="2"
+                                     IsChecked="True"/>
+                        
+                        <!-- AT&T -->
+                        <Frame Grid.Row="1" Grid.Column="0"
+                               CornerRadius="8"
+                               BackgroundColor="#ECEFF1"
+                               HeightRequest="40"
+                               WidthRequest="40"
+                               Padding="8">
+                            <Image Source="att.png"
+                                   HeightRequest="25"
+                                   WidthRequest="25"/>
+                        </Frame>
+                        <Label Grid.Row="1" Grid.Column="1"
+                               Text="AT&T"
+                               FontSize="14"
+                               TextColor="#37474F"
+                               VerticalOptions="Center"/>
+                        <RadioButton Grid.Row="1" Grid.Column="2"/>
+                        
+                        <!-- T-Mobile -->
+                        <Frame Grid.Row="2" Grid.Column="0"
+                               CornerRadius="8"
+                               BackgroundColor="#ECEFF1"
+                               HeightRequest="40"
+                               WidthRequest="40"
+                               Padding="8">
+                            <Image Source="tmobile.png"
+                                   HeightRequest="25"
+                                   WidthRequest="25"/>
+                        </Frame>
+                        <Label Grid.Row="2" Grid.Column="1"
+                               Text="T-Mobile"
+                               FontSize="14"
+                               TextColor="#37474F"
+                               VerticalOptions="Center"/>
+                        <RadioButton Grid.Row="2" Grid.Column="2"/>
+                    </Grid>
+                </VerticalStackLayout>
+            </Frame>
+
+            <!-- Top-up Amount -->
+            <Frame CornerRadius="15"
+                   BackgroundColor="White"
+                   HasShadow="True"
+                   Padding="20">
+                <VerticalStackLayout Spacing="15">
+                    <Label Text="Select Amount"
+                           FontSize="16"
+                           FontAttributes="Bold"
+                           TextColor="#37474F"/>
+                    
+                    <Grid ColumnDefinitions="*,*,*" ColumnSpacing="10" RowSpacing="10">
+                        <Frame Grid.Column="0"
+                               CornerRadius="10"
+                               BackgroundColor="#ECEFF1"
+                               Padding="15">
+                            <Label Text="$10"
+                                   FontSize="16"
+                                   FontAttributes="Bold"
+                                   TextColor="#546E7A"
+                                   HorizontalOptions="Center"/>
+                        </Frame>
+                        <Frame Grid.Column="1"
+                               CornerRadius="10"
+                               BackgroundColor="#546E7A"
+                               Padding="15">
+                            <Label Text="$25"
+                                   FontSize="16"
+                                   FontAttributes="Bold"
+                                   TextColor="White"
+                                   HorizontalOptions="Center"/>
+                        </Frame>
+                        <Frame Grid.Column="2"
+                               CornerRadius="10"
+                               BackgroundColor="#ECEFF1"
+                               Padding="15">
+                            <Label Text="$50"
+                                   FontSize="16"
+                                   FontAttributes="Bold"
+                                   TextColor="#546E7A"
+                                   HorizontalOptions="Center"/>
+                        </Frame>
+                        
+                        <Frame Grid.Row="1" Grid.Column="0"
+                               CornerRadius="10"
+                               BackgroundColor="#ECEFF1"
+                               Padding="15">
+                            <Label Text="$75"
+                                   FontSize="16"
+                                   FontAttributes="Bold"
+                                   TextColor="#546E7A"
+                                   HorizontalOptions="Center"/>
+                        </Frame>
+                        <Frame Grid.Row="1" Grid.Column="1"
+                               CornerRadius="10"
+                               BackgroundColor="#ECEFF1"
+                               Padding="15">
+                            <Label Text="$100"
+                                   FontSize="16"
+                                   FontAttributes="Bold"
+                                   TextColor="#546E7A"
+                                   HorizontalOptions="Center"/>
+                        </Frame>
+                        <Frame Grid.Row="1" Grid.Column="2"
+                               CornerRadius="10"
+                               BackgroundColor="#ECEFF1"
+                               Padding="15">
+                            <VerticalStackLayout Spacing="5" HorizontalOptions="Center">
+                                <Label Text="Custom"
+                                       FontSize="14"
+                                       FontAttributes="Bold"
+                                       TextColor="#546E7A"/>
+                                <Label Text="Amount"
+                                       FontSize="12"
+                                       TextColor="#78909C"/>
+                            </VerticalStackLayout>
+                        </Frame>
+                    </Grid>
+                </VerticalStackLayout>
+            </Frame>
+
+            <!-- Payment Method -->
+            <Frame CornerRadius="15"
+                   BackgroundColor="White"
+                   HasShadow="True"
+                   Padding="20">
+                <VerticalStackLayout Spacing="15">
+                    <Label Text="Payment Method"
+                           FontSize="16"
+                           FontAttributes="Bold"
+                           TextColor="#37474F"/>
+                    
+                    <Frame CornerRadius="10"
+                           BackgroundColor="#F5F7F8"
+                           Padding="15">
+                        <Grid ColumnDefinitions="Auto,*,Auto">
+                            <Frame Grid.Column="0"
+                                   CornerRadius="8"
+                                   BackgroundColor="White"
+                                   HeightRequest="40"
+                                   WidthRequest="40"
+                                   Padding="8">
+                                <Image Source="visa.png"
+                                       HeightRequest="25"
+                                       WidthRequest="25"/>
+                            </Frame>
+                            <VerticalStackLayout Grid.Column="1" Margin="10,0,0,0">
+                                <Label Text="Visa **** 4321"
+                                       FontSize="14"
+                                       FontAttributes="Bold"
+                                       TextColor="#37474F"/>
+                                <Label Text="Primary Card"
+                                       FontSize="12"
+                                       TextColor="#78909C"/>
+                            </VerticalStackLayout>
+                            <RadioButton Grid.Column="2"
+                                         IsChecked="True"/>
+                        </Grid>
+                    </Frame>
+                    
+                    <Button Text="+ Add New Payment Method"
+                            BackgroundColor="Transparent"
+                            TextColor="#546E7A"
+                            FontSize="14"/>
+                </VerticalStackLayout>
+            </Frame>
+
+            <!-- Confirm Top-up -->
+            <Frame CornerRadius="15"
+                   BackgroundColor="#E8F5E9"
+                   HasShadow="True"
+                   Padding="20">
+                <VerticalStackLayout Spacing="15">
+                    <Label Text="Top-up Summary"
+                           FontSize="16"
+                           FontAttributes="Bold"
+                           TextColor="#37474F"/>
+                    
+                    <Grid ColumnDefinitions="*,Auto" RowSpacing="10">
+                        <Label Grid.Row="0" Grid.Column="0"
+                               Text="Mobile Number:"
+                               FontSize="14"
+                               TextColor="#78909C"/>
+                        <Label Grid.Row="0" Grid.Column="1"
+                               Text="+1 (555) 123-4567"
+                               FontSize="14"
+                               TextColor="#37474F"/>
+                        
+                        <Label Grid.Row="1" Grid.Column="0"
+                               Text="Carrier:"
+                               FontSize="14"
+                               TextColor="#78909C"/>
+                        <Label Grid.Row="1" Grid.Column="1"
+                               Text="Verizon Wireless"
+                               FontSize="14"
+                               TextColor="#37474F"/>
+                        
+                        <Label Grid.Row="2" Grid.Column="0"
+                               Text="Amount:"
+                               FontSize="14"
+                               TextColor="#78909C"/>
+                        <Label Grid.Row="2" Grid.Column="1"
+                               Text="$25.00"
+                               FontSize="18"
+                               FontAttributes="Bold"
+                               TextColor="#546E7A"/>
+                    </Grid>
+                </VerticalStackLayout>
+            </Frame>
+
+            <!-- Confirm Button -->
+            <Button Text="Confirm Top-up"
+                    BackgroundColor="#546E7A"
+                    TextColor="White"
+                    FontSize="16"
+                    FontAttributes="Bold"
+                    CornerRadius="10"
+                    HeightRequest="55"/>
+
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>
+```
+
+## 7. WaterBillPage.xaml
+
+```xml
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="MauiBankApp.Views.WaterBillPage"
+             Title="Water Bill"
+             BackgroundColor="#F8FAFC">
+
+    <ScrollView>
+        <VerticalStackLayout Spacing="20" Padding="20">
+
+            <!-- Account Info -->
+            <Frame CornerRadius="15"
+                   BackgroundColor="White"
+                   HasShadow="True"
+                   Padding="20">
+                <VerticalStackLayout Spacing="15">
+                    <Label Text="Water Account"
+                           FontSize="16"
+                           FontAttributes="Bold"
+                           TextColor="#37474F"/>
+                    
+                    <Grid ColumnDefinitions="Auto,*">
+                        <Frame Grid.Column="0"
+                               CornerRadius="8"
+                               BackgroundColor="#E3F2FD"
+                               HeightRequest="50"
+                               WidthRequest="50"
+                               Padding="10">
+                            <Image Source="water_drop.png"
+                                   HeightRequest="30"
+                                   WidthRequest="30"/>
+                        </Frame>
+                        
+                        <VerticalStackLayout Grid.Column="1" Margin="15,0,0,0">
+                            <Label Text="Account No: 789456123"
+                                   FontSize="14"
+                                   FontAttributes="Bold"
+                                   TextColor="#37474F"/>
+                            <Label Text="City Water Services"
+                                   FontSize="12"
+                                   TextColor="#78909C"/>
+                            <Label Text="Active • Last paid Oct 15"
+                                   FontSize="12"
+                                   TextColor="#43A047"/>
+                        </VerticalStackLayout>
+                    </Grid>
+                </VerticalStackLayout>
+            </Frame>
+
+            <!-- Current Bill -->
+            <Frame CornerRadius="15"
+                   BackgroundColor="#546E7A"
+                   HasShadow="True"
+                   Padding="25">
+                <VerticalStackLayout Spacing="20">
+                    <Label Text="Current Bill Due"
+                           FontSize="16"
+                           TextColor="#CFD8DC"/>
+                    
+                    <Label Text="$85.45"
+                           FontSize="48"
+                           FontAttributes="Bold"
+                           TextColor="White"
+                           HorizontalOptions="Center"/>
+                    
+                    <Grid ColumnDefinitions="*,*">
+                        <VerticalStackLayout Grid.Column="0" Spacing="5">
+                            <Label Text="Due Date"
+                                   FontSize="14"
+                                   TextColor="#B0BEC5"/>
+                            <Label Text="Nov 5, 2024"
+                                   FontSize="18"
+                                   FontAttributes="Bold"
+                                   TextColor="White"/>
+                        </VerticalStackLayout>
+                        
+                        <VerticalStackLayout Grid.Column="1" Spacing="5">
+                            <Label Text="Days Left"
+                                   FontSize="14"
+                                   TextColor="#B0BEC5"/>
+                            <Label Text="10 days"
+                                   FontSize="18"
+                                   FontAttributes="Bold"
+                                   TextColor="White"/>
+                        </VerticalStackLayout>
+                    </Grid>
+                </VerticalStackLayout>
+            </Frame>
+
+            <!-- Usage Details -->
+            <Frame CornerRadius="15"
+                   BackgroundColor="White"
+                   HasShadow="True"
+                   Padding="20">
+                <VerticalStackLayout Spacing="15">
+                    <Label Text="Usage Details"
+                           FontSize="16"
+                           FontAttributes="Bold"
+                           TextColor="#37474F"/>
+                    
+                    <Grid ColumnDefinitions="*,Auto" RowSpacing="10">
+                        <Label Grid.Row="0" Grid.Column="0"
+                               Text="Previous Reading:"
+                               FontSize="14"
+                               TextColor="#78909C"/>
+                        <Label Grid.Row="0" Grid.Column="1"
+                               Text="5,240 cu. ft."
+                               FontSize="14"
+                               TextColor="#37474F"/>
+                        
+                        <Label Grid.Row="1" Grid.Column="0"
+                               Text="Current Reading:"
+                               FontSize="14"
+                               TextColor="#78909C"/>
+                        <Label Grid.Row="1" Grid.Column="1"
+                               Text="5,320 cu. ft."
+                               FontSize="14"
+                               TextColor="#37474F"/>
+                        
+                        <Label Grid.Row="2" Grid.Column="0"
+                               Text="Consumption:"
+                               FontSize="14"
+                               TextColor="#78909C"/>
+                        <Label Grid.Row="2" Grid.Column="1"
+                               Text="80 cu. ft."
+                               FontSize="14"
+                               FontAttributes="Bold"
+                               TextColor="#546E7A"/>
+                        
+                        <Label Grid.Row="3" Grid.Column="0"
+                               Text="Service Period:"
+                               FontSize="14"
+                               TextColor="#78909C"/>
+                        <Label Grid.Row="3" Grid.Column="1"
+                               Text="Oct 1 - Oct 31"
+                               FontSize="14"
+                               TextColor="#37474F"/>
+                    </Grid>
+                </VerticalStackLayout>
+            </Frame>
+
+            <!-- Bill Breakdown -->
+            <Frame CornerRadius="15"
+                   BackgroundColor="White"
+                   HasShadow="True"
+                   Padding="20">
+                <VerticalStackLayout Spacing="15">
+                    <Label Text="Bill Breakdown"
+                           FontSize="16"
+                           FontAttributes="Bold"
+                           TextColor="#37474F"/>
+                    
+                    <Grid ColumnDefinitions="*,Auto" RowSpacing="10">
+                        <Label Grid.Row="0" Grid.Column="0"
+                               Text="Water Consumption:"
+                               FontSize="14"
+                               TextColor="#78909C"/>
+                        <Label Grid.Row="0" Grid.Column="1"
+                               Text="$45.60"
+                               FontSize="14"
+                               TextColor="#37474F"/>
+                        
+                        <Label Grid.Row="1" Grid.Column="0"
+                               Text="Sewer Charges:"
+                               FontSize="14"
+                               TextColor="#78909C"/>
+                        <Label Grid.Row="1" Grid.Column="1"
+                               Text="$25.85"
+                               FontSize="14"
+                               TextColor="#37474F"/>
+                        
+                        <Label Grid.Row="2" Grid.Column="0"
+                               Text="Service Fee:"
+                               FontSize="14"
+                               TextColor="#78909C"/>
+                        <Label Grid.Row="2" Grid.Column="1"
+                               Text="$10.00"
+                               FontSize="14"
+                               TextColor="#37474F"/>
+                        
+                        <Label Grid.Row="3" Grid.Column="0"
+                               Text="Tax:"
+                               FontSize="14"
+                               TextColor="#78909C"/>
+                        <Label Grid.Row="3" Grid.Column="1"
+                               Text="$4.00"
+                               FontSize="14"
+                               TextColor="#37474F"/>
+                        
+                        <!-- Separator -->
+                        <BoxView Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="2"
+                                 HeightRequest="1"
+                                 BackgroundColor="#ECEFF1"
+                                 Margin="0,10"/>
+                        
+                        <Label Grid.Row="5" Grid.Column="0"
+                               Text="Total Amount Due:"
+                               FontSize="16"
+                               FontAttributes="Bold"
+                               TextColor="#37474F"/>
+                        <Label Grid.Row="5" Grid.Column="1"
+                               Text="$85.45"
+                               FontSize="18"
+                               FontAttributes="Bold"
+                               TextColor="#546E7A"/>
+                    </Grid>
+                </VerticalStackLayout>
+            </Frame>
+
+            <!-- Payment Options -->
+            <Grid ColumnDefinitions="*,*" ColumnSpacing="15">
+                <Button Grid.Column="0"
+                        Text="Pay Full Amount"
+                        BackgroundColor="#546E7A"
+                        TextColor="White"
+                        FontSize="14"
+                        FontAttributes="Bold"
+                        CornerRadius="10"
+                        HeightRequest="50"/>
+                
+                <Button Grid.Column="1"
+                        Text="Auto-Pay Setup"
+                        BackgroundColor="#ECEFF1"
+                        TextColor="#546E7A"
+                        FontSize="14"
+                        FontAttributes="Bold"
+                        CornerRadius="10"
+                        HeightRequest="50"/>
+            </Grid>
+
+            <!-- Payment History -->
+            <Frame CornerRadius="15"
+                   BackgroundColor="White"
+                   HasShadow="True"
+                   Padding="20">
+                <VerticalStackLayout Spacing="15">
+                    <Label Text="Recent Payments"
+                           FontSize="16"
+                           FontAttributes="Bold"
+                           TextColor="#37474F"/>
+                    
+                    <Grid ColumnDefinitions="Auto,*,Auto" RowSpacing="10">
+                        
+                        <!-- Payment 1 -->
+                        <Label Grid.Row="0" Grid.Column="0"
+                               Text="Oct 15"
+                               FontSize="12"
+                               TextColor="#78909C"/>
+                        <Label Grid.Row="0" Grid.Column="1"
+                               Text="Payment Received"
+                               FontSize="14"
+                               TextColor="#37474F"/>
+                        <Label Grid.Row="0" Grid.Column="2"
+                               Text="$82.30"
+                               FontSize="14"
+                               FontAttributes="Bold"
+                               TextColor="#43A047"/>
+                        
+                        <!-- Payment 2 -->
+                        <Label Grid.Row="1" Grid.Column="0"
+                               Text="Sep 14"
+                               FontSize="12"
+                               TextColor="#78909C"/>
+                        <Label Grid.Row="1" Grid.Column="1"
+                               Text="Payment Received"
+                               FontSize="14"
+                               TextColor="#37474F"/>
+                        <Label Grid.Row="1" Grid.Column="2"
+                               Text="$78.45"
+                               FontSize="14"
+                               FontAttributes="Bold"
+                               TextColor="#43A047"/>
+                        
+                        <!-- Payment 3 -->
+                        <Label Grid.Row="2" Grid.Column="0"
+                               Text="Aug 15"
+                               FontSize="12"
+                               TextColor="#78909C"/>
+                        <Label Grid.Row="2" Grid.Column="1"
+                               Text="Payment Received"
+                               FontSize="14"
+                               TextColor="#37474F"/>
+                        <Label Grid.Row="2" Grid.Column="2"
+                               Text="$75.90"
+                               FontSize="14"
+                               FontAttributes="Bold"
+                               TextColor="#43A047"/>
+                    </Grid>
+                    
+                    <Button Text="View All History"
+                            BackgroundColor="Transparent"
+                            TextColor="#546E7A"
+                            FontSize="14"/>
+                </VerticalStackLayout>
+            </Frame>
+
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>
+```
+
+## 8. ElectricityBillPage.xaml
+
+```xml
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="MauiBankApp.Views.ElectricityBillPage"
+             Title="Electricity Bill"
+             BackgroundColor="#F8FAFC">
+
+    <ScrollView>
+        <VerticalStackLayout Spacing="20" Padding="20">
+
+            <!-- Account Header -->
+            <Frame CornerRadius="15"
+                   BackgroundColor="White"
+                   HasShadow="True"
+                   Padding="20">
+                <Grid ColumnDefinitions="Auto,*">
+                    <Frame Grid.Column="0"
+                           CornerRadius="8"
+                           BackgroundColor="#FFF3E0"
+                           HeightRequest="50"
+                           WidthRequest="50"
+                           Padding="10">
+                        <Image Source="electricity.png"
+                               HeightRequest="30"
+                               WidthRequest="30"/>
+                    </Frame>
+                    
+                    <VerticalStackLayout Grid.Column="1" Margin="15,0,0,0">
+                        <Label Text="Pacific Power & Light"
+                               FontSize="16"
+                               FontAttributes="Bold"
+                               TextColor="#37474F"/>
+                        <Label Text="Account No: PP7890123"
+                               FontSize="14"
+                               TextColor="#78909C"/>
+                        <Label Text="Residential Service"
+                               FontSize="12"
+                               TextColor="#546E7A"/>
+                    </VerticalStackLayout>
+                </Grid>
+            </Frame>
+
+            <!-- Bill Overview -->
+            <Frame CornerRadius="15"
+                   BackgroundColor="#546E7A"
+                   HasShadow="True"
+                   Padding="25">
+                <VerticalStackLayout Spacing="20">
+                    <Grid ColumnDefinitions="*,Auto">
+                        <VerticalStackLayout Grid.Column="0" Spacing="5">
+                            <Label Text="Current Bill"
+                                   FontSize="16"
+                                   TextColor="#CFD8DC"/>
+                            <Label Text="Due Nov 10, 2024"
+                                   FontSize="14"
+                                   TextColor="#B0BEC5"/>
+                        </VerticalStackLayout>
+                        
+                        <Label Grid.Column="1"
+                               Text="$125.75"
+                               FontSize="32"
+                               FontAttributes="Bold"
+                               TextColor="White"/>
+                    </Grid>
+                    
+                    <ProgressBar Progress="0.7"
+                                 ProgressColor="#4FC3F7"
+                                 BackgroundColor="#B0BEC5"
+                                 HeightRequest="8"/>
+                    
+                    <Label Text="7 days remaining"
+                           FontSize="12"
+                           TextColor="#B0BEC5"
+                           HorizontalOptions="Center"/>
+                </VerticalStackLayout>
+            </Frame>
+
+            <!-- Usage Statistics -->
+            <Frame CornerRadius="15"
+                   BackgroundColor="White"
+                   HasShadow="True"
+                   Padding="20">
+                <VerticalStackLayout Spacing="15">
+                    <Label Text="Energy Usage"
+                           FontSize="16"
+                           FontAttributes="Bold"
+                           TextColor="#37474F"/>
+                    
+                    <Grid ColumnDefinitions="*,*" RowSpacing="15">
+                        <VerticalStackLayout Grid.Row="0" Grid.Column="0" Spacing="5">
+                            <Label Text="Current Usage"
+                                   FontSize="14"
+                                   TextColor="#78909C"/>
+                            <Label Text="650 kWh"
+                                   FontSize="18"
+                                   FontAttributes="Bold"
+                                   TextColor="#546E7A"/>
+                        </VerticalStackLayout>
+                        
+                        <VerticalStackLayout Grid.Row="0" Grid.Column="1" Spacing="5">
+                            <Label Text="Last Month"
+                                   FontSize="14"
+                                   TextColor="#78909C"/>
+                            <Label Text="720 kWh"
+                                   FontSize="18"
+                                   TextColor="#37474F"/>
+                        </VerticalStackLayout>
+                        
+                        <VerticalStackLayout Grid.Row="1" Grid.Column="0" Spacing="5">
+                            <Label Text="Daily Average"
+                                   FontSize="14"
+                                   TextColor="#78909C"/>
+                            <Label Text="21 kWh"
+                                   FontSize="18"
+                                   TextColor="#546E7A"/>
+                        </VerticalStackLayout>
+                        
+                        <VerticalStackLayout Grid.Row="1" Grid.Column="1" Spacing="5">
+                            <Label Text="Cost per kWh"
+                                   FontSize="14"
+                                   TextColor="#78909C"/>
+                            <Label Text="$0.15"
+                                   FontSize="18"
+                                   TextColor="#37474F"/>
+                        </VerticalStackLayout>
+                    </Grid>
+                </VerticalStackLayout>
+            </Frame>
+
+            <!-- Bill Details -->
+            <Frame CornerRadius="15"
+                   BackgroundColor="White"
+                   HasShadow="True"
+                   Padding="20">
+                <VerticalStackLayout Spacing="15">
+                    <Label Text="Bill Details"
+                           FontSize="16"
+                           FontAttributes="Bold"
+                           TextColor="#37474F"/>
+                    
+                    <Grid ColumnDefinitions="*,Auto" RowSpacing="10">
+                        <Label Grid.Row="0" Grid.Column="0"
+                               Text="Energy Charges:"
+                               FontSize="14"
+                               TextColor="#78909C"/>
+                        <Label Grid.Row="0" Grid.Column="1"
+                               Text="$97.50"
+                               FontSize="14"
+                               TextColor="#37474F"/>
+                        
+                        <Label Grid.Row="1" Grid.Column="0"
+                               Text="Delivery Charges:"
+                               FontSize="14"
+                               TextColor="#78909C"/>
+                        <Label Grid.Row="1" Grid.Column="1"
+                               Text="$18.25"
+                               FontSize="14"
+                               TextColor="#37474F"/>
+                        
+                        <Label Grid.Row="2" Grid.Column="0"
+                               Text="Regulatory Fees:"
+                               FontSize="14"
+                               TextColor="#78909C"/>
+                        <Label Grid.Row="2" Grid.Column="1"
+                               Text="$5.00"
+                               FontSize="14"
+                               TextColor="#37474F"/>
+                        
+                        <Label Grid.Row="3" Grid.Column="0"
+                               Text="State Tax:"
+                               FontSize="14"
+                               TextColor="#78909C"/>
+                        <Label Grid.Row="3" Grid.Column="1"
+                               Text="$5.00"
+                               FontSize="14"
+                               TextColor="#37474F"/>
+                        
+                        <!-- Separator -->
+                        <BoxView Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="2"
+                                 HeightRequest="1"
+                                 BackgroundColor="#ECEFF1"
+                                 Margin="0,10"/>
+                        
+                        <Label Grid.Row="5" Grid.Column="0"
+                               Text="Total Amount Due:"
+                               FontSize="16"
+                               FontAttributes="Bold"
+                               TextColor="#37474F"/>
+                        <Label Grid.Row="5" Grid.Column="1"
+                               Text="$125.75"
+                               FontSize="18"
+                               FontAttributes="Bold"
+                               TextColor="#546E7A"/>
+                    </Grid>
+                </VerticalStackLayout>
+            </Frame>
+
+            <!-- Quick Actions -->
+            <Grid ColumnDefinitions="*,*,*" ColumnSpacing="10">
+                <Frame Grid.Column="0"
+                       CornerRadius="12"
+                       BackgroundColor="White"
+                       HasShadow="True"
+                       Padding="15">
+                    <VerticalStackLayout Spacing="8" HorizontalOptions="Center">
+                        <Image Source="pay_now.png"
+                               HeightRequest="30"
+                               WidthRequest="30"/>
+                        <Label Text="Pay Now"
+                               FontSize="12"
+                               HorizontalOptions="Center"
+                               TextColor="#546E7A"/>
+                    </VerticalStackLayout>
+                </Frame>
+
+                <Frame Grid.Column="1"
+                       CornerRadius="12"
+                       BackgroundColor="White"
+                       HasShadow="True"
+                       Padding="15">
+                    <VerticalStackLayout Spacing="8" HorizontalOptions="Center">
+                        <Image Source="auto_pay.png"
+                               HeightRequest="30"
+                               WidthRequest="30"/>
+                        <Label Text="Auto Pay"
+                               FontSize="12"
+                               HorizontalOptions="Center"
+                               TextColor="#546E7A"/>
+                    </VerticalStackLayout>
+                </Frame>
+
+                <Frame Grid.Column="2"
+                       CornerRadius="12"
+                       BackgroundColor="White"
+                       HasShadow="True"
+                       Padding="15">
+                    <VerticalStackLayout Spacing="8" HorizontalOptions="Center">
+                        <Image Source="usage_history.png"
+                               HeightRequest="30"
+                               WidthRequest="30"/>
+                        <Label Text="History"
+                               FontSize="12"
+                               HorizontalOptions="Center"
+                               TextColor="#546E7A"/>
+                    </VerticalStackLayout>
+                </Frame>
+            </Grid>
+
+            <!-- Energy Saving Tips -->
+            <Frame CornerRadius="15"
+                   BackgroundColor="#E8F5E9"
+                   HasShadow="True"
+                   Padding="20">
+                <VerticalStackLayout Spacing="15">
+                    <Label Text="💡 Energy Saving Tip"
+                           FontSize="16"
+                           FontAttributes="Bold"
+                           TextColor="#37474F"/>
+                    
+                    <Label Text="Lower your thermostat by 7-10°F for 8 hours a day can save up to 10% on heating and cooling costs."
+                           FontSize="14"
+                           TextColor="#546E7A"/>
+                    
+                    <Button Text="More Tips"
+                            BackgroundColor="Transparent"
+                            TextColor="#43A047"
+                            FontSize="14"/>
+                </VerticalStackLayout>
+            </Frame>
+
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>
+```
+
+## 9. SecuritySettingsPage.xaml
+
+```xml
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="MauiBankApp.Views.SecuritySettingsPage"
+             Title="Security"
+             BackgroundColor="#F8FAFC">
+
+    <ScrollView>
+        <VerticalStackLayout Spacing="20" Padding="20">
+
+            <!-- Security Status -->
+            <Frame CornerRadius="15"
+                   BackgroundColor="#E8F5E9"
+                   HasShadow="True"
+                   Padding="20">
+                <HorizontalStackLayout Spacing="15">
+                    <Frame CornerRadius="10"
+                           BackgroundColor="White"
+                           HeightRequest="50"
+                           WidthRequest="50"
+                           Padding="12">
+                        <Image Source="shield_check.png"
+                               HeightRequest="25"
+                               WidthRequest="25"/>
+                    </Frame>
+                    
+                    <VerticalStackLayout Spacing="5">
+                        <Label Text="Security Status: Excellent"
+                               FontSize="16"
+                               FontAttributes="Bold"
+                               TextColor="#37474F"/>
+                        <Label Text="All security features are active"
+                               FontSize="14"
+                               TextColor="#546E7A"/>
+                    </VerticalStackLayout>
+                </HorizontalStackLayout>
+            </Frame>
+
+            <!-- Authentication -->
+            <Frame CornerRadius="15"
+                   BackgroundColor="White"
+                   HasShadow="True"
+                   Padding="20">
+                <VerticalStackLayout Spacing="15">
+                    <Label Text="Authentication"
+                           FontSize="16"
+                           FontAttributes="Bold"
+                           TextColor="#37474F"/>
+                    
+                    <Grid ColumnDefinitions="*,Auto" VerticalOptions="Center">
+                        <Label Grid.Column="0"
+                               Text="Biometric Login"
+                               FontSize="14"
+                               TextColor="#37474F"/>
+                        <Switch Grid.Column="1"
+                                IsToggled="True"/>
+                    </Grid>
+                    
+                    <Grid ColumnDefinitions="*,Auto" VerticalOptions="Center">
+                        <Label Grid.Column="0"
+                               Text="Two-Factor Authentication"
+                               FontSize="14"
+                               TextColor="#37474F"/>
+                        <Switch Grid.Column="1"
+                                IsToggled="True"/>
+                    </Grid>
+                    
+                    <Grid ColumnDefinitions="*,Auto" VerticalOptions="Center">
+                        <Label Grid.Column="0"
+                               Text="PIN Code"
+                               FontSize="14"
+                               TextColor="#37474F"/>
+                        <Switch Grid.Column="1"
+                                IsToggled="True"/>
+                    </Grid>
+                    
+                    <Button Text="Change Security PIN"
+                            BackgroundColor="Transparent"
+                            TextColor="#546E7A"
+                            FontSize="14"/>
+                </VerticalStackLayout>
+            </Frame>
+
+            <!-- Session Management -->
+            <Frame CornerRadius="15"
+                   BackgroundColor="White"
+                   HasShadow="True"
+                   Padding="20">
+                <VerticalStackLayout Spacing="15">
+                    <Label Text="Session Management"
+                           FontSize="16"
+                           FontAttributes="Bold"
+                           TextColor="#37474F"/>
+                    
+                    <Grid ColumnDefinitions="*,Auto" VerticalOptions="Center">
+                        <Label Grid.Column="0"
+                               Text="Auto-logout after 5 minutes"
+                               FontSize="14"
+                               TextColor="#37474F"/>
+                        <Switch Grid.Column="1"
+                                IsToggled="True"/>
+                    </Grid>
+                    
+                    <Grid ColumnDefinitions="*,Auto" VerticalOptions="Center">
+                        <Label Grid.Column="0"
+                               Text="Remember this device"
+                               FontSize="14"
+                               TextColor="#37474F"/>
+                        <Switch Grid.Column="1"/>
+                    </Grid>
+                    
+                    <Button Text="View Active Sessions"
+                            BackgroundColor="Transparent"
+                            TextColor="#546E7A"
+                            FontSize="14"/>
+                </VerticalStackLayout>
+            </Frame>
+
+            <!-- Transaction Security -->
+            <Frame CornerRadius="15"
+                   BackgroundColor="White"
+                   HasShadow="True"
+                   Padding="20">
+                <VerticalStackLayout Spacing="15">
+                    <Label Text="Transaction Security"
+                           FontSize="16"
+                           FontAttributes="Bold"
+                           TextColor="#37474F"/>
+                    
+                    <Grid ColumnDefinitions="*,Auto" VerticalOptions="Center">
+                        <Label Grid.Column="0"
+                               Text="Transaction Notifications"
+                               FontSize="14"
+                               TextColor="#37474F"/>
+                        <Switch Grid.Column="1"
+                                IsToggled="True"/>
+                    </Grid>
+                    
+                    <Grid ColumnDefinitions="*,Auto" VerticalOptions="Center">
+                        <Label Grid.Column="0"
+                               Text="Large Transaction Alerts"
+                               FontSize="14"
+                               TextColor="#37474F"/>
+                        <Switch Grid.Column="1"
+                                IsToggled="True"/>
+                    </Grid>
+                    
+                    <Grid ColumnDefinitions="*,Auto" VerticalOptions="Center">
+                        <Label Grid.Column="0"
+                               Text="International Block"
+                               FontSize="14"
+                               TextColor="#37474F"/>
+                        <Switch Grid.Column="1"/>
+                    </Grid>
+                    
+                    <Grid ColumnDefinitions="*,Auto" VerticalOptions="Center">
+                        <Label Grid.Column="0"
+                               Text="Daily Limit: $5,000"
+                               FontSize="14"
+                               TextColor="#37474F"/>
+                        <Button Grid.Column="1"
+                                Text="Edit"
+                                BackgroundColor="Transparent"
+                                TextColor="#546E7A"
+                                FontSize="12"/>
+                    </Grid>
+                </VerticalStackLayout>
+            </Frame>
+
+            <!-- Privacy Settings -->
+            <Frame CornerRadius="15"
+                   BackgroundColor="White"
+                   HasShadow="True"
+                   Padding="20">
+                <VerticalStackLayout Spacing="15">
+                    <Label Text="Privacy Settings"
+                           FontSize="16"
+                           FontAttributes="Bold"
+                           TextColor="#37474F"/>
+                    
+                    <Grid ColumnDefinitions="*,Auto" VerticalOptions="Center">
+                        <Label Grid.Column="0"
+                               Text="Hide Balance"
+                               FontSize="14"
+                               TextColor="#37474F"/>
+                        <Switch Grid.Column="1"/>
+                    </Grid>
+                    
+                    <Grid ColumnDefinitions="*,Auto" VerticalOptions="Center">
+                        <Label Grid.Column="0"
+                               Text="Marketing Communications"
+                               FontSize="14"
+                               TextColor="#37474F"/>
+                        <Switch Grid.Column="1"/>
+                    </Grid>
+                    
+                    <Grid ColumnDefinitions="*,Auto" VerticalOptions="Center">
+                        <Label Grid.Column="0"
+                               Text="Data Sharing"
+                               FontSize="14"
+                               TextColor="#37474F"/>
+                        <Switch Grid.Column="1"/>
+                    </Grid>
+                </VerticalStackLayout>
+            </Frame>
+
+            <!-- Emergency Actions -->
+            <Frame CornerRadius="15"
+                   BackgroundColor="#FFEBEE"
+                   HasShadow="True"
+                   Padding="20">
+                <VerticalStackLayout Spacing="15">
+                    <Label Text="Emergency Actions"
+                           FontSize="16"
+                           FontAttributes="Bold"
+                           TextColor="#37474F"/>
+                    
+                    <Button Text="Temporarily Freeze Account"
+                            BackgroundColor="White"
+                            TextColor="#E53935"
+                            FontSize="14"
+                            BorderColor="#E53935"
+                            BorderWidth="1"
+                            CornerRadius="10"
+                            HeightRequest="45"/>
+                    
+                    <Button Text="Report Suspicious Activity"
+                            BackgroundColor="#E53935"
+                            TextColor="White"
+                            FontSize="14"
+                            FontAttributes="Bold"
+                            CornerRadius="10"
+                            HeightRequest="45"/>
+                </VerticalStackLayout>
+            </Frame>
+
+            <!-- Security History -->
+            <Frame CornerRadius="15"
+                   BackgroundColor="White"
+                   HasShadow="True"
+                   Padding="20">
+                <VerticalStackLayout Spacing="15">
+                    <Label Text="Recent Security Events"
+                           FontSize="16"
+                           FontAttributes="Bold"
+                           TextColor="#37474F"/>
+                    
+                    <Grid ColumnDefinitions="*,Auto" RowSpacing="10">
+                        <Label Grid.Row="0" Grid.Column="0"
+                               Text="Today, 10:30 AM"
+                               FontSize="12"
+                               TextColor="#78909C"/>
+                        <Label Grid.Row="0" Grid.Column="1"
+                               Text="Login from iPhone"
+                               FontSize="14"
+                               TextColor="#43A047"/>
+                        
+                        <Label Grid.Row="1" Grid.Column="0"
+                               Text="Yesterday, 2:15 PM"
+                               FontSize="12"
+                               TextColor="#78909C"/>
+                        <Label Grid.Row="1" Grid.Column="1"
+                               Text="Password changed"
+                               FontSize="14"
+                               TextColor="#546E7A"/>
+                        
+                        <Label Grid.Row="2" Grid.Column="0"
+                               Text="Oct 25, 9:00 AM"
+                               FontSize="12"
+                               TextColor="#78909C"/>
+                        <Label Grid.Row="2" Grid.Column="1"
+                               Text="New device registered"
+                               FontSize="14"
+                               TextColor="#546E7A"/>
+                    </Grid>
+                </VerticalStackLayout>
+            </Frame>
+
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>
+```
+
+## Additional Files to Create:
+
+You'll need to create placeholder image files in your Resources/Images folder:
+- `edit_profile.png`
+- `security_settings.png`
+- `notifications.png`
+- `documents.png`
+- `send.png`
+- `history.png`
+- `qrcode.png`
+- `person.png`
+- `wallet.png`
+- `mobile.png`
+- `water.png`
+- `electricity.png`
+- `security.png`
+- `shopping.png`
+- `salary.png`
+- `transfer.png`
+- `verizon.png`, `att.png`, `tmobile.png`
+- `visa.png`
+- `water_drop.png`
+- `shield_check.png`
+- `pay_now.png`, `auto_pay.png`, `usage_history.png`
+
+Or you can use FontImageSource with emoji icons as shown in some examples.
+
+All these pages maintain the blue-grey color scheme and follow MAUI best practices with proper spacing, shadows, and responsive design.
