@@ -4,10 +4,10 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:zxing="clr-namespace:ZXing.Net.Maui.Controls;assembly=ZXing.Net.Maui.Controls"
     x:Class="MauiBankApp.Views.QRCodePage"
-    Title="QR Code Scanner">
+    Title="QR Scanner"
+    BackgroundColor="Black">
 
     <Grid>
-
         <!-- CAMERA SCANNER -->
         <zxing:CameraBarcodeReaderView 
             x:Name="CameraView"
@@ -15,21 +15,150 @@
             IsDetecting="True"
             HorizontalOptions="Fill"
             VerticalOptions="Fill" />
-        
-       
-        <!-- CLOSE BUTTON -->
-        <Button
-            Text="✕"
-            FontSize="24"
-            BackgroundColor="#80000000"
-            TextColor="White"
-            CornerRadius="30"
-            WidthRequest="60"
-            HeightRequest="60"
-            Margin="20"
-            HorizontalOptions="Start"
-            VerticalOptions="Start"
-            Clicked="GoBackButton_Clicked" />
+
+        <!-- SCANNER OVERLAY -->
+        <Grid>
+            <!-- TOP BAR -->
+            <Grid BackgroundColor="#1a1a1a" 
+                  HeightRequest="80"
+                  Padding="20,40,20,0"
+                  HorizontalOptions="Fill"
+                  VerticalOptions="Start">
+                <Label Text="QR Scanner"
+                       TextColor="White"
+                       FontSize="20"
+                       FontAttributes="Bold"
+                       HorizontalOptions="Center"/>
+
+                <!-- CLOSE BUTTON -->
+                <Button
+                    Text="✕"
+                    FontSize="18"
+                    BackgroundColor="Transparent"
+                    TextColor="White"
+                    CornerRadius="25"
+                    WidthRequest="50"
+                    HeightRequest="50"
+                    HorizontalOptions="End"
+                    Clicked="GoBackButton_Clicked"/>
+            </Grid>
+
+            <!-- SCANNING FRAME -->
+            <Frame
+                HorizontalOptions="Center"
+                VerticalOptions="Center"
+                WidthRequest="280"
+                HeightRequest="280"
+                BackgroundColor="Transparent"
+                BorderColor="#4CAF50"
+                CornerRadius="24"
+                Padding="0">
+
+                <!-- SCANNING LINE -->
+                <BoxView
+                    x:Name="ScanLine"
+                    BackgroundColor="#4CAF50"
+                    HeightRequest="3"
+                    WidthRequest="250"
+                    HorizontalOptions="Center"
+                    VerticalOptions="Start"
+                    CornerRadius="2"/>
+            </Frame>
+
+            <!-- CORNER OVERLAYS FOR SCANNER FRAME -->
+            <AbsoluteLayout>
+                <!-- Top Left Corner -->
+                <BoxView Color="#4CAF50" 
+                        WidthRequest="40" 
+                        HeightRequest="5"
+                        AbsoluteLayout.LayoutBounds="0.5,0.5,40,5"
+                        AbsoluteLayout.LayoutFlags="PositionProportional"
+                        TranslationX="-140"
+                        TranslationY="-140"
+                        Rotation="0"/>
+                <BoxView Color="#4CAF50" 
+                        WidthRequest="5" 
+                        HeightRequest="40"
+                        AbsoluteLayout.LayoutBounds="0.5,0.5,5,40"
+                        AbsoluteLayout.LayoutFlags="PositionProportional"
+                        TranslationX="-140"
+                        TranslationY="-140"
+                        Rotation="0"/>
+
+                <!-- Top Right Corner -->
+                <BoxView Color="#4CAF50" 
+                        WidthRequest="40" 
+                        HeightRequest="5"
+                        AbsoluteLayout.LayoutBounds="0.5,0.5,40,5"
+                        AbsoluteLayout.LayoutFlags="PositionProportional"
+                        TranslationX="140"
+                        TranslationY="-140"
+                        Rotation="0"/>
+                <BoxView Color="#4CAF50" 
+                        WidthRequest="5" 
+                        HeightRequest="40"
+                        AbsoluteLayout.LayoutBounds="0.5,0.5,5,40"
+                        AbsoluteLayout.LayoutFlags="PositionProportional"
+                        TranslationX="140"
+                        TranslationY="-140"
+                        Rotation="90"/>
+
+                <!-- Bottom Left Corner -->
+                <BoxView Color="#4CAF50" 
+                        WidthRequest="40" 
+                        HeightRequest="5"
+                        AbsoluteLayout.LayoutBounds="0.5,0.5,40,5"
+                        AbsoluteLayout.LayoutFlags="PositionProportional"
+                        TranslationX="-140"
+                        TranslationY="140"
+                        Rotation="270"/>
+                <BoxView Color="#4CAF50" 
+                        WidthRequest="5" 
+                        HeightRequest="40"
+                        AbsoluteLayout.LayoutBounds="0.5,0.5,5,40"
+                        AbsoluteLayout.LayoutFlags="PositionProportional"
+                        TranslationX="-140"
+                        TranslationY="140"
+                        Rotation="0"/>
+
+                <!-- Bottom Right Corner -->
+                <BoxView Color="#4CAF50" 
+                        WidthRequest="40" 
+                        HeightRequest="5"
+                        AbsoluteLayout.LayoutBounds="0.5,0.5,40,5"
+                        AbsoluteLayout.LayoutFlags="PositionProportional"
+                        TranslationX="140"
+                        TranslationY="140"
+                        Rotation="180"/>
+                <BoxView Color="#4CAF50" 
+                        WidthRequest="5" 
+                        HeightRequest="40"
+                        AbsoluteLayout.LayoutBounds="0.5,0.5,5,40"
+                        AbsoluteLayout.LayoutFlags="PositionProportional"
+                        TranslationX="140"
+                        TranslationY="140"
+                        Rotation="270"/>
+            </AbsoluteLayout>
+
+            <!-- GUIDANCE TEXT -->
+            <VerticalStackLayout
+                Spacing="15"
+                HorizontalOptions="Center"
+                VerticalOptions="End"
+                Margin="0,0,0,60">
+
+                <Label Text="Align QR code within frame"
+                       TextColor="White"
+                       FontSize="16"
+                       HorizontalOptions="Center"/>
+
+                <Label Text="Scanning will start automatically"
+                       TextColor="#CCCCCC"
+                       FontSize="14"
+                       Opacity="0.8"
+                       HorizontalOptions="Center"/>
+            </VerticalStackLayout>
+        </Grid>
 
         <!-- MODAL -->
         <Grid
@@ -39,51 +168,128 @@
 
             <Frame
                 BackgroundColor="White"
-                CornerRadius="15"
+                CornerRadius="20"
                 Padding="0"
-                MaximumWidthRequest="350"
+                MaximumWidthRequest="320"
                 HorizontalOptions="Center"
-                VerticalOptions="Center">
+                VerticalOptions="Center"
+                HasShadow="True">
 
-                <VerticalStackLayout>
-
-                    <!-- SUCCESS -->
-                    <Grid x:Name="SuccessHeader" BackgroundColor="#4CAF50" Padding="20" IsVisible="False">
-                        <Label Text="QR Code Scanned Successfully"
-                               TextColor="White"
-                               FontAttributes="Bold"
-                               HorizontalOptions="Center"/>
+                <VerticalStackLayout Spacing="0">
+                    <!-- SUCCESS HEADER -->
+                    <Grid x:Name="SuccessHeader" 
+                          BackgroundColor="White"
+                          HeightRequest="100"
+                          IsVisible="False"
+                          Padding="20">
+                        <VerticalStackLayout HorizontalOptions="Center">
+                            <!-- CHECKMARK -->
+                            <Frame
+                                WidthRequest="60"
+                                HeightRequest="60"
+                                CornerRadius="30"
+                                BackgroundColor="#4CAF50"
+                                Padding="0"
+                                HorizontalOptions="Center">
+                                <Label Text="✓"
+                                       TextColor="White"
+                                       FontSize="30"
+                                       FontAttributes="Bold"
+                                       HorizontalOptions="Center"
+                                       VerticalOptions="Center"/>
+                            </Frame>
+                            <Label Text="Success!"
+                                   TextColor="#4CAF50"
+                                   FontSize="18"
+                                   FontAttributes="Bold"
+                                   Margin="0,10,0,0"
+                                   HorizontalOptions="Center"/>
+                        </VerticalStackLayout>
                     </Grid>
 
-                    <!-- ERROR -->
-                    <Grid x:Name="ErrorHeader" BackgroundColor="#F44336" Padding="20" IsVisible="False">
-                        <Label Text="Scan Error"
-                               TextColor="White"
-                               FontAttributes="Bold"
-                               HorizontalOptions="Center"/>
+                    <!-- ERROR HEADER -->
+                    <Grid x:Name="ErrorHeader" 
+                          BackgroundColor="White"
+                          HeightRequest="100"
+                          IsVisible="False"
+                          Padding="20">
+                        <VerticalStackLayout HorizontalOptions="Center">
+                            <Frame
+                                WidthRequest="60"
+                                HeightRequest="60"
+                                CornerRadius="30"
+                                BackgroundColor="#F44336"
+                                Padding="0"
+                                HorizontalOptions="Center">
+                                <Label Text="!"
+                                       TextColor="White"
+                                       FontSize="30"
+                                       FontAttributes="Bold"
+                                       HorizontalOptions="Center"
+                                       VerticalOptions="Center"/>
+                            </Frame>
+                            <Label Text="Scan Error"
+                                   TextColor="#F44336"
+                                   FontSize="18"
+                                   FontAttributes="Bold"
+                                   Margin="0,10,0,0"
+                                   HorizontalOptions="Center"/>
+                        </VerticalStackLayout>
                     </Grid>
 
-                    <VerticalStackLayout Padding="20" Spacing="10">
+                    <!-- CONTENT -->
+                    <VerticalStackLayout Padding="25" Spacing="20">
+                        <VerticalStackLayout Spacing="8">
+                            <Label x:Name="InfoLabel" 
+                                   Text="Scanned Data:"
+                                   TextColor="#666"
+                                   FontSize="14"
+                                   IsVisible="False"/>
+                            <Frame 
+                                BackgroundColor="#F8F9FA"
+                                CornerRadius="12"
+                                Padding="15"
+                                BorderColor="#E9ECEF">
+                                <Label 
+                                    x:Name="ResultLabel"
+                                    TextColor="#212529"
+                                    FontSize="16"/>
+                            </Frame>
+                        </VerticalStackLayout>
 
-                        <Label x:Name="InfoLabel" FontAttributes="Bold" IsVisible="False"/>
-
-                        <Frame BackgroundColor="#F5F5F5" Padding="15">
-                            <Label x:Name="ResultLabel"/>
-                        </Frame>
-
-                        <HorizontalStackLayout x:Name="FormatLayout" IsVisible="False">
-                            <Label Text="Format:" FontAttributes="Bold"/>
-                            <Label x:Name="FormatLabel"/>
-                        </HorizontalStackLayout>
+                        <Grid x:Name="FormatLayout" IsVisible="False">
+                            <HorizontalStackLayout Spacing="8">
+                                <Label Text="Format:"
+                                       TextColor="#666"
+                                       FontSize="14"/>
+                                <Label x:Name="FormatLabel"
+                                       TextColor="#4CAF50"
+                                       FontSize="14"
+                                       FontAttributes="Bold"/>
+                            </HorizontalStackLayout>
+                        </Grid>
 
                         <Button
                             x:Name="CopyButton"
-                            Text="📋 Copy"
+                            Text="📋 Copy to Clipboard"
+                            BackgroundColor="#4CAF50"
+                            TextColor="White"
+                            CornerRadius="12"
+                            HeightRequest="50"
+                            FontSize="16"
                             IsVisible="False"
                             Clicked="OnCopyClicked"/>
 
-                        <Button Text="Close" Clicked="OnCloseModalClicked"/>
-
+                        <Button 
+                            Text="Close"
+                            BackgroundColor="Transparent"
+                            TextColor="#666"
+                            CornerRadius="12"
+                            HeightRequest="50"
+                            FontSize="16"
+                            BorderColor="#E9ECEF"
+                            BorderWidth="1"
+                            Clicked="OnCloseModalClicked"/>
                     </VerticalStackLayout>
                 </VerticalStackLayout>
             </Frame>

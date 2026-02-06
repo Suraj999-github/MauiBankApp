@@ -4,7 +4,6 @@ using MauiBankApp.Services.Mock;
 using MauiBankApp.ViewModels;
 using MauiBankApp.Views;
 using Microsoft.Extensions.Logging;
-using ZXing.Net.Maui;
 using ZXing.Net.Maui.Controls;
 namespace MauiBankApp
 {
@@ -18,7 +17,7 @@ namespace MauiBankApp
 
             builder
                 .UseMauiApp<App>()
-                .UseBarcodeReader() 
+                .UseBarcodeReader()
                 .ConfigureFonts(fonts =>
                 {
                     fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
