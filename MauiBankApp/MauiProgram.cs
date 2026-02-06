@@ -4,17 +4,21 @@ using MauiBankApp.Services.Mock;
 using MauiBankApp.ViewModels;
 using MauiBankApp.Views;
 using Microsoft.Extensions.Logging;
-
+using ZXing.Net.Maui;
+using ZXing.Net.Maui.Controls;
 namespace MauiBankApp
 {
     public static class MauiProgram
     {
         public static IServiceProvider Services { get; private set; }
+
         public static MauiApp CreateMauiApp()
         {
             var builder = MauiApp.CreateBuilder();
+
             builder
                 .UseMauiApp<App>()
+                .UseBarcodeReader() 
                 .ConfigureFonts(fonts =>
                 {
                     fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
@@ -24,22 +28,21 @@ namespace MauiBankApp
 #if DEBUG
             builder.Logging.AddDebug();
 #endif
-
-            // Register Services
+            builder.UseBarcodeReader();
+            // Services
             builder.Services.AddSingleton<INavigationService, NavigationService>();
             builder.Services.AddSingleton<IAuthService, MockAuthService>();
             builder.Services.AddSingleton<IUserService, MockUserService>();
             builder.Services.AddSingleton<ITransactionService, MockTransactionService>();
 
-            // Register ViewModels
+            // ViewModels
             builder.Services.AddTransient<LoginViewModel>();
             builder.Services.AddTransient<HomeViewModel>();
             builder.Services.AddTransient<ProfileViewModel>();
             builder.Services.AddTransient<TransactionHistoryViewModel>();
             builder.Services.AddTransient<BalanceViewModel>();
-            // Add other ViewModels
 
-            // Register Views
+            // Views
             builder.Services.AddSingleton<LoginPage>();
             builder.Services.AddSingleton<HomePage>();
             builder.Services.AddSingleton<ProfilePage>();
@@ -51,7 +54,7 @@ namespace MauiBankApp
             builder.Services.AddSingleton<WaterBillPage>();
             builder.Services.AddSingleton<ElectricityBillPage>();
             builder.Services.AddSingleton<SecuritySettingsPage>();
-            // Add other Pages
+
             return builder.Build();
         }
     }

@@ -1,5 +1,5 @@
 I'll create default view designs for all the pages with sample data and blue-grey theme. Here are all the pages:
-
+just used as reference
 ## 1. ProfilePage.xaml
 
 ```xml

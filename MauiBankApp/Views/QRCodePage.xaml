@@ -1,54 +1,92 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="MauiBankApp.Views.QRCodePage"
-              xmlns:views="clr-namespace:MauiBankApp.Views"
-             Title="">
-    <VerticalStackLayout 
-        Padding="30"
-        Spacing="25"
-        VerticalOptions="Center"
-        HorizontalOptions="Center">
+<ContentPage
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:zxing="clr-namespace:ZXing.Net.Maui.Controls;assembly=ZXing.Net.Maui.Controls"
+    x:Class="MauiBankApp.Views.QRCodePage"
+    Title="QR Code Scanner">
 
-        <!-- Placeholder Image -->
-        <Frame CornerRadius="15"         
-            BackgroundColor="#ECEFF1"
-             HeightRequest="150"
-             WidthRequest="250"           
-             HorizontalOptions="Center"
-             VerticalOptions="Center"
-             HasShadow="True"
-             Padding="0">
-            <Image Source="coming_soon.png"
-           Aspect="AspectFit"    
+    <Grid>
+
+        <!-- CAMERA SCANNER -->
+        <zxing:CameraBarcodeReaderView 
+            x:Name="CameraView"
+            BarcodesDetected="OnBarcodesDetected"
+            IsDetecting="True"
+            HorizontalOptions="Fill"
+            VerticalOptions="Fill" />
+        
+       
+        <!-- CLOSE BUTTON -->
+        <Button
+            Text="✕"
+            FontSize="24"
+            BackgroundColor="#80000000"
+            TextColor="White"
+            CornerRadius="30"
+            WidthRequest="60"
+            HeightRequest="60"
+            Margin="20"
+            HorizontalOptions="Start"
+            VerticalOptions="Start"
+            Clicked="GoBackButton_Clicked" />
+
+        <!-- MODAL -->
+        <Grid
+            x:Name="ModalOverlay"
+            IsVisible="False"
+            BackgroundColor="#CC000000">
+
+            <Frame
+                BackgroundColor="White"
+                CornerRadius="15"
+                Padding="0"
+                MaximumWidthRequest="350"
                 HorizontalOptions="Center"
-           VerticalOptions="Center"/>
+                VerticalOptions="Center">
 
-        </Frame>
+                <VerticalStackLayout>
 
-        <!-- Main Title -->
-        <Label Text="Feature Coming Soon"
-               FontSize="24"
-               FontAttributes="Bold"
-               HorizontalOptions="Center"
-               TextColor="#37474F"/>
+                    <!-- SUCCESS -->
+                    <Grid x:Name="SuccessHeader" BackgroundColor="#4CAF50" Padding="20" IsVisible="False">
+                        <Label Text="QR Code Scanned Successfully"
+                               TextColor="White"
+                               FontAttributes="Bold"
+                               HorizontalOptions="Center"/>
+                    </Grid>
 
-        <!-- Subtitle -->
-        <Label Text="We're working hard to bring this feature to you soon. Stay tuned!"
-               FontSize="16"
-               HorizontalOptions="Center"
-               HorizontalTextAlignment="Center"
-               TextColor="#607D8B"
-               LineBreakMode="WordWrap"/>
+                    <!-- ERROR -->
+                    <Grid x:Name="ErrorHeader" BackgroundColor="#F44336" Padding="20" IsVisible="False">
+                        <Label Text="Scan Error"
+                               TextColor="White"
+                               FontAttributes="Bold"
+                               HorizontalOptions="Center"/>
+                    </Grid>
 
-        <!-- Optional Action Button -->
-        <Button Text="Go Back"
-        BackgroundColor="#1E88E5"
-        TextColor="White"
-        CornerRadius="10"
-        Padding="12"
-        WidthRequest="200"
-        Clicked="GoBackButton_Clicked"/>
+                    <VerticalStackLayout Padding="20" Spacing="10">
 
-    </VerticalStackLayout>
+                        <Label x:Name="InfoLabel" FontAttributes="Bold" IsVisible="False"/>
+
+                        <Frame BackgroundColor="#F5F5F5" Padding="15">
+                            <Label x:Name="ResultLabel"/>
+                        </Frame>
+
+                        <HorizontalStackLayout x:Name="FormatLayout" IsVisible="False">
+                            <Label Text="Format:" FontAttributes="Bold"/>
+                            <Label x:Name="FormatLabel"/>
+                        </HorizontalStackLayout>
+
+                        <Button
+                            x:Name="CopyButton"
+                            Text="📋 Copy"
+                            IsVisible="False"
+                            Clicked="OnCopyClicked"/>
+
+                        <Button Text="Close" Clicked="OnCloseModalClicked"/>
+
+                    </VerticalStackLayout>
+                </VerticalStackLayout>
+            </Frame>
+        </Grid>
+    </Grid>
 </ContentPage>
