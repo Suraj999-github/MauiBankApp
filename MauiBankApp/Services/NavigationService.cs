@@ -136,9 +136,15 @@ namespace MauiBankApp.Services
         //    return new ElectricityBillPage(viewModel);
         //}
 
+        //private Page CreateSecuritySettingsPage()
+        //{
+        //    var biometricService = _serviceProvider.GetRequiredService<IBiometricAuthService>();
+        //    var viewModel = new SecuritySettingsViewModel(biometricService);
+        //    return new SecuritySettingsPage(viewModel);
+        //}
         private Page CreateSecuritySettingsPage()
         {
-            return new SecuritySettingsPage();
+            return _serviceProvider.GetRequiredService<SecuritySettingsPage>();
         }
 
         private Page CreateDefaultPage(Type pageType)

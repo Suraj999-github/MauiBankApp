@@ -1,54 +1,205 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:viewmodels="clr-namespace:MauiBankApp.ViewModels"
              x:Class="MauiBankApp.Views.SecuritySettingsPage"
-              xmlns:views="clr-namespace:MauiBankApp.Views"
-             Title="">
-    <VerticalStackLayout 
-      Padding="30"
-      Spacing="25"
-      VerticalOptions="Center"
-      HorizontalOptions="Center">
+             x:DataType="viewmodels:SecuritySettingsViewModel"
+             Title="Security Settings">
 
-        <!-- Placeholder Image -->
-        <Frame CornerRadius="15"         
-          BackgroundColor="#ECEFF1"
-           HeightRequest="150"
-           WidthRequest="250"           
-           HorizontalOptions="Center"
-           VerticalOptions="Center"
-           HasShadow="True"
-           Padding="0">
-            <Image Source="coming_soon.png"
-         Aspect="AspectFit"    
-              HorizontalOptions="Center"
-         VerticalOptions="Center"/>
+    <ScrollView>
+        <VerticalStackLayout 
+            Padding="20"
+            Spacing="20">
 
-        </Frame>
+            <!-- Header Section -->
+            <Frame CornerRadius="15"         
+                   BackgroundColor="#1E88E5"
+                   HeightRequest="120"
+                   HasShadow="True"
+                   Padding="20">
+                <VerticalStackLayout Spacing="8" VerticalOptions="Center">
+                    <Label Text="🔐"
+                           FontSize="32"
+                           HorizontalOptions="Center"/>
+                    <Label Text="Security Settings"
+                           FontSize="20"
+                           FontAttributes="Bold"
+                           TextColor="White"
+                           HorizontalOptions="Center"/>
+                    <Label Text="Manage your authentication methods"
+                           FontSize="14"
+                           TextColor="White"
+                           Opacity="0.9"
+                           HorizontalOptions="Center"/>
+                </VerticalStackLayout>
+            </Frame>
 
-        <!-- Main Title -->
-        <Label Text="Feature Coming Soon"
-             FontSize="24"
-             FontAttributes="Bold"
-             HorizontalOptions="Center"
-             TextColor="#37474F"/>
+            <!-- Status Message -->
+            <Frame CornerRadius="10"
+                   BackgroundColor="#E3F2FD"
+                   Padding="15"
+                   HasShadow="False"
+                   IsVisible="{Binding StatusMessage, Converter={StaticResource StringNotEmptyConverter}}">
+                <Label Text="{Binding StatusMessage}"
+                       FontSize="14"
+                       TextColor="#1976D2"
+                       HorizontalTextAlignment="Center"/>
+            </Frame>
 
-        <!-- Subtitle -->
-        <Label Text="We're working hard to bring this feature to you soon. Stay tuned!"
-             FontSize="16"
-             HorizontalOptions="Center"
-             HorizontalTextAlignment="Center"
-             TextColor="#607D8B"
-             LineBreakMode="WordWrap"/>
+            <!-- Biometric Authentication Section -->
+            <Frame CornerRadius="15"
+                   BackgroundColor="White"
+                   HasShadow="True"
+                   Padding="20">
+                <VerticalStackLayout Spacing="15">
 
-        <!-- Optional Action Button -->
-        <Button Text="Go Back"
-      BackgroundColor="#1E88E5"
-      TextColor="White"
-      CornerRadius="10"
-      Padding="12"
-      WidthRequest="200"
-      Clicked="GoBackButton_Clicked"/>
+                    <!-- Section Title -->
+                    <Label Text="Biometric Authentication"
+                           FontSize="18"
+                           FontAttributes="Bold"
+                           TextColor="#37474F"/>
 
-    </VerticalStackLayout>
+                    <!-- Fingerprint Icon -->
+                    <Frame CornerRadius="50"
+                           BackgroundColor="{Binding IsBiometricEnabled, Converter={StaticResource BoolToColorConverter}, ConverterParameter='#4CAF50|#E0E0E0'}"
+                           HeightRequest="100"
+                           WidthRequest="100"
+                           HorizontalOptions="Center"
+                           HasShadow="False"
+                           Padding="0">
+                        <Label Text="👆"
+                               FontSize="50"
+                               HorizontalOptions="Center"
+                               VerticalOptions="Center"/>
+                    </Frame>
+
+                    <!-- Biometric Type -->
+                    <Label Text="{Binding BiometricType, StringFormat='{0} Authentication'}"
+                           FontSize="16"
+                           FontAttributes="Bold"
+                           HorizontalOptions="Center"
+                           TextColor="#1E88E5"
+                           IsVisible="{Binding IsBiometricAvailable}"/>
+
+                    <!-- Enrolled Date -->
+                    <Label Text="{Binding EnrolledDate, StringFormat='Enabled on: {0:MMM dd, yyyy}'}"
+                           FontSize="12"
+                           HorizontalOptions="Center"
+                           TextColor="#607D8B"
+                           IsVisible="{Binding IsBiometricEnabled}"/>
+
+                    <!-- Toggle Switch -->
+                    <HorizontalStackLayout Spacing="15"
+                                          HorizontalOptions="Center"
+                                          IsVisible="{Binding IsBiometricAvailable}">
+                        <Label Text="Enable Fingerprint"
+                               FontSize="16"
+                               VerticalOptions="Center"
+                               TextColor="#37474F"/>
+                        <Switch IsToggled="{Binding IsBiometricEnabled}"
+                                OnColor="#4CAF50"
+                                ThumbColor="White"
+                                IsEnabled="{Binding IsLoading, Converter={StaticResource InvertedBoolConverter}}"
+                                Toggled="OnBiometricToggled"/>
+                    </HorizontalStackLayout>
+
+                    <!-- Test Authentication Button -->
+                    <Button Text="Test Fingerprint Authentication"
+                            Command="{Binding TestAuthenticationCommand}"
+                            BackgroundColor="#FF9800"
+                            TextColor="White"
+                            CornerRadius="10"
+                            Padding="12"
+                            IsVisible="{Binding IsBiometricEnabled}"
+                            IsEnabled="{Binding IsLoading, Converter={StaticResource InvertedBoolConverter}}"
+                            Margin="0,10,0,0"/>
+
+                    <!-- Not Available Message -->
+                    <Frame CornerRadius="10"
+                           BackgroundColor="#FFEBEE"
+                           Padding="15"
+                           HasShadow="False"
+                           IsVisible="{Binding IsBiometricAvailable, Converter={StaticResource InvertedBoolConverter}}">
+                        <Label Text="Biometric authentication is not available on this device"
+                               FontSize="14"
+                               TextColor="#C62828"
+                               HorizontalTextAlignment="Center"/>
+                    </Frame>
+
+                </VerticalStackLayout>
+            </Frame>
+
+            <!-- Security Tips Section -->
+            <Frame CornerRadius="15"
+                   BackgroundColor="White"
+                   HasShadow="True"
+                   Padding="20">
+                <VerticalStackLayout Spacing="15">
+                    <Label Text="Security Tips"
+                           FontSize="18"
+                           FontAttributes="Bold"
+                           TextColor="#37474F"/>
+
+                    <VerticalStackLayout Spacing="10">
+                        <HorizontalStackLayout Spacing="10">
+                            <Label Text="✓"
+                                   FontSize="16"
+                                   TextColor="#4CAF50"
+                                   VerticalOptions="Start"/>
+                            <Label Text="Use fingerprint for quick and secure access"
+                                   FontSize="14"
+                                   TextColor="#607D8B"
+                                   LineBreakMode="WordWrap"
+                                   VerticalOptions="Center"
+                                   HorizontalOptions="FillAndExpand"/>
+                        </HorizontalStackLayout>
+
+                        <HorizontalStackLayout Spacing="10">
+                            <Label Text="✓"
+                                   FontSize="16"
+                                   TextColor="#4CAF50"
+                                   VerticalOptions="Start"/>
+                            <Label Text="Your biometric data is stored securely on your device"
+                                   FontSize="14"
+                                   TextColor="#607D8B"
+                                   LineBreakMode="WordWrap"
+                                   VerticalOptions="Center"
+                                   HorizontalOptions="FillAndExpand"/>
+                        </HorizontalStackLayout>
+
+                        <HorizontalStackLayout Spacing="10">
+                            <Label Text="✓"
+                                   FontSize="16"
+                                   TextColor="#4CAF50"
+                                   VerticalOptions="Start"/>
+                            <Label Text="You can disable fingerprint authentication anytime"
+                                   FontSize="14"
+                                   TextColor="#607D8B"
+                                   LineBreakMode="WordWrap"
+                                   VerticalOptions="Center"
+                                   HorizontalOptions="FillAndExpand"/>
+                        </HorizontalStackLayout>
+                    </VerticalStackLayout>
+                </VerticalStackLayout>
+            </Frame>
+
+            <!-- Loading Indicator -->
+            <ActivityIndicator IsRunning="{Binding IsLoading}"
+                              IsVisible="{Binding IsLoading}"
+                              Color="#1E88E5"
+                              HeightRequest="40"
+                              WidthRequest="40"
+                              HorizontalOptions="Center"/>
+
+            <!-- Go Back Button -->
+            <Button Text="Go Back"
+                    Command="{Binding GoBackCommand}"
+                    BackgroundColor="#607D8B"
+                    TextColor="White"
+                    CornerRadius="10"
+                    Padding="12"
+                    Margin="0,20,0,20"/>
+
+        </VerticalStackLayout>
+    </ScrollView>
 </ContentPage>

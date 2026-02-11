@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:viewmodels="clr-namespace:MauiBankApp.ViewModels"
              x:Class="MauiBankApp.Views.LoginPage"
-              xmlns:views="clr-namespace:MauiBankApp.Views"
+             x:DataType="viewmodels:LoginViewModel"
              Title="">
 
     <ScrollView>
@@ -10,17 +11,15 @@
 
             <!-- Header -->
             <VerticalStackLayout Spacing="12" HorizontalOptions="Center">
-              <Frame HasShadow="True"
-                Padding="0"
-                BackgroundColor="Transparent"
-                HorizontalOptions="Center">
-
-                <Image Source="bank_logo.png"
-                 HeightRequest="77"
-                 WidthRequest="77"
-                    Aspect="AspectFit"/>
+                <Frame HasShadow="True"
+                       Padding="0"
+                       BackgroundColor="Transparent"
+                       HorizontalOptions="Center">
+                    <Image Source="bank_logo.png"
+                           HeightRequest="77"
+                           WidthRequest="77"
+                           Aspect="AspectFit"/>
                 </Frame>
-
 
                 <Label Text="Welcome"
                        FontSize="28"
@@ -33,6 +32,44 @@
                        TextColor="#607D8B"
                        HorizontalOptions="Center"/>
             </VerticalStackLayout>
+
+            <!-- Biometric Login Button (shown when fingerprint is enabled) -->
+            <Frame Padding="20"
+                   CornerRadius="16"
+                   BackgroundColor="#E8F5E9"
+                   HasShadow="True"
+                   IsVisible="{Binding IsBiometricEnabled}">
+                <VerticalStackLayout Spacing="12">
+                    <Label Text="🔐 Quick Login"
+                           FontSize="16"
+                           FontAttributes="Bold"
+                           TextColor="#2E7D32"
+                           HorizontalOptions="Center"/>
+
+                    <Label Text="{Binding SavedUserEmail, StringFormat='Logged in as: {0}'}"
+                           FontSize="12"
+                           TextColor="#558B2F"
+                           HorizontalOptions="Center"
+                           IsVisible="{Binding SavedUserEmail, Converter={StaticResource StringNotEmptyConverter}}"/>
+
+                    <Button Text="👆 Scan Fingerprint to Login"
+                            Command="{Binding LoginWithBiometricCommand}"
+                            IsEnabled="{Binding IsNotBusy}"
+                            BackgroundColor="#4CAF50"
+                            TextColor="White"
+                            CornerRadius="12"
+                            HeightRequest="52"
+                            FontSize="15"
+                            FontAttributes="Bold"
+                            Margin="0,8,0,0"/>
+
+                    <Label Text="or login with password below"
+                           FontSize="12"
+                           TextColor="#607D8B"
+                           HorizontalOptions="Center"
+                           Opacity="0.7"/>
+                </VerticalStackLayout>
+            </Frame>
 
             <!-- Login Card -->
             <Frame Padding="24"
@@ -83,7 +120,7 @@
                            TextColor="#C62828"
                            FontSize="14"
                            HorizontalTextAlignment="Center"
-                           IsVisible="{Binding ErrorMessage, Converter={StaticResource StringToBoolConverter}}"/>
+                           IsVisible="{Binding ErrorMessage, Converter={StaticResource StringNotEmptyConverter}}"/>
 
                     <!-- Login Button -->
                     <Button Text="Sign In"
@@ -103,7 +140,25 @@
                                        HorizontalOptions="Center"/>
 
                 </VerticalStackLayout>
-            </Frame>          
+            </Frame>
+
+            <!-- Biometric Setup Hint (shown when biometric available but not enabled) -->
+            <Frame Padding="16"
+                   CornerRadius="12"
+                   BackgroundColor="#FFF3E0"
+                   HasShadow="False"
+                   IsVisible="{Binding IsBiometricAvailable}">
+                <VerticalStackLayout Spacing="8">
+                    <Label Text="💡 Tip"
+                           FontSize="14"
+                           FontAttributes="Bold"
+                           TextColor="#E65100"/>
+                    <Label Text="Enable fingerprint login in Security Settings for faster access"
+                           FontSize="12"
+                           TextColor="#BF360C"
+                           LineBreakMode="WordWrap"/>
+                </VerticalStackLayout>
+            </Frame>
 
         </VerticalStackLayout>
     </ScrollView>

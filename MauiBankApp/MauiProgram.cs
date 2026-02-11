@@ -31,11 +31,13 @@ namespace MauiBankApp
             // Services
             builder.Services.AddSingleton<INavigationService, NavigationService>();
             builder.Services.AddSingleton<IAuthService, MockAuthService>();
+            builder.Services.AddSingleton<IBiometricAuthService, MockBiometricAuthService>();
             builder.Services.AddSingleton<IUserService, MockUserService>();
             builder.Services.AddSingleton<ITransactionService, MockTransactionService>();
 
             // ViewModels
             builder.Services.AddTransient<LoginViewModel>();
+            builder.Services.AddTransient<SecuritySettingsViewModel>();
             builder.Services.AddTransient<HomeViewModel>();
             builder.Services.AddTransient<ProfileViewModel>();
             builder.Services.AddTransient<TransactionHistoryViewModel>();

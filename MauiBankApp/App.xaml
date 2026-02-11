@@ -23,11 +23,23 @@
             <Color x:Key="Info">#17A2B8</Color>
             <Color x:Key="Light">#F8F9FA</Color>
             <Color x:Key="Dark">#343A40</Color>
-
+            <Color x:Key="Tertiary">#FF9800</Color>
+            <Color x:Key="White">White</Color>
+            <Color x:Key="Black">Black</Color>
+            <Color x:Key="Gray100">#E0E0E0</Color>
+            <Color x:Key="Gray200">#EEEEEE</Color>
+            <Color x:Key="Gray300">#E0E0E0</Color>
+            <Color x:Key="Gray400">#BDBDBD</Color>
+            <Color x:Key="Gray500">#9E9E9E</Color>
+            <Color x:Key="Gray600">#757575</Color>
+            <Color x:Key="Gray900">#212121</Color>
             <!-- Converters -->
             <converters:StringToBoolConverter x:Key="StringToBoolConverter" />
             <converters:TransactionTypeToColorConverter x:Key="TransactionTypeToColorConverter" />
-
+            <!-- Value Converters -->
+            <converters:StringNotEmptyConverter x:Key="StringNotEmptyConverter"/>
+            <converters:InvertedBoolConverter x:Key="InvertedBoolConverter"/>
+            <converters:BoolToColorConverter x:Key="BoolToColorConverter"/>
         </ResourceDictionary>
     </Application.Resources>
 </Application>

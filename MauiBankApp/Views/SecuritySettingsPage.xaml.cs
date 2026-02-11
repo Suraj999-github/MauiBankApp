@@ -1,22 +1,57 @@
+using MauiBankApp.Services.Interfaces;
+using MauiBankApp.ViewModels;
+
 namespace MauiBankApp.Views;
 
 public partial class SecuritySettingsPage : ContentPage
 {
-    public SecuritySettingsPage()
+    private readonly SecuritySettingsViewModel _viewModel;
+
+    // Primary constructor with dependency injection (recommended)
+    public SecuritySettingsPage(SecuritySettingsViewModel viewModel)
     {
         InitializeComponent();
+        _viewModel = viewModel;
+        BindingContext = _viewModel;
     }
-    private async void GoBackButton_Clicked(object sender, EventArgs e)
+
+    // Parameterless constructor for backward compatibility with NavigationService
+    // This will be used if NavigationService creates page without ViewModel
+    public SecuritySettingsPage() : this(CreateDefaultViewModel())
     {
-        // Navigate back
-        if (Navigation.NavigationStack.Count > 1)
+    }
+
+    // Helper method to create ViewModel when using parameterless constructor
+    private static SecuritySettingsViewModel CreateDefaultViewModel()
+    {
+        // Get the service from the app's service provider
+        var serviceProvider = Application.Current?.Handler?.MauiContext?.Services;
+        if (serviceProvider == null)
         {
-            await Navigation.PopAsync();
+            throw new InvalidOperationException("Service provider not available");
         }
-        else
+
+        var biometricService = serviceProvider.GetService(typeof(IBiometricAuthService)) as IBiometricAuthService;
+        if (biometricService == null)
         {
-            // Optionally, close the app or navigate to home
-            await DisplayAlert("Notice", "No page to go back to.", "OK");
+            throw new InvalidOperationException("IBiometricAuthService not registered in DI container");
+        }
+
+        var authService = serviceProvider.GetService(typeof(IAuthService)) as IAuthService;
+        if (authService == null)
+        {
+            throw new InvalidOperationException("IAuthService not registered in DI container");
+        }
+
+        return new SecuritySettingsViewModel(biometricService, authService);
+    }
+
+    private async void OnBiometricToggled(object sender, ToggledEventArgs e)
+    {
+        // Execute the toggle command when switch is toggled, passing the new value
+        if (_viewModel.ToggleBiometricCommand.CanExecute(e.Value))
+        {
+            await _viewModel.ToggleBiometricCommand.ExecuteAsync(e.Value);
         }
     }
 }
