@@ -3,7 +3,6 @@ using CommunityToolkit.Mvvm.Input;
 using MauiBankApp.Services.Interfaces;
 using MauiBankApp.Views;
 
-
 namespace MauiBankApp.ViewModels
 {
     public partial class LoginViewModel : ObservableObject
@@ -34,6 +33,10 @@ namespace MauiBankApp.ViewModels
         private string savedUserEmail = string.Empty;
 
         public bool IsNotBusy => !IsBusy;
+
+        // Events for scanner animations
+        public event EventHandler? BiometricScanStarted;
+        public event EventHandler<(bool success, string message)>? BiometricScanCompleted;
 
         public LoginViewModel(
             IAuthService authService,
@@ -118,12 +121,21 @@ namespace MauiBankApp.ViewModels
                 IsBusy = true;
                 ErrorMessage = string.Empty;
 
+                // Notify UI to start scanner animation
+                BiometricScanStarted?.Invoke(this, EventArgs.Empty);
+
                 // Authenticate with biometric
                 var authResult = await _biometricService.AuthenticateAsync(
                     "Scan your fingerprint to login");
 
                 if (authResult.IsSuccess)
                 {
+                    // Notify success
+                    BiometricScanCompleted?.Invoke(this, (true, "Authentication successful"));
+
+                    // Small delay to show success animation
+                    await Task.Delay(1500);
+
                     // Get stored credentials
                     var (userId, email) = await _biometricService.GetStoredCredentialsAsync();
 
@@ -143,21 +155,25 @@ namespace MauiBankApp.ViewModels
                             // Fallback: show manual login
                             Email = email;
                             ErrorMessage = "Biometric authentication successful. Please enter your password.";
+                            BiometricScanCompleted?.Invoke(this, (false, "Please enter password"));
                         }
                     }
                     else
                     {
                         ErrorMessage = "No saved credentials found. Please login manually.";
+                        BiometricScanCompleted?.Invoke(this, (false, "No saved credentials"));
                     }
                 }
                 else
                 {
                     ErrorMessage = authResult.Message;
+                    BiometricScanCompleted?.Invoke(this, (false, authResult.Message));
                 }
             }
             catch (Exception ex)
             {
                 ErrorMessage = $"Biometric login failed: {ex.Message}";
+                BiometricScanCompleted?.Invoke(this, (false, ex.Message));
             }
             finally
             {
@@ -170,104 +186,10 @@ namespace MauiBankApp.ViewModels
             // Navigate to home page
             await _navigationService.NavigateToAsync<HomePage>(user);
         }
+
+        partial void OnIsBusyChanged(bool value)
+        {
+            OnPropertyChanged(nameof(IsNotBusy));
+        }
     }
-    //public partial class LoginViewModel : BaseViewModel
-    //{
-    //    private readonly IAuthService _authService;
-    //    private readonly INavigationService _navigationService;
-    //    [ObservableProperty]
-    //    private string _email = "suraj.goud@eg.com";
-
-    //    [ObservableProperty]
-    //    private string _password = "password123";
-
-    //    [ObservableProperty]
-    //    private string _errorMessage;
-
-    //    public LoginViewModel(INavigationService navigationService, IAuthService authService)
-    //    {
-    //        _navigationService = navigationService;
-    //        _authService = authService;
-    //        Title = "Login";
-    //    }
-
-    //    [RelayCommand]
-    //    private async Task LoginAsync()
-    //    {
-    //        if (IsBusy) return;
-
-    //        try
-    //        {
-    //            IsBusy = true;
-    //            ErrorMessage = string.Empty;
-
-    //            // Validate inputs
-    //            if (string.IsNullOrWhiteSpace(Email) || string.IsNullOrWhiteSpace(Password))
-    //            {
-    //                ErrorMessage = "Please enter email and password";
-    //                return;
-    //            }
-
-    //            // Call auth service
-    //            var result = await _authService.LoginAsync(Email, Password);
-
-    //            // DEBUG: convert object → JSON
-    //            var formatted = JsonSerializer.Serialize(
-    //                result,
-    //                new JsonSerializerOptions { WriteIndented = true });
-
-    //            System.Diagnostics.Debug.WriteLine("LOGIN RESPONSE (OBJECT → JSON):");
-    //            System.Diagnostics.Debug.WriteLine(formatted);
-
-
-
-    //            if (result.IsSuccess)
-    //            {
-
-    //                // Save token securely
-    //                await SecureStorage.Default.SetAsync("auth_token", result.Token);
-
-    //                // Pass user to HomeViewModel
-    //                var transactionService = ServiceHelper.GetService<ITransactionService>();
-
-    //                var homeVm = new HomeViewModel(_navigationService, transactionService, result.User);
-    //                var homePage = new HomePage(homeVm);
-
-    //                await Application.Current.MainPage.Navigation.PushAsync(homePage);
-
-    //                // Remove login page
-    //                Application.Current.MainPage.Navigation.RemovePage(
-    //                    Application.Current.MainPage.Navigation.NavigationStack.First());
-    //            }
-    //            else
-    //            {
-    //                ErrorMessage = result.Message ?? "Login failed";
-    //            }
-    //        }
-    //        catch (Exception ex)
-    //        {
-    //            ErrorMessage = $"Error: {ex.Message}";
-    //        }
-    //        finally
-    //        {
-    //            IsBusy = false;
-    //        }
-    //    }
-    //    private async Task NavigateToRegisterAsync()
-    //    {
-    //        await Application.Current.MainPage.DisplayAlert(
-    //            "Info",
-    //            "Registration feature coming soon!",
-    //            "OK");
-    //    }
-
-    //    [RelayCommand]
-    //    private async Task ForgotPasswordAsync()
-    //    {
-    //        await Application.Current.MainPage.DisplayAlert(
-    //            "Info",
-    //            "Password reset feature coming soon!",
-    //            "OK");
-    //    }
-    //}
 }

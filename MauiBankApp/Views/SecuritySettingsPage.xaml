@@ -2,6 +2,7 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:viewmodels="clr-namespace:MauiBankApp.ViewModels"
+             xmlns:controls="clr-namespace:MauiBankApp.Controls"
              x:Class="MauiBankApp.Views.SecuritySettingsPage"
              x:DataType="viewmodels:SecuritySettingsViewModel"
              Title="Security Settings">
@@ -51,7 +52,7 @@
                    BackgroundColor="White"
                    HasShadow="True"
                    Padding="20">
-                <VerticalStackLayout Spacing="15">
+                <VerticalStackLayout Spacing="20">
 
                     <!-- Section Title -->
                     <Label Text="Biometric Authentication"
@@ -59,19 +60,11 @@
                            FontAttributes="Bold"
                            TextColor="#37474F"/>
 
-                    <!-- Fingerprint Icon -->
-                    <Frame CornerRadius="50"
-                           BackgroundColor="{Binding IsBiometricEnabled, Converter={StaticResource BoolToColorConverter}, ConverterParameter='#4CAF50|#E0E0E0'}"
-                           HeightRequest="100"
-                           WidthRequest="100"
-                           HorizontalOptions="Center"
-                           HasShadow="False"
-                           Padding="0">
-                        <Label Text="👆"
-                               FontSize="50"
-                               HorizontalOptions="Center"
-                               VerticalOptions="Center"/>
-                    </Frame>
+                    <!-- Fingerprint Scanner Control -->
+                    <controls:FingerprintScannerControl 
+                        x:Name="FingerprintScanner"
+                        HeightRequest="250"
+                        IsVisible="{Binding IsBiometricAvailable}"/>
 
                     <!-- Biometric Type -->
                     <Label Text="{Binding BiometricType, StringFormat='{0} Authentication'}"
@@ -104,12 +97,14 @@
                     </HorizontalStackLayout>
 
                     <!-- Test Authentication Button -->
-                    <Button Text="Test Fingerprint Authentication"
+                    <Button Text="Test Fingerprint Scan"
                             Command="{Binding TestAuthenticationCommand}"
                             BackgroundColor="#FF9800"
                             TextColor="White"
                             CornerRadius="10"
-                            Padding="12"
+                            Padding="15"
+                            FontSize="16"
+                            FontAttributes="Bold"
                             IsVisible="{Binding IsBiometricEnabled}"
                             IsEnabled="{Binding IsLoading, Converter={StaticResource InvertedBoolConverter}}"
                             Margin="0,10,0,0"/>
@@ -120,10 +115,15 @@
                            Padding="15"
                            HasShadow="False"
                            IsVisible="{Binding IsBiometricAvailable, Converter={StaticResource InvertedBoolConverter}}">
-                        <Label Text="Biometric authentication is not available on this device"
-                               FontSize="14"
-                               TextColor="#C62828"
-                               HorizontalTextAlignment="Center"/>
+                        <VerticalStackLayout Spacing="8">
+                            <Label Text="⚠️"
+                                   FontSize="24"
+                                   HorizontalOptions="Center"/>
+                            <Label Text="Biometric authentication is not available on this device"
+                                   FontSize="14"
+                                   TextColor="#C62828"
+                                   HorizontalTextAlignment="Center"/>
+                        </VerticalStackLayout>
                     </Frame>
 
                 </VerticalStackLayout>
@@ -197,7 +197,8 @@
                     BackgroundColor="#607D8B"
                     TextColor="White"
                     CornerRadius="10"
-                    Padding="12"
+                    Padding="15"
+                    FontSize="16"
                     Margin="0,20,0,20"/>
 
         </VerticalStackLayout>

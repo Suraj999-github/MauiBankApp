@@ -87,6 +87,9 @@
 	</ItemGroup>
 
 	<ItemGroup>
+		<MauiXaml Update="Controls\FingerprintScannerControl.xaml">
+		  <Generator>MSBuild:Compile</Generator>
+		</MauiXaml>
 		<MauiXaml Update="Views\BalancePage.xaml">
 			<Generator>MSBuild:Compile</Generator>
 		</MauiXaml>
@@ -123,10 +126,6 @@
 		<MauiXaml Update="Views\WaterBillPage.xaml">
 			<Generator>MSBuild:Compile</Generator>
 		</MauiXaml>
-	</ItemGroup>
-
-	<ItemGroup>
-		<Folder Include="Controls\" />
 	</ItemGroup>
 
 </Project>

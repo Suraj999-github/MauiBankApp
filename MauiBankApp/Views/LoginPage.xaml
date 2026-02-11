@@ -2,6 +2,7 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:viewmodels="clr-namespace:MauiBankApp.ViewModels"
+             xmlns:controls="clr-namespace:MauiBankApp.Controls"
              x:Class="MauiBankApp.Views.LoginPage"
              x:DataType="viewmodels:LoginViewModel"
              Title="">
@@ -33,41 +34,48 @@
                        HorizontalOptions="Center"/>
             </VerticalStackLayout>
 
-            <!-- Biometric Login Button (shown when fingerprint is enabled) -->
+            <!-- Biometric Login Section (shown when fingerprint is enabled) -->
             <Frame Padding="20"
                    CornerRadius="16"
                    BackgroundColor="#E8F5E9"
                    HasShadow="True"
                    IsVisible="{Binding IsBiometricEnabled}">
-                <VerticalStackLayout Spacing="12">
+                <VerticalStackLayout Spacing="15">
                     <Label Text="🔐 Quick Login"
-                           FontSize="16"
+                           FontSize="18"
                            FontAttributes="Bold"
                            TextColor="#2E7D32"
                            HorizontalOptions="Center"/>
 
                     <Label Text="{Binding SavedUserEmail, StringFormat='Logged in as: {0}'}"
-                           FontSize="12"
+                           FontSize="13"
                            TextColor="#558B2F"
                            HorizontalOptions="Center"
                            IsVisible="{Binding SavedUserEmail, Converter={StaticResource StringNotEmptyConverter}}"/>
 
-                    <Button Text="👆 Scan Fingerprint to Login"
+                    <!-- Fingerprint Scanner for Login -->
+                    <controls:FingerprintScannerControl 
+                        x:Name="LoginFingerprintScanner"
+                        HeightRequest="220"
+                        Margin="0,10,0,10"/>
+
+                    <Button Text="Tap to Scan Fingerprint"
                             Command="{Binding LoginWithBiometricCommand}"
                             IsEnabled="{Binding IsNotBusy}"
                             BackgroundColor="#4CAF50"
                             TextColor="White"
                             CornerRadius="12"
                             HeightRequest="52"
-                            FontSize="15"
+                            FontSize="16"
                             FontAttributes="Bold"
-                            Margin="0,8,0,0"/>
+                            Margin="0,0,0,0"/>
 
                     <Label Text="or login with password below"
                            FontSize="12"
                            TextColor="#607D8B"
                            HorizontalOptions="Center"
-                           Opacity="0.7"/>
+                           Opacity="0.7"
+                           Margin="0,5,0,0"/>
                 </VerticalStackLayout>
             </Frame>
 

@@ -10,6 +10,9 @@
     <DebuggerFlavor>ProjectDebugger</DebuggerFlavor>
   </PropertyGroup>
   <ItemGroup>
+    <MauiXaml Update="Controls\FingerprintScannerControl.xaml">
+      <SubType>Designer</SubType>
+    </MauiXaml>
     <MauiXaml Update="Views\BalancePage.xaml">
       <SubType>Designer</SubType>
     </MauiXaml>

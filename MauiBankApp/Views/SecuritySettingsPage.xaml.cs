@@ -7,24 +7,23 @@ public partial class SecuritySettingsPage : ContentPage
 {
     private readonly SecuritySettingsViewModel _viewModel;
 
-    // Primary constructor with dependency injection (recommended)
     public SecuritySettingsPage(SecuritySettingsViewModel viewModel)
     {
         InitializeComponent();
         _viewModel = viewModel;
         BindingContext = _viewModel;
+
+        // Subscribe to ViewModel events for scanner animations
+        _viewModel.ScanStarted += OnScanStarted;
+        _viewModel.ScanCompleted += OnScanCompleted;
     }
 
-    // Parameterless constructor for backward compatibility with NavigationService
-    // This will be used if NavigationService creates page without ViewModel
     public SecuritySettingsPage() : this(CreateDefaultViewModel())
     {
     }
 
-    // Helper method to create ViewModel when using parameterless constructor
     private static SecuritySettingsViewModel CreateDefaultViewModel()
     {
-        // Get the service from the app's service provider
         var serviceProvider = Application.Current?.Handler?.MauiContext?.Services;
         if (serviceProvider == null)
         {
@@ -48,10 +47,53 @@ public partial class SecuritySettingsPage : ContentPage
 
     private async void OnBiometricToggled(object sender, ToggledEventArgs e)
     {
-        // Execute the toggle command when switch is toggled, passing the new value
         if (_viewModel.ToggleBiometricCommand.CanExecute(e.Value))
         {
+            // If enabling, show scanning animation
+            if (e.Value)
+            {
+                await FingerprintScanner.ResetAsync();
+                FingerprintScanner.IsScanning = true;
+            }
+
             await _viewModel.ToggleBiometricCommand.ExecuteAsync(e.Value);
         }
+    }
+
+    private void OnScanStarted(object? sender, EventArgs e)
+    {
+        MainThread.BeginInvokeOnMainThread(async () =>
+        {
+            await FingerprintScanner.ResetAsync();
+            FingerprintScanner.IsScanning = true;
+        });
+    }
+
+    private void OnScanCompleted(object? sender, (bool success, string message) result)
+    {
+        MainThread.BeginInvokeOnMainThread(async () =>
+        {
+            if (result.success)
+            {
+                await FingerprintScanner.ShowSuccessAsync();
+            }
+            else
+            {
+                await FingerprintScanner.ShowErrorAsync(result.message);
+            }
+
+            // Reset scanner after a delay
+            await Task.Delay(2000);
+            await FingerprintScanner.ResetAsync();
+        });
+    }
+
+    protected override void OnDisappearing()
+    {
+        base.OnDisappearing();
+
+        // Unsubscribe from events
+        _viewModel.ScanStarted -= OnScanStarted;
+        _viewModel.ScanCompleted -= OnScanCompleted;
     }
 }

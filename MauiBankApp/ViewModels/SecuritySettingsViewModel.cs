@@ -1,6 +1,7 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using MauiBankApp.Services.Interfaces;
+
 namespace MauiBankApp.ViewModels
 {
     public partial class SecuritySettingsViewModel : ObservableObject
@@ -15,21 +16,28 @@ namespace MauiBankApp.ViewModels
         private bool isBiometricEnabled;
 
         [ObservableProperty]
-        private bool isLoading;
+        private string biometricType = "Fingerprint";
 
         [ObservableProperty]
-        private string biometricType = "Fingerprint";
+        private DateTime? enrolledDate;
 
         [ObservableProperty]
         private string statusMessage = string.Empty;
 
         [ObservableProperty]
-        private DateTime? enrolledDate;
+        private bool isLoading;
 
-        public SecuritySettingsViewModel(IBiometricAuthService biometricService, IAuthService authService)
+        // Events for UI animations
+        public event EventHandler? ScanStarted;
+        public event EventHandler<(bool success, string message)>? ScanCompleted;
+
+        public SecuritySettingsViewModel(
+            IBiometricAuthService biometricService,
+            IAuthService authService)
         {
             _biometricService = biometricService;
             _authService = authService;
+
             _ = InitializeAsync();
         }
 
@@ -39,34 +47,32 @@ namespace MauiBankApp.ViewModels
             {
                 IsLoading = true;
 
-                // Check if biometric is available on device
+                // Check if biometric is available
                 IsBiometricAvailable = await _biometricService.IsBiometricAvailableAsync();
 
                 if (IsBiometricAvailable)
                 {
-                    // Check if biometric is enabled for user
+                    // Check if already enabled
                     IsBiometricEnabled = await _biometricService.IsBiometricEnabledAsync();
 
                     // Get biometric type
                     BiometricType = await _biometricService.GetBiometricTypeAsync();
 
+                    // Get enrolled date if enabled
                     if (IsBiometricEnabled)
                     {
-                        StatusMessage = $"{BiometricType} authentication is enabled";
+                        var enrollmentDate = await SecureStorage.Default.GetAsync("biometric_enrollment");
+                        if (!string.IsNullOrEmpty(enrollmentDate) &&
+                            DateTime.TryParse(enrollmentDate, out var date))
+                        {
+                            EnrolledDate = date;
+                        }
                     }
-                    else
-                    {
-                        StatusMessage = $"{BiometricType} authentication is available but not enabled";
-                    }
-                }
-                else
-                {
-                    StatusMessage = "Biometric authentication is not available on this device";
                 }
             }
             catch (Exception ex)
             {
-                StatusMessage = $"Error: {ex.Message}";
+                StatusMessage = $"Error initializing: {ex.Message}";
             }
             finally
             {
@@ -75,87 +81,78 @@ namespace MauiBankApp.ViewModels
         }
 
         [RelayCommand]
-        private async Task ToggleBiometric(bool newValue)
+        private async Task ToggleBiometric(bool enable)
         {
             if (IsLoading) return;
 
             try
             {
                 IsLoading = true;
+                StatusMessage = string.Empty;
 
-                if (newValue)
+                if (enable)
                 {
-                    // Enable biometric - simulate fingerprint scan
-                    StatusMessage = "Scanning fingerprint...";
+                    // Notify UI to start scan animation
+                    ScanStarted?.Invoke(this, EventArgs.Empty);
 
-                    var response = await _biometricService.EnableBiometricAsync();
+                    // Enable biometric - this simulates fingerprint scanning
+                    var result = await _biometricService.EnableBiometricAsync();
 
-                    if (response.IsSuccess)
+                    if (result.IsSuccess)
                     {
-                        // Get current user info from auth service
-                        var isAuthenticated = await _authService.IsAuthenticatedAsync();
-                        if (isAuthenticated)
+                        IsBiometricEnabled = true;
+                        EnrolledDate = result.EnrolledAt;
+                        StatusMessage = "Fingerprint authentication enabled successfully!";
+
+                        // Store user credentials for biometric login
+                        var user = await GetCurrentUserAsync();
+                        if (user != null)
                         {
-                            // In production, get user from a user service
-                            // For now, we'll use mock data
-                            await _biometricService.StoreCredentialsForBiometricAsync("1", "suraj.goud@eg.com");
+                            await _biometricService.StoreCredentialsForBiometricAsync(
+                                user.Id,
+                                user.Email);
                         }
 
-                        IsBiometricEnabled = true;
-                        EnrolledDate = response.EnrolledAt;
-                        StatusMessage = response.Message;
-                        await Application.Current.MainPage.DisplayAlert(
-                            "Success",
-                            "Fingerprint scanned and saved! You can now login using your fingerprint.",
-                            "OK");
+                        // Notify success
+                        ScanCompleted?.Invoke(this, (true, "Success!"));
                     }
                     else
                     {
-                        // Revert the switch if operation failed
                         IsBiometricEnabled = false;
-                        StatusMessage = response.Message;
-                        await Application.Current.MainPage.DisplayAlert(
-                            "Error",
-                            response.Message,
-                            "OK");
+                        StatusMessage = result.Message;
+
+                        // Notify error
+                        ScanCompleted?.Invoke(this, (false, result.Message));
                     }
                 }
                 else
                 {
                     // Disable biometric
-                    var result = await _biometricService.DisableBiometricAsync();
+                    var success = await _biometricService.DisableBiometricAsync();
 
-                    if (result)
+                    if (success)
                     {
                         IsBiometricEnabled = false;
                         EnrolledDate = null;
-                        StatusMessage = $"{BiometricType} authentication disabled";
-                        await Application.Current.MainPage.DisplayAlert(
-                            "Success",
-                            $"{BiometricType} authentication has been disabled",
-                            "OK");
+                        StatusMessage = "Fingerprint authentication disabled";
                     }
                     else
                     {
-                        // Revert the switch if operation failed
-                        IsBiometricEnabled = true;
                         StatusMessage = "Failed to disable biometric authentication";
-                        await Application.Current.MainPage.DisplayAlert(
-                            "Error",
-                            "Failed to disable biometric authentication",
-                            "OK");
+                        // Revert toggle
+                        IsBiometricEnabled = true;
                     }
                 }
             }
             catch (Exception ex)
             {
-                // Revert the switch on error
-                IsBiometricEnabled = !newValue;
                 StatusMessage = $"Error: {ex.Message}";
-                await Application.Current.MainPage.DisplayAlert(
-                    "Error",
-                    $"An error occurred: {ex.Message}",
-                    "OK");
+                IsBiometricEnabled = !enable; // Revert
+
+                if (enable)
+                {
+                    ScanCompleted?.Invoke(this, (false, ex.Message));
+                }
             }
             finally
             {
@@ -171,34 +168,30 @@ namespace MauiBankApp.ViewModels
             try
             {
                 IsLoading = true;
-                StatusMessage = "Authenticating...";
+                StatusMessage = string.Empty;
 
-                var response = await _biometricService.AuthenticateAsync("Verify your identity to test fingerprint");
+                // Notify UI to start scan animation
+                ScanStarted?.Invoke(this, EventArgs.Empty);
 
-                if (response.IsSuccess)
+                // Test biometric authentication
+                var result = await _biometricService.AuthenticateAsync(
+                    "Test your fingerprint authentication");
+
+                if (result.IsSuccess)
                 {
-                    StatusMessage = "Authentication successful!";
-                    await Application.Current.MainPage.DisplayAlert(
-                        "Success",
-                        "Fingerprint authentication successful!",
-                        "OK");
+                    StatusMessage = "✓ Authentication successful!";
+                    ScanCompleted?.Invoke(this, (true, "Authentication successful!"));
                 }
                 else
                 {
-                    StatusMessage = response.Message;
-                    await Application.Current.MainPage.DisplayAlert(
-                        "Failed",
-                        response.Message,
-                        "OK");
+                    StatusMessage = $"✗ {result.Message}";
+                    ScanCompleted?.Invoke(this, (false, result.Message));
                 }
             }
             catch (Exception ex)
             {
                 StatusMessage = $"Error: {ex.Message}";
-                await Application.Current.MainPage.DisplayAlert(
-                    "Error",
-                    $"An error occurred: {ex.Message}",
-                    "OK");
+                ScanCompleted?.Invoke(this, (false, ex.Message));
             }
             finally
             {
@@ -209,209 +202,23 @@ namespace MauiBankApp.ViewModels
         [RelayCommand]
         private async Task GoBack()
         {
-            if (Application.Current?.MainPage?.Navigation != null)
+            await Shell.Current.GoToAsync("..");
+        }
+
+        private async Task<Models.User?> GetCurrentUserAsync()
+        {
+            // In a real app, you would get the current user from auth service
+            // For now, return a mock user
+            return new Models.User
             {
-                await Application.Current.MainPage.Navigation.PopAsync();
-            }
+                Id = "1",
+                Name = "Suraj Goud",
+                Email = "suraj.goud@eg.com",
+                Phone = "+977 980000000001",
+                AccountNumber = "1234567890",
+                Balance = 12500.75m,
+                CreatedAt = DateTime.Now.AddYears(-1)
+            };
         }
     }
-    //public partial class SecuritySettingsViewModel : ObservableObject
-    //{
-    //    private readonly IBiometricAuthService _biometricService;
-
-    //    [ObservableProperty]
-    //    private bool isBiometricAvailable;
-
-    //    [ObservableProperty]
-    //    private bool isBiometricEnabled;
-
-    //    [ObservableProperty]
-    //    private bool isLoading;
-
-    //    [ObservableProperty]
-    //    private string biometricType = "Fingerprint";
-
-    //    [ObservableProperty]
-    //    private string statusMessage = string.Empty;
-
-    //    [ObservableProperty]
-    //    private DateTime? enrolledDate;
-
-    //    public SecuritySettingsViewModel(IBiometricAuthService biometricService)
-    //    {
-    //        _biometricService = biometricService;
-    //        _ = InitializeAsync();
-    //    }
-
-    //    private async Task InitializeAsync()
-    //    {
-    //        try
-    //        {
-    //            IsLoading = true;
-
-    //            // Check if biometric is available on device
-    //            IsBiometricAvailable = await _biometricService.IsBiometricAvailableAsync();
-
-    //            if (IsBiometricAvailable)
-    //            {
-    //                // Check if biometric is enabled for user
-    //                IsBiometricEnabled = await _biometricService.IsBiometricEnabledAsync();
-
-    //                // Get biometric type
-    //                BiometricType = await _biometricService.GetBiometricTypeAsync();
-
-    //                if (IsBiometricEnabled)
-    //                {
-    //                    StatusMessage = $"{BiometricType} authentication is enabled";
-    //                }
-    //                else
-    //                {
-    //                    StatusMessage = $"{BiometricType} authentication is available but not enabled";
-    //                }
-    //            }
-    //            else
-    //            {
-    //                StatusMessage = "Biometric authentication is not available on this device";
-    //            }
-    //        }
-    //        catch (Exception ex)
-    //        {
-    //            StatusMessage = $"Error: {ex.Message}";
-    //        }
-    //        finally
-    //        {
-    //            IsLoading = false;
-    //        }
-    //    }
-
-    //    [RelayCommand]
-    //    private async Task ToggleBiometric(bool newValue)
-    //    {
-    //        if (IsLoading) return;
-
-    //        try
-    //        {
-    //            IsLoading = true;
-
-    //            if (newValue)
-    //            {
-    //                // Enable biometric
-    //                var response = await _biometricService.EnableBiometricAsync();
-
-    //                if (response.IsSuccess)
-    //                {
-    //                    IsBiometricEnabled = true;
-    //                    EnrolledDate = response.EnrolledAt;
-    //                    StatusMessage = response.Message;
-    //                    await Application.Current.MainPage.DisplayAlert(
-    //                        "Success",
-    //                        response.Message,
-    //                        "OK");
-    //                }
-    //                else
-    //                {
-    //                    // Revert the switch if operation failed
-    //                    IsBiometricEnabled = false;
-    //                    StatusMessage = response.Message;
-    //                    await Application.Current.MainPage.DisplayAlert(
-    //                        "Error",
-    //                        response.Message,
-    //                        "OK");
-    //                }
-    //            }
-    //            else
-    //            {
-    //                // Disable biometric
-    //                var result = await _biometricService.DisableBiometricAsync();
-
-    //                if (result)
-    //                {
-    //                    IsBiometricEnabled = false;
-    //                    EnrolledDate = null;
-    //                    StatusMessage = $"{BiometricType} authentication disabled";
-    //                    await Application.Current.MainPage.DisplayAlert(
-    //                        "Success",
-    //                        $"{BiometricType} authentication has been disabled",
-    //                        "OK");
-    //                }
-    //                else
-    //                {
-    //                    // Revert the switch if operation failed
-    //                    IsBiometricEnabled = true;
-    //                    StatusMessage = "Failed to disable biometric authentication";
-    //                    await Application.Current.MainPage.DisplayAlert(
-    //                        "Error",
-    //                        "Failed to disable biometric authentication",
-    //                        "OK");
-    //                }
-    //            }
-    //        }
-    //        catch (Exception ex)
-    //        {
-    //            // Revert the switch on error
-    //            IsBiometricEnabled = !newValue;
-    //            StatusMessage = $"Error: {ex.Message}";
-    //            await Application.Current.MainPage.DisplayAlert(
-    //                "Error",
-    //                $"An error occurred: {ex.Message}",
-    //                "OK");
-    //        }
-    //        finally
-    //        {
-    //            IsLoading = false;
-    //        }
-    //    }
-
-    //    [RelayCommand]
-    //    private async Task TestAuthentication()
-    //    {
-    //        if (IsLoading || !IsBiometricEnabled) return;
-
-    //        try
-    //        {
-    //            IsLoading = true;
-    //            StatusMessage = "Authenticating...";
-
-    //            var response = await _biometricService.AuthenticateAsync("Verify your identity to test fingerprint");
-
-    //            if (response.IsSuccess)
-    //            {
-    //                StatusMessage = "Authentication successful!";
-    //                await Application.Current.MainPage.DisplayAlert(
-    //                    "Success",
-    //                    "Fingerprint authentication successful!",
-    //                    "OK");
-    //            }
-    //            else
-    //            {
-    //                StatusMessage = response.Message;
-    //                await Application.Current.MainPage.DisplayAlert(
-    //                    "Failed",
-    //                    response.Message,
-    //                    "OK");
-    //            }
-    //        }
-    //        catch (Exception ex)
-    //        {
-    //            StatusMessage = $"Error: {ex.Message}";
-    //            await Application.Current.MainPage.DisplayAlert(
-    //                "Error",
-    //                $"An error occurred: {ex.Message}",
-    //                "OK");
-    //        }
-    //        finally
-    //        {
-    //            IsLoading = false;
-    //        }
-    //    }
-
-    //    [RelayCommand]
-    //    private async Task GoBack()
-    //    {
-    //        if (Application.Current?.MainPage?.Navigation != null)
-    //        {
-    //            await Application.Current.MainPage.Navigation.PopAsync();
-    //        }
-    //    }
-    //}
 }
