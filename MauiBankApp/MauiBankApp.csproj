@@ -80,12 +80,14 @@
 		<PackageReference Include="Microsoft.Maui.Controls" Version="8.0.90" />
 		<PackageReference Include="Microsoft.Maui.Controls.Compatibility" Version="8.0.90" />
 		<PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="8.0.0" />
+		<PackageReference Include="Plugin.Maui.Biometric" Version="0.0.4" />
 
 		<!-- ZXing -->
 		<PackageReference Include="ZXing.Net.Maui" Version="0.4.0" />
 		<PackageReference Include="ZXing.Net.Maui.Controls" Version="0.4.0" />
-	</ItemGroup>
-
+		
+	</ItemGroup>	
+	
 	<ItemGroup>
 		<MauiXaml Update="Controls\FingerprintScannerControl.xaml">
 		  <Generator>MSBuild:Compile</Generator>
@@ -126,6 +128,15 @@
 		<MauiXaml Update="Views\WaterBillPage.xaml">
 			<Generator>MSBuild:Compile</Generator>
 		</MauiXaml>
-	</ItemGroup>
+	</ItemGroup>	
+<!--<ItemGroup Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'android'">
+  <PackageReference Include="Xamarin.AndroidX.Biometric" Version="1.1.0.25" />
+</ItemGroup>
+
+
+--><!-- Also add binding redirects --><!--
+<PropertyGroup>
+  <AndroidPackageConflictSkip>true</AndroidPackageConflictSkip>
+</PropertyGroup>-->
 
 </Project>

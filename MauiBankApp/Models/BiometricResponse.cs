@@ -16,6 +16,10 @@
         Failed,
         Cancelled,
         Locked,
-        Error
+        Error,
+        UserCanceled,
+        LockedOut,        
+        Timeout,
+        
     }
 }

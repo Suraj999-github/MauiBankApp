@@ -17,7 +17,7 @@ namespace MauiBankApp
 
             builder
                 .UseMauiApp<App>()
-                .UseBarcodeReader()
+                .UseBarcodeReader()            
                 .ConfigureFonts(fonts =>
                 {
                     fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
@@ -29,9 +29,17 @@ namespace MauiBankApp
 #endif
             builder.UseBarcodeReader();
             // Services
+            #if ANDROID
+            builder.Services.AddSingleton <IBiometricAuthService, MauiBankApp.Platforms.Android.Services.BiometricAuthService>();
+            #elif IOS
+            builder.Services.AddSingleton<IBiometricAuthService,MauiBankApp.Platforms.iOS.Services.BiometricAuthService>();
+            #else
+            builder.Services.AddSingleton<IBiometricAuthService, MockBiometricAuthService>();
+            #endif
+
             builder.Services.AddSingleton<INavigationService, NavigationService>();
             builder.Services.AddSingleton<IAuthService, MockAuthService>();
-            builder.Services.AddSingleton<IBiometricAuthService, MockBiometricAuthService>();
+           
             builder.Services.AddSingleton<IUserService, MockUserService>();
             builder.Services.AddSingleton<ITransactionService, MockTransactionService>();
 
